@@ -1,0 +1,11 @@
+# Ignore the .vscode directory
+.vscode/
+
+# Ignore any directory named target
+target/
+
+# Ignore any .vscode folder, regardless of its location
+**/.vscode/
+
+# Ignore any target folder, regardless of its location
+**/target/
