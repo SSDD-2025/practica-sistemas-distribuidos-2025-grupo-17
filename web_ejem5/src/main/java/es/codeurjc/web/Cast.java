@@ -1,5 +1,5 @@
 //Prueba comentario Git
-
+package es.codeurjc.web;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +22,7 @@ public class Cast {
     private String workField; //can be an actor, director...
     private List<String> awards;
     private String originCountry;
+    private String firstName, lastName;
 
     // Getters
     public long getId() {

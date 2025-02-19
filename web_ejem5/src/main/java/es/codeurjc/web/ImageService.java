@@ -1,4 +1,4 @@
-package es.codeurjc.board.service;
+package es.codeurjc.web;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

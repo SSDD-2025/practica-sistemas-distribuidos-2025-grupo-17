@@ -1,3 +1,4 @@
+package es.codeurjc.web;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,7 @@ public class Movie {
 	private long id;
  	
 	private String name;
-    private List<Cast> cast; //not implented yet
+    private List<Cast> cast; //not implemented yet
     private Image image;
     private String argument;
     private Date year;
@@ -26,6 +27,7 @@ public class Movie {
     private List<String> prize;
     private String originCountry;
     private List<String> genres;
+    private String firstName, lastName;
 
     // Getters y Setters
     public String getName() {
@@ -36,11 +38,11 @@ public class Movie {
         this.name = name;
     }
 
-    public List<String> getCast() {
+    public List<Cast> getCast() {
         return cast;
     }
 
-    public void setCast(List<String> cast) {
+    public void setCast(List<Cast> cast) {
         this.cast = cast;
     }
 
@@ -76,11 +78,11 @@ public class Movie {
         this.mark = mark;
     }
 
-    public List<String> getReview() {
+    public List<Review> getReview() {
         return review;
     }
 
-    public void setReview(List<String> review) {
+    public void setReview(List<Review> review) {
         this.review = review;
     }
 
