@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Película</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #181818;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .movie-header {
+            display: flex;
+            align-items: center;
+        }
+        .movie-header img {
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .movie-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .movie-info {
+            margin-top: 20px;
+        }
+        .rating {
+            background: gold;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="movie-header">
+            <img src="{{image}}" alt="Póster de la película">
+            <div>
+                <div class="movie-title">{{name}}</div>
+                <div class="rating">⭐ {{mark}}/10</div>
+                <div>{{year}} | {{genres}} | {{duration}} min | PEGI {{pegi}}</div>
+                <div>Plataforma: {{platform}}</div>
+                <div>País de origen: {{originCountry}}</div>
+            </div>
+        </div>
+        <div class="movie-info">
+            <h3>Sinopsis</h3>
+            <p>{{argument}}</p>
+            <h3>Reparto</h3>
+            <p>{{cast}}</p>
+            <h3>Director</h3>
+            <p>{{firstName}} {{lastName}}</p>
+            <h3>Premios</h3>
+            <p>{{prize}}</p>
+            <h3>Tráiler</h3>
+            <video width="100%" controls>
+                <source src="{{trailer}}" type="video/mp4">
+                Tu navegador no soporta la reproducción de videos.
+            </video>
+        </div>
+        <div class="reviews">
+            <h3>Reseñas</h3>
+            <div id="reviews-list">
+                {{review}}
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
