@@ -1,0 +1,34 @@
+<html>
+
+<body>
+
+	<h1>Página de inicio</h1>
+
+	<h2>Peliculas</h2>
+
+	{{#movie}}
+	<ul>
+		<li>
+			<img src="/resources/images/{{image.title}}"></img>
+			{{name}} {{argument}} {{year}} {{mark}} {{genre}} {{cast}}
+		</li>
+	</ul>
+	{{/movie}}<br>
+
+	{{^movie}}
+	<p>No hay películas todavía.</p>
+	{{/movie}}<br>
+	
+	<img src="/resources/{{image.id}}image"></img>
+	
+	<form action="/post/{{post.id}}/delete" method="post">
+		<input type='submit' value='Delete Post'/>
+	</form>
+	
+	<br>
+	
+	<a href="/">Back</a>
+
+</body>
+
+</html>
