@@ -20,28 +20,58 @@ import es.codeurjc.board.service.PostService;
 import es.codeurjc.board.service.UserSession;
 
 @Controller
-public class PostController {
+public class MoviesController {
 
-	private static final String POSTS_FOLDER = "posts";
+	private static final String MOVIES_IMAGES_FOLDER = "movies_images";
+	private static final String CAST_IMAGES_FOLDER = "cast_images";
 
 	@Autowired
-	private PostService postService;
-	
-	@Autowired
-	private UserSession userSession;
+	private MoviesService moviesService;
 	
 	@Autowired
 	private ImageService imageService;
 
 	@GetMapping("/")
-	public String showPosts(Model model, HttpSession session) {
+	public String showMoviesList(Model model, HttpSession session) {
 
-		model.addAttribute("posts", postService.findAll());
-		model.addAttribute("welcome", session.isNew());
+		model.addAttribute("movies", moviesService.findAll());
+		model.addAttribute("cast",castService.findAll());
 
-		return "index";
+		return "home_template";
 	}
 
+	@GetMapping("/cast/{id}")
+	public String showMovie(Model model, @PathVariable long id) {
+
+		Cast cast = castService.findById(id);
+
+		model.addAttribute("cast", cast);
+
+		return "cast_template";
+	}
+
+	@GetMapping("/movies/{id}")
+	public String showMovie(Model model, @PathVariable long id) {
+
+		Movie movie = moviesService.findById(id);
+
+		model.addAttribute("movie", movie);
+
+		return "movie_template";
+	}
+
+	@GetMapping("/cast/{id}/image")	
+	public ResponseEntity<Object> downloadImage(@PathVariable int id) throws MalformedURLException {
+
+		return imageService.createResponseFromImage(CAST_IMAGES_FOLDER, id);		
+	}
+
+	@GetMapping("/movie/{id}/image")	
+	public ResponseEntity<Object> downloadImage(@PathVariable int id) throws MalformedURLException {
+
+		return imageService.createResponseFromImage(MOVIES_IMAGES_FOLDER, id);		
+	}
+	/*
 	@GetMapping("/post/new")
 	public String newPostForm(Model model) {
 
@@ -65,22 +95,6 @@ public class PostController {
 		return "saved_post";
 	}
 
-	@GetMapping("/post/{id}")
-	public String showPost(Model model, @PathVariable long id) {
-
-		Post post = postService.findById(id);
-
-		model.addAttribute("post", post);
-
-		return "show_post";
-	}
-	
-	@GetMapping("/post/{id}/image")	
-	public ResponseEntity<Object> downloadImage(@PathVariable int id) throws MalformedURLException {
-
-		return imageService.createResponseFromImage(POSTS_FOLDER, id);		
-	}
-
 	@PostMapping("/post/{id}/delete")
 	public String deletePost(Model model, @PathVariable long id) throws IOException {
 
@@ -90,4 +104,5 @@ public class PostController {
 
 		return "deleted_post";
 	}
+		*/
 }
