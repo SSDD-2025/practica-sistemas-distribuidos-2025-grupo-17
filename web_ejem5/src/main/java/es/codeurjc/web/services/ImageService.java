@@ -1,4 +1,4 @@
-package es.codeurjc.web;
+package es.codeurjc.web.services;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

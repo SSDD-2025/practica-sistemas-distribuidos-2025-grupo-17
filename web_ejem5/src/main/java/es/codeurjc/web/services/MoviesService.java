@@ -1,4 +1,4 @@
-package es.codeurjc.board.service;
+package es.codeurjc.web.services;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.board.model.Post;
+import es.codeurjc.web.entities.Movie;
 
 @Service
 public class MoviesService {
@@ -16,7 +16,7 @@ public class MoviesService {
 	private AtomicLong nextId = new AtomicLong();
 
 	public MoviesService() {
-		save(new Movie("Pepe", "Vendo moto", "Barata, barata"));
+		//save(new Movie("Pepe", "Vendo moto", "Barata, barata"));
 	}
 
 	public Collection<Movie> findAll() {
@@ -33,7 +33,7 @@ public class MoviesService {
 
 		movie.setId(id);
 
-		movies.put(id, post);
+		movies.put(id, movie);
 	}
 
 	public void deleteById(long id) {

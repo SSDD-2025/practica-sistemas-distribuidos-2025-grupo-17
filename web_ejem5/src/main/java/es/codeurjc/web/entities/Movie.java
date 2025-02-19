@@ -1,7 +1,5 @@
-package es.codeurjc.web;
+package es.codeurjc.web.entities;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
 import java.util.List;
@@ -10,18 +8,16 @@ import java.util.List;
 public class Movie {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
  	
 	private String name;
     private List<Cast> cast; //not implemented yet
-    private Image image;
     private String argument;
     private Date year;
     private float mark;
-    private List<Review> review; //not implemented yet
+    //private List<Review> review; //not implemented yet
     private String platform;
-    private Video trailer;
+    //private Video trailer;
     private int pegi;
     private int duration;
     private List<String> prize;
@@ -30,6 +26,13 @@ public class Movie {
     private String firstName, lastName;
 
     // Getters y Setters
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id=id;
+    }
     public String getName() {
         return name;
     }
@@ -44,14 +47,6 @@ public class Movie {
 
     public void setCast(List<Cast> cast) {
         this.cast = cast;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public String getArgument() {
@@ -77,7 +72,7 @@ public class Movie {
     public void setMark(float mark) {
         this.mark = mark;
     }
-
+    /* 
     public List<Review> getReview() {
         return review;
     }
@@ -85,6 +80,7 @@ public class Movie {
     public void setReview(List<Review> review) {
         this.review = review;
     }
+    */
 
     public String getPlatform() {
         return platform;
@@ -93,7 +89,7 @@ public class Movie {
     public void setPlatform(String platform) {
         this.platform = platform;
     }
-
+    /*
     public Video getTrailer() {
         return trailer;
     }
@@ -101,6 +97,7 @@ public class Movie {
     public void setTrailer(Video trailer) {
         this.trailer = trailer;
     }
+    */
 
     public int getPegi() {
         return pegi;

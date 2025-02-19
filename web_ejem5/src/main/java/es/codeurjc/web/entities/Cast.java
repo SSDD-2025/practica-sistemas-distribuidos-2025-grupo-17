@@ -1,5 +1,5 @@
 //Prueba comentario Git
-package es.codeurjc.web;
+package es.codeurjc.web.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +16,6 @@ public class Cast {
  	
 	private String name;
     private List<Movie> movies; //not implented yet
-    private Image image;
     private String biography;
     private Date birthDate;
     private String workField; //can be an actor, director...
@@ -35,10 +34,6 @@ public class Cast {
 
     public List<Movie> getMovies() {
         return movies;
-    }
-
-    public Image getImage() {
-        return image;
     }
 
     public String getBiography() {
@@ -72,10 +67,6 @@ public class Cast {
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public void setBiography(String biography) {

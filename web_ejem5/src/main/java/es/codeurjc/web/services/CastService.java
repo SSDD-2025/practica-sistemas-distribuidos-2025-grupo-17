@@ -1,4 +1,4 @@
-package es.codeurjc.board.service;
+package es.codeurjc.web.services;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.board.model.Post;
+import es.codeurjc.web.entities.Cast;
 
 @Service
 public class CastService {
@@ -16,7 +16,7 @@ public class CastService {
 	private AtomicLong nextId = new AtomicLong();
 
 	public CastService() {
-		save(new Cast("Pepe", "Vendo moto", "Barata, barata"));
+		//save(new Cast("Pepe", "Vendo moto", "Barata, barata"));
 	}
 
 	public Collection<Cast> findAll() {
