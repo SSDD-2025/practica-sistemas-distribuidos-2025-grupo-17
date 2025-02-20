@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,12 +43,37 @@
             border-radius: 5px;
             font-weight: bold;
         }
+        .reviews {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            border-radius: 10px;
+        }
+        .reviews h3 {
+            margin-bottom: 10px;
+        }
+        .review-item {
+            border-bottom: 1px solid #555;
+            padding: 10px 0;
+            position: relative;
+        }
+        .review-buttons {
+            margin-top: 10px;
+            text-align: right;
+        }
+        .review-buttons button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="movie-header">
-            <img src="{{image}}" alt="Póster de la película">
+            <img src="/resources/{{image.id}}image" alt="Póster de la película">
             <div>
                 <div class="movie-title">{{name}}</div>
                 <div class="rating">⭐ {{mark}}/10</div>
@@ -67,17 +93,39 @@
             <p>{{prize}}</p>
             <h3>Tráiler</h3>
             <video width="100%" controls>
-                <source src="{{trailer}}" type="video/mp4">
+                <source src="/resources/{{video.id}}video" type="video/mp4">
                 Tu navegador no soporta la reproducción de videos.
             </video>
         </div>
         <div class="reviews">
             <h3>Reseñas</h3>
             <div id="reviews-list">
-                {{review}}
+                {{#each review}}
+                <div class="review-item">
+                    <p>{{this.text}}</p>
+                    {{^isAdmin}}
+                    <div class="review-buttons">
+                        <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/edit'">Modificar Reseña</button>
+                        <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/delete'">Eliminar Reseña</button>
+                    </div>
+                    {{/isAdmin}}
+                </div>
+                {{/each}}
             </div>
         </div>
-    </div>
+        <div class="buttons">
+            {{#isAdmin}}
+            <div class="admin-buttons">
+                <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar película</button>
+                <button class="btn btn-primary" onclick="location.href='/movie/{id}/delete'">Borrar película</button>
+            </div>
+            {{/isAdmin}}
+            {{^isAdmin}}
+            <div class="user-buttons">
+                <button class="btn btn-primary" onclick="location.href='/review/new'">Añadir Reseña</button>
+            </div>
+            {{/isAdmin}}
+        </div>
     </div>
 </body>
 </html>
