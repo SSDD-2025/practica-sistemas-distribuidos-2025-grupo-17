@@ -39,10 +39,10 @@ public class Movie {
     @ElementCollection
     private List<String> genres;
 
-    // Constructor vacío requerido por JPA
+    // Constructor  JPA
     protected Movie() {}
 
-    // Constructor con parámetros
+    // Constructor
     public Movie(String name, String argument, int year, float mark, String platform, int pegi, int duration, String originCountry) {
         this.name = name;
         this.argument = argument;
@@ -54,7 +54,7 @@ public class Movie {
         this.originCountry = originCountry;
     }
 
-    // Getters y Setters
+    // Getters Setters
     public long getId() {
         return id;
     }

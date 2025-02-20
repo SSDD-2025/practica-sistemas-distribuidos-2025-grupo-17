@@ -36,10 +36,10 @@ public class Review {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date; // Fecha de la review
 
-    // Constructor vacío requerido por JPA
+    // Constructor for JPA
     protected Review() {}
 
-    // Constructor para review solo con nota
+    // Constructor
     public Review(User user, Movie movie, float rating) {
         this.type = ReviewType.RATING_ONLY;
         this.user = user;
@@ -48,7 +48,7 @@ public class Review {
         this.date = new Date();
     }
 
-    // Constructor para review completa
+    // Constructor
     public Review(User user, Movie movie, float rating, String title, String body) {
         this.type = ReviewType.FULL_REVIEW;
         this.user = user;
@@ -60,7 +60,7 @@ public class Review {
         this.date = new Date();
     }
 
-    // Getters y Setters
+    // Getters  Setters
     public long getId() {
         return id;
     }
@@ -133,7 +133,7 @@ public class Review {
         this.date = date;
     }
 
-    // Método para dar like a una review
+
     public void addLike() {
         this.likes++;
     }

@@ -37,15 +37,15 @@ public class User {
     @ElementCollection
     private List<Long> reseñas; // Lista de IDs de reseñas hechas
 
-    // Constructor vacío requerido por JPA
+    // Constructor JPA
     protected User() {}
 
-    // Constructor para usuario anónimo
+    // Constructor anonymous
     public User(UserType userType) {
         this.userType = userType;
     }
 
-    // Constructor para usuario registrado
+    // Constructor registered
     public User(String nombre, String contraseña, String gmail, byte[] foto, Date fechaCreacion, String masDatos, List<Long> peliculasCalificadas, List<Long> reseñas) {
         this.userType = UserType.REGISTERED;
         this.nombre = nombre;
@@ -58,14 +58,14 @@ public class User {
         this.reseñas = reseñas;
     }
 
-    // Constructor para administrador
+    // Constructor administrator
     public User(String nombre, String contraseña) {
         this.userType = UserType.ADMIN;
         this.nombre = nombre;
         this.contraseña = contraseña;
     }
 
-    // Getters y Setters
+    // Getters  Setters
     public long getId() {
         return id;
     }

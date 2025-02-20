@@ -25,10 +25,10 @@ public class Cast {
 
     private String originCountry;
 
-    // Constructor vacío requerido por JPA
+    // Constructor for JPA
     protected Cast() {}
 
-    // Constructor con parámetros
+    // Constructor
     public Cast(String name, String biography, Date birthDate, String workField, String originCountry) {
         this.name = name;
         this.biography = biography;
@@ -37,7 +37,7 @@ public class Cast {
         this.originCountry = originCountry;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public long getId() {
         return id;
     }
