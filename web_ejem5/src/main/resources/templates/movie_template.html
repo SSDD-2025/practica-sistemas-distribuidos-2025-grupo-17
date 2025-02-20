@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Película</title>
     <style>
         body {
@@ -93,9 +90,7 @@
             <p>{{prize}}</p>
             <h3>Tráiler</h3>
             <video width="100%" controls>
-                <source src="/resources/{{video.id}}video" type="video/mp4">
-                Tu navegador no soporta la reproducción de videos.
-            </video>
+                <iframe width="100%" height="315" src="{{movieTrailer}}" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="reviews">
             <h3>Reseñas</h3>
@@ -103,28 +98,28 @@
                 {{#each review}}
                 <div class="review-item">
                     <p>{{this.text}}</p>
-                    {{^isAdmin}}
+                    {{^user.userAdmin}}
                     <div class="review-buttons">
                         <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/edit'">Modificar Reseña</button>
                         <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/delete'">Eliminar Reseña</button>
                     </div>
-                    {{/isAdmin}}
+                    {{/user.userAdmin}}
                 </div>
                 {{/each}}
             </div>
         </div>
         <div class="buttons">
-            {{#isAdmin}}
+            {{#user.userAdmin}}
             <div class="admin-buttons">
                 <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar película</button>
                 <button class="btn btn-primary" onclick="location.href='/movie/{id}/delete'">Borrar película</button>
             </div>
-            {{/isAdmin}}
-            {{^isAdmin}}
+            {{/user.userAdmin}}
+            {{^user.userAdmin}}
             <div class="user-buttons">
                 <button class="btn btn-primary" onclick="location.href='/review/new'">Añadir Reseña</button>
             </div>
-            {{/isAdmin}}
+            {{/user.userAdmin}}
         </div>
     </div>
 </body>

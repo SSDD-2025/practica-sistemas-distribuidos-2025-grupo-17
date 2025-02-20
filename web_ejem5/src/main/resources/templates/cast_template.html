@@ -71,12 +71,12 @@
             </ul>
         </div>
         <div class="buttons">
-            {{#isAdmin}}
+            {{#user.userAdmi}}
             <div class="admin-buttons">
                 <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar Reparto</button>
                 <button class="btn btn-primary" onclick="location.href='/cast/{id}/delete'">Borrar Reparto</button>
             </div>
-            {{/isAdmin}}
+            {{/user.userAdmi}}
         </div>
     </div>
 </body>

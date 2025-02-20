@@ -26,12 +26,12 @@
 	</form>
 	
 	<br>
-	{{#isAdmin}}
+	{{#user.userAdmi}}
 	<div class="admin-buttons">
 		<button class="btn btn-primary" onclick="location.href='/movie/new'">Anadir película</button>
 		<button class="btn btn-primary" onclick="location.href='/cast/new'">Anadir reparto</button>
 	</div>
-	{{/isAdmin}}
+	{{/user.userAdmi}}
 
 	<a href="/">Back</a>
 
