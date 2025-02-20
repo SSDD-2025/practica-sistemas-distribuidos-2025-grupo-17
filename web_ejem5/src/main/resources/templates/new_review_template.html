@@ -1,0 +1,20 @@
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<form action="/review/new" method="post">
+		<label>Usuario: </label>
+		<input type='text' name='user' value='{{#user}}{{.}}{{/user}}' />
+		<label>Título:</label>
+		<input type='text' name='reviewTitle' />
+		<label>Texto:</label>
+		<textarea name='reviewText' rows=5 cols=40></textarea>
+		<label>Película:</label>
+		<input type='text' name ='reviewMovie'/>
+		
+		<input type='submit' value='Save' />
+	</form>
+	{{>backToHome_template}}

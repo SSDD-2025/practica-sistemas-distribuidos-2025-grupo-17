@@ -1,0 +1,21 @@
+<html>
+
+<body>
+    <h1>Nuevo actor</h1>
+    <h3>Rellene con los datos del actor a añadir</h3>
+
+    <form action="/cast/new" method="post">
+        <label>Nombre:</label>
+        <input type='text' name='castName'><br>
+        <label>Biografía:</label>
+        <textarea name='castBiography' rows=5 cols=40></textarea><br>
+        <label>Fecha nacimiento:</label>
+        <input type='date' name='castBirthDate'><br>
+        <label>Campo especializado: </label>
+        <input type='text' name='castWorkField' />
+        <label>País de origen:</label>
+        <input type='text' name='castOriginCountry' />
+
+        <input type='submit' name='Añadir actor'><br>
+    </form>
+    {{>backToHome_template}}
