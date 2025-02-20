@@ -1,104 +1,27 @@
 package es.codeurjc.web.entities;
-
-import jakarta.persistence.*;
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Review {
 
-    public enum ReviewType {
-        RATING_ONLY, // Solo nota
-        FULL_REVIEW  // Reseña con título y cuerpo
+	@Id
+	private long idReview;
+ 	
+	private String title;
+    private String text;
+    
+    public Review(String title,String text){
+        this.title=title;
+        this.text=text;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Enumerated(EnumType.STRING)
-    private ReviewType type;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;  // Usuario que hace la review
-
-    @ManyToOne
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Movie movie; // Película que se está valorando
-
-    private float rating;  // Nota de la película
-
-    private String title;  // Solo si es reseña
-    private String body;   // Solo si es reseña
-
-    private int likes = 0; // Número de likes (inicializa en 0)
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date; // Fecha de la review
-
-    // Constructor for JPA
-    protected Review() {}
-
-    // Constructor
-    public Review(User user, Movie movie, float rating) {
-        this.type = ReviewType.RATING_ONLY;
-        this.user = user;
-        this.movie = movie;
-        this.rating = rating;
-        this.date = new Date();
-    }
-
-    // Constructor
-    public Review(User user, Movie movie, float rating, String title, String body) {
-        this.type = ReviewType.FULL_REVIEW;
-        this.user = user;
-        this.movie = movie;
-        this.rating = rating;
-        this.title = title;
-        this.body = body;
-        this.likes = 0;
-        this.date = new Date();
-    }
-
-    // Getters  Setters
     public long getId() {
-        return id;
+        return idReview;
     }
 
     public void setId(long id) {
-        this.id = id;
-    }
-
-    public ReviewType getType() {
-        return type;
-    }
-
-    public void setType(ReviewType type) {
-        this.type = type;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
+        this.idReview = id;
     }
 
     public String getTitle() {
@@ -109,47 +32,12 @@ public class Review {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getText() {
+        return text;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setText(String text) {
+        this.text = text;
     }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-
-    public void addLike() {
-        this.likes++;
-    }
-
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", type=" + type +
-                ", user=" + user.getUsername() +
-                ", movie=" + movie.getName() +
-                ", rating=" + rating +
-                ", title='" + title + '\'' +
-                ", body='" + body + '\'' +
-                ", likes=" + likes +
-                ", date=" + date +
-                '}';
-    }
+    
 }
