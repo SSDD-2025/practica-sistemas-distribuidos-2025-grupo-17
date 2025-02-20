@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cast</title>
     <style>
         body {
@@ -51,7 +48,7 @@
 <body>
     <div class="container">
         <div class="person-header">
-            <img src="{{image}}" alt="Foto de {{name}}">
+            <img src="/resources/{{image.id}}image" alt="Foto de {{name}}">
             <div>
                 <div class="person-name">{{firstName}} {{lastName}}</div>
                 <div><strong>Campo:</strong> {{workField}}</div>
@@ -72,6 +69,14 @@
             <ul class="awards-list">
                 {{awards}}
             </ul>
+        </div>
+        <div class="buttons">
+            {{#isAdmin}}
+            <div class="admin-buttons">
+                <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar Reparto</button>
+                <button class="btn btn-primary" onclick="location.href='/cast/{id}/delete'">Borrar Reparto</button>
+            </div>
+            {{/isAdmin}}
         </div>
     </div>
 </body>

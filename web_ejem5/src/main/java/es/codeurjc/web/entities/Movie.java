@@ -1,38 +1,68 @@
 package es.codeurjc.web.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import java.util.Date;
+
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 public class Movie {
 
-	@Id
-	private long id;
- 	
-	private String name;
-    private List<Cast> cast; //not implemented yet
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "movie_cast",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "cast_id")
+    )
+    private List<Cast> cast;
+
     private String argument;
-    private Date year;
+    private int year;
     private float mark;
-    //private List<Review> review; //not implemented yet
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
     private String platform;
-    //private Video trailer;
     private int pegi;
     private int duration;
-    private List<String> prize;
-    private String originCountry;
-    private List<String> genres;
-    private String firstName, lastName;
 
-    // Getters y Setters
-    public long getId(){
+    @ElementCollection
+    private List<String> prize;
+
+    private String originCountry;
+
+    @ElementCollection
+    private List<String> genres;
+
+    // Constructor  JPA
+    protected Movie() {}
+
+    // Constructor
+    public Movie(String name, String argument, int year, float mark, String platform, int pegi, int duration, String originCountry) {
+        this.name = name;
+        this.argument = argument;
+        this.year = year;
+        this.mark = mark;
+        this.platform = platform;
+        this.pegi = pegi;
+        this.duration = duration;
+        this.originCountry = originCountry;
+    }
+
+    // Getters Setters
+    public long getId() {
         return id;
     }
 
-    public void setId(long id){
-        this.id=id;
+    public void setId(long id) {
+        this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -57,11 +87,11 @@ public class Movie {
         this.argument = argument;
     }
 
-    public Date getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Date year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -72,15 +102,14 @@ public class Movie {
     public void setMark(float mark) {
         this.mark = mark;
     }
-    /* 
-    public List<Review> getReview() {
-        return review;
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public void setReview(List<Review> review) {
-        this.review = review;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
-    */
 
     public String getPlatform() {
         return platform;
@@ -89,15 +118,6 @@ public class Movie {
     public void setPlatform(String platform) {
         this.platform = platform;
     }
-    /*
-    public Video getTrailer() {
-        return trailer;
-    }
-
-    public void setTrailer(Video trailer) {
-        this.trailer = trailer;
-    }
-    */
 
     public int getPegi() {
         return pegi;
@@ -139,20 +159,19 @@ public class Movie {
         this.genres = genres;
     }
 
-
-	protected Movie() {
-		// Used by JPA
-	}
-
-	public Movie(String firstName, String lastName) { //Not implemented yet
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
-
-	@Override
-	public String toString() { //Not implemented yet
-		return String.format("Movie[id=%d, firstName='%s', lastName='%s']",
-				id, firstName, lastName);
-	}
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", argument='" + argument + '\'' +
+                ", year=" + year +
+                ", mark=" + mark +
+                ", platform='" + platform + '\'' +
+                ", pegi=" + pegi +
+                ", duration=" + duration +
+                ", originCountry='" + originCountry + '\'' +
+                ", genres=" + genres +
+                '}';
+    }
 }
