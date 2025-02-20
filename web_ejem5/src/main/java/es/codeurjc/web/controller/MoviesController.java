@@ -10,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.Date;
+import java.util.List;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
@@ -19,7 +22,6 @@ import es.codeurjc.web.entities.*;
 public class MoviesController {
 
 	private static final String MOVIES_IMAGES_FOLDER = "movies_images";
-	private static final String CAST_IMAGES_FOLDER = "cast_images";
 
 	@Autowired
 	private MoviesService moviesService;
@@ -28,29 +30,7 @@ public class MoviesController {
 	private CastService castService;
 
 	@Autowired
-	private ReviewService reviewService;
-
-	@Autowired
 	private ImageService imageService;
-
-	@GetMapping("/")
-	public String showMoviesList(Model model) {
-
-		model.addAttribute("movies", moviesService.findAll());
-		model.addAttribute("cast",castService.findAll());
-
-		return "home_template";
-	}
-
-	@GetMapping("/cast/{id}")
-	public String showCast(Model model, @PathVariable long id) {
-
-		Cast cast = castService.findById(id);
-
-		model.addAttribute("cast", cast);
-
-		return "cast_template";
-	}
 
 	@GetMapping("/movies/{id}")
 	public String showMovie(Model model, @PathVariable long id) {
@@ -62,29 +42,10 @@ public class MoviesController {
 		return "movie_template";
 	}
 
-	@GetMapping("/cast/{id}/image")	
-	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws MalformedURLException {
-
-		return imageService.createResponseFromImage(CAST_IMAGES_FOLDER, id);		
-	}
-
 	@GetMapping("/movie/{id}/image")	
 	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws MalformedURLException {
 
 		return imageService.createResponseFromImage(MOVIES_IMAGES_FOLDER, id);		
-	}
-
-	@GetMapping("/review/new")
-	public String newReviewForm(Model model) {
-		return "new_review_template";
-	}
-	
-	@PostMapping("/review/new")
-	public String newReview(Model model, Review review) throws IOException {
-
-		reviewService.save(review);
-
-		return "movie_template";
 	}
 
 	@GetMapping("/movie/new")
@@ -93,38 +54,30 @@ public class MoviesController {
 	}
 	
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, Movie movie, MultipartFile image) throws IOException {
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam Date movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
 
+		Movie movie=new Movie(movieName,movieArgument,movieYear,movieCast);
 		moviesService.save(movie);
 		
 		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);
 
-		return "home_template";
-	}
-
-	@GetMapping("/cast/new")
-	public String newCastForm(Model model) {
-		return "new_cast_template";
-	}
-	
-	@PostMapping("/cast/new")
-	public String newCast(Model model, Cast cast, MultipartFile image) throws IOException {
-
-		castService.save(cast);
-		
-		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), image);
+		model.addAttribute("movies", moviesService.findAll());
+		model.addAttribute("cast",castService.findAll());
 
 		return "home_template";
 	}
-	/*
-	@PostMapping("/post/{id}/delete")
-	public String deletePost(Model model, @PathVariable long id) throws IOException {
 
-		postService.deleteById(id);
+	@PostMapping("/movie/{id}/delete")
+	public String deleteMovie(Model model, @PathVariable long id) throws IOException {
 
-		imageService.deleteImage(POSTS_FOLDER, id);
+		moviesService.deleteById(id);
 
-		return "deleted_post";
+		imageService.deleteImage(MOVIES_IMAGES_FOLDER, id);
+
+		model.addAttribute("movies", moviesService.findAll());
+		model.addAttribute("cast",castService.findAll());
+
+		return "home_template";
 	}
-		*/
+
 }
