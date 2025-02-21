@@ -2,7 +2,6 @@ package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Cast {
@@ -12,17 +11,9 @@ public class Cast {
     private long id;
 
     private String name;
-
-    @ManyToMany(mappedBy = "cast")
-    private List<Movie> movies;
-
     private String biography;
     private Date birthDate;
     private String workField; // Actor, director, guionista, etc.
-
-    @ElementCollection
-    private List<String> awards;
-
     private String originCountry;
 
     // Constructor for JPA
@@ -54,14 +45,6 @@ public class Cast {
         this.name = name;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     public String getBiography() {
         return biography;
     }
@@ -86,32 +69,11 @@ public class Cast {
         this.workField = workField;
     }
 
-    public List<String> getAwards() {
-        return awards;
-    }
-
-    public void setAwards(List<String> awards) {
-        this.awards = awards;
-    }
-
     public String getOriginCountry() {
         return originCountry;
     }
 
     public void setOriginCountry(String originCountry) {
         this.originCountry = originCountry;
-    }
-
-    @Override
-    public String toString() {
-        return "Cast{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", biography='" + biography + '\'' +
-                ", birthDate=" + birthDate +
-                ", workField='" + workField + '\'' +
-                ", originCountry='" + originCountry + '\'' +
-                ", awards=" + awards +
-                '}';
     }
 }

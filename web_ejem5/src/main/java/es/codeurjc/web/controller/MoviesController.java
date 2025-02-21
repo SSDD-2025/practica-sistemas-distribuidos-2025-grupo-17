@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.Date;
 import java.util.List;
 
 import es.codeurjc.web.services.*;
@@ -54,7 +53,7 @@ public class MoviesController {
 	}
 	
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam Date movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
 
 		Movie movie=new Movie(movieName,movieArgument,movieYear,movieCast);
 		moviesService.save(movie);
@@ -80,4 +79,27 @@ public class MoviesController {
 		return "home_template";
 	}
 
+	@GetMapping("/movie/{id}/modify")
+	public String modifyMovieForm(Model model, @PathVariable long id) {
+		Movie movie=moviesService.findById(id);
+		model.addAttribute("movie", movie);
+		return "modify_movie_template";
+	}
+	
+	@PostMapping("/movie/{id}/modify")
+	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
+
+		Movie movie=moviesService.findById(id);
+		movie.setArgument(movieArgument);
+		movie.setCast(movieCast);
+		movie.setName(movieName);
+		movie.setYear(movieYear);
+		
+		imageService.deleteImage(MOVIES_IMAGES_FOLDER, movie.getId());
+		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);
+
+		model.addAttribute("movie", movie);
+
+		return "movie_template";
+	}
 }

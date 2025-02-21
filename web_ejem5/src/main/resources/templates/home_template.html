@@ -6,32 +6,20 @@
 
 	<h2>Peliculas</h2>
 
-	{{#movie}}
+	{{#movies}}
 	<ul>
 		<li>
-			<img src="/resources/images/{{image.title}}"></img>
-			{{name}} {{argument}} {{year}} {{mark}} {{genre}} {{cast}}
+			<img src="/movie/{{id}}/image"></img>
+			{{name}} {{argument}} {{year}}
 		</li>
 	</ul>
-	{{/movie}}<br>
+	{{/movies}}
 
-	{{^movie}}
+	{{^movies}}
 	<p>No hay películas todavía.</p>
-	{{/movie}}<br>
+	{{/movies}}
 	
-	<img src="/resources/{{image.id}}image"></img>
 	
-	<form action="/post/{{post.id}}/delete" method="post">
-		<input type='submit' value='Delete Post'/>
-	</form>
-	
-	<br>
-	{{#user.userAdmi}}
-	<div class="admin-buttons">
-		<button class="btn btn-primary" onclick="location.href='/movie/new'">Anadir película</button>
-		<button class="btn btn-primary" onclick="location.href='/cast/new'">Anadir reparto</button>
-	</div>
-	{{/user.userAdmi}}
 
 	<a href="/">Back</a>
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
-import java.util.List;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
@@ -78,5 +77,30 @@ public class CastController {
 		model.addAttribute("cast",castService.findAll());
 
 		return "home_template";
+	}
+
+	@GetMapping("/cast/{id}/modify")
+	public String modifyCastForm(Model model,@PathVariable long id) {
+		Cast cast=castService.findById(id);
+		model.addAttribute("cast",cast);
+		return "modify_cast_template";
+	}
+	
+	@PostMapping("/cast/{id}/modify")
+	public String modifyCast(Model model, @PathVariable long id,@RequestParam String castName, @RequestParam String castBiography,@RequestParam Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String originCountry, MultipartFile image) throws IOException {
+
+        Cast cast=castService.findById(id);
+		cast.setBiography(castBiography);
+		cast.setBirthDate(castBirthDate);
+		cast.setName(castName);
+		cast.setOriginCountry(originCountry);
+		cast.setWorkField(castWorkfield);
+		
+		imageService.deleteImage(CAST_IMAGES_FOLDER, cast.getId());
+		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), image);
+
+		model.addAttribute("cast",cast);
+
+		return "cast_template";
 	}
 }

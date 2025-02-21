@@ -16,7 +16,7 @@ public class CastService {
 	private AtomicLong nextId = new AtomicLong();
 
 	public CastService() {
-		//save(new Cast("Pepe", "Vendo moto", "Barata, barata"));
+		save(new Cast("Pepe", "Vendo moto", null,"abc","Barata, barata"));
 	}
 
 	public Collection<Cast> findAll() {
