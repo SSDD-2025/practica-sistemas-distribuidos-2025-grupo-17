@@ -14,16 +14,18 @@ public class Movie {
     private String argument;
     private int year;
     private List<Review> reviews;
+    private String trailer;
 
     // Constructor  JPA
     protected Movie() {}
 
     // Constructor
-    public Movie(String name, String argument, int year, List<Cast> cast) {
+    public Movie(String name, String argument, int year, List<Cast> cast, String trailer) {
         this.name = name;
         this.argument = argument;
         this.year = year;
         this.cast=cast;
+        this.trailer=trailer;
     }
 
     // Getters Setters
@@ -73,6 +75,14 @@ public class Movie {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
 }

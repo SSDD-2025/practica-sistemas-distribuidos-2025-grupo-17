@@ -53,9 +53,9 @@ public class MoviesController {
 	}
 	
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, @RequestParam String movieTrailer, MultipartFile image) throws IOException {
 
-		Movie movie=new Movie(movieName,movieArgument,movieYear,movieCast);
+		Movie movie=new Movie(movieName,movieArgument,movieYear,movieCast,movieTrailer);
 		moviesService.save(movie);
 		
 		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);

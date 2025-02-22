@@ -16,7 +16,7 @@ public class MoviesService {
 	private AtomicLong nextId = new AtomicLong();
 
 	public MoviesService() {
-		save(new Movie("Pepe", "Vendo moto", 5,null));
+		save(new Movie("Pepe", "Vendo moto", 5,null,""));
 	}
 
 	public Collection<Movie> findAll() {

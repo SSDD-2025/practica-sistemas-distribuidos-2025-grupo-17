@@ -1,126 +1,37 @@
 <html>
-<head>
-    <title>Película</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #181818;
-            color: white;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: #222;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .movie-header {
-            display: flex;
-            align-items: center;
-        }
-        .movie-header img {
-            width: 150px;
-            height: auto;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-        .movie-title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .movie-info {
-            margin-top: 20px;
-        }
-        .rating {
-            background: gold;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .reviews {
-            margin-top: 20px;
-            padding: 10px;
-            background: #333;
-            border-radius: 10px;
-        }
-        .reviews h3 {
-            margin-bottom: 10px;
-        }
-        .review-item {
-            border-bottom: 1px solid #555;
-            padding: 10px 0;
-            position: relative;
-        }
-        .review-buttons {
-            margin-top: 10px;
-            text-align: right;
-        }
-        .review-buttons button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 5px;
-        }
-    </style>
-</head>
+
 <body>
-    <div class="container">
-        <div class="movie-header">
-            <img src="/resources/{{image.id}}image" alt="Póster de la película">
-            <div>
-                <div class="movie-title">{{name}}</div>
-                <div class="rating">⭐ {{mark}}/10</div>
-                <div>{{year}} | {{genres}} | {{duration}} min | PEGI {{pegi}}</div>
-                <div>Plataforma: {{platform}}</div>
-                <div>País de origen: {{originCountry}}</div>
-            </div>
-        </div>
-        <div class="movie-info">
-            <h3>Sinopsis</h3>
-            <p>{{argument}}</p>
-            <h3>Reparto</h3>
-            <p>{{cast}}</p>
-            <h3>Director</h3>
-            <p>{{firstName}} {{lastName}}</p>
-            <h3>Premios</h3>
-            <p>{{prize}}</p>
-            <h3>Tráiler</h3>
-            <video width="100%" controls>
-                <iframe width="100%" height="315" src="{{movieTrailer}}" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div class="reviews">
-            <h3>Reseñas</h3>
-            <div id="reviews-list">
-                {{#each review}}
-                <div class="review-item">
-                    <p>{{this.text}}</p>
-                    {{^user.userAdmin}}
-                    <div class="review-buttons">
-                        <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/edit'">Modificar Reseña</button>
-                        <button class="btn btn-primary" onclick="location.href='/review/{{this.id}}/delete'">Eliminar Reseña</button>
-                    </div>
-                    {{/user.userAdmin}}
-                </div>
-                {{/each}}
-            </div>
-        </div>
-        <div class="buttons">
-            {{#user.userAdmin}}
-            <div class="admin-buttons">
-                <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar película</button>
-                <button class="btn btn-primary" onclick="location.href='/movie/{id}/delete'">Borrar película</button>
-            </div>
-            {{/user.userAdmin}}
-            {{^user.userAdmin}}
-            <div class="user-buttons">
-                <button class="btn btn-primary" onclick="location.href='/review/new'">Añadir Reseña</button>
-            </div>
-            {{/user.userAdmin}}
-        </div>
-    </div>
+    {{#movie}}
+    <img src="/movie/{{id}}/image"></img>
+    <h1>{{name}}</h1>
+    <p>{{year}}</p>
+    <h3>Sinopsis</h3>
+    <p>{{argument}}</p>
+    <h3>Reparto</h3>
+    {{#cast}}
+    <ul>
+        <li>
+            <img src="/cast/{{id}}/image"></img>
+            {{name}} {{workField}}
+        </li>
+    </ul>
+    {{/cast}}
+    <h3>Tráiler</h3>
+    {{#trailer}}
+    <a href="{{trailer}}" target="_blank">Trailer</a>
+    {{/trailer}}
+    {{^trailer}}
+    <p>No hay trailer disponible</p>
+    {{/trailer}}
+    <h3>Reseñas</h3>
+    {{#reviews}}
+    <ul>
+        <li>{{text}}</li>
+    </ul>
+    {{/reviews}}
+    {{/movie}}
+
+    <a href="/">Back</a>
 </body>
+
 </html>
