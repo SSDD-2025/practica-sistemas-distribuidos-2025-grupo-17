@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
@@ -49,16 +53,21 @@ public class CastController {
 
     @GetMapping("/cast/new")
 	public String newCastForm(Model model) {
+		model.addAttribute("movies",moviesService.findAll());
 		return "new_cast_template";
 	}
 	
 	@PostMapping("/cast/new")
-	public String newCast(Model model, @RequestParam String castName, @RequestParam String castBiography,@RequestParam Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String originCountry, MultipartFile image) throws IOException {
+	public String newCast(Model model, @RequestParam List<Long> castMovies,@RequestParam String castName, @RequestParam String castBiography,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
 
-        Cast cast=new Cast(castName,castBiography,castBirthDate,castWorkfield,originCountry);
+		List<Movie> moviesList=new ArrayList<Movie>();
+		for (int i=0;i<castMovies.size();i++){
+			moviesList.add(moviesService.findById(castMovies.get(i)));
+		}
+        Cast cast=new Cast(castName,castBiography,castBirthDate,castWorkfield,castOriginCountry,moviesList);
 		castService.save(cast);
 		
-		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), image);
+		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
 
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast",castService.findAll());

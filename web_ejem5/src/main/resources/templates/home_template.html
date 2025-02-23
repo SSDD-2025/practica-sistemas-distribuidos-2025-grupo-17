@@ -3,14 +3,14 @@
 <body>
 
 	<h1>Página de inicio</h1>
-
+	
 	<h2>Peliculas</h2>
-
+	<button onclick="window.location.href='/movie/new';">Añadir película</button>
 	{{#movies}}
 	<ul>
 		<li>
 			<img src="/movie/{{id}}/image"></img>
-			{{name}} {{argument}} {{year}}
+			<a href="/movies/{{id}}">{{name}}</a>
 		</li>
 	</ul>
 	{{/movies}}

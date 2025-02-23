@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import es.codeurjc.web.services.*;
@@ -49,16 +51,21 @@ public class MoviesController {
 
 	@GetMapping("/movie/new")
 	public String newMovieForm(Model model) {
+		model.addAttribute("cast",castService.findAll());
 		return "new_movie_template";
 	}
 	
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, @RequestParam String movieTrailer, MultipartFile image) throws IOException {
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
 
-		Movie movie=new Movie(movieName,movieArgument,movieYear,movieCast,movieTrailer);
+		List<Cast> castList=new ArrayList<Cast>();
+		for (int i=0;i<movieCast.size();i++){
+			castList.add(castService.findById(movieCast.get(i)));
+		}
+		Movie movie=new Movie(movieName,movieArgument,movieYear,castList,movieTrailer);
 		moviesService.save(movie);
 		
-		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);
+		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
 
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast",castService.findAll());

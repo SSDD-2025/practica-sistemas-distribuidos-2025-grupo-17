@@ -2,6 +2,7 @@ package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Cast {
@@ -15,17 +16,19 @@ public class Cast {
     private Date birthDate;
     private String workField; // Actor, director, guionista, etc.
     private String originCountry;
+    private List<Movie> movies;
 
     // Constructor for JPA
     protected Cast() {}
 
     // Constructor
-    public Cast(String name, String biography, Date birthDate, String workField, String originCountry) {
+    public Cast(String name, String biography, Date birthDate, String workField, String originCountry, List<Movie> movies) {
         this.name = name;
         this.biography = biography;
         this.birthDate = birthDate;
         this.workField = workField;
         this.originCountry = originCountry;
+        this.movies=movies;
     }
 
     // Getters and Setters
@@ -35,6 +38,14 @@ public class Cast {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     public String getName() {

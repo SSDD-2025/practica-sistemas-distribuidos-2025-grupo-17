@@ -4,7 +4,7 @@
     <h1>Nuevo actor</h1>
     <h3>Rellene con los datos del actor a añadir</h3>
 
-    <form action="/cast/new" method="post">
+    <form action="/cast/new" method="post" enctype="multipart/form-data">
         <label>Nombre:</label>
         <input type='text' name='castName'><br>
         <label>Biografía:</label>
@@ -12,10 +12,20 @@
         <label>Fecha nacimiento:</label>
         <input type='date' name='castBirthDate'><br>
         <label>Campo especializado: </label>
-        <input type='text' name='castWorkField' />
+        <input type='text' name='castWorkfield' />
         <label>País de origen:</label>
         <input type='text' name='castOriginCountry' />
+        <label>Películas: </label>
+        <select class="form-select" name="castMovies" multiple>
+            {{#movies}}
+            <option value="{{ id }}">{{name}}</option>
+            {{/movies}}
+        </select>
+        <label>Imagen:</label>
+        <input type='file' name='castImage' accept=".png, .jpg, .jpeg" />
 
         <input type='submit' name='Añadir actor'><br>
     </form>
+</body>
     {{>backToHome_template}}
+</html>

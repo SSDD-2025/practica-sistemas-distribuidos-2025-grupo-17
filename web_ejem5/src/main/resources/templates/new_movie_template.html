@@ -5,13 +5,13 @@
     <h1>Subir película</h1>
     <h3>Rellene con los datos de la película a subir</h3>
 
-    <form action="/movie/new" method="post">
+    <form action="/movie/new" method="post" enctype="multipart/form-data">
         <label>Título:</label>
         <input type='text' name='movieName'><br>
         <label>Argumento:</label>
         <textarea name='movieArgument' rows=5 cols=40></textarea><br>
         <label>Fecha estreno:</label>
-        <input type='date' name='movieYear'><br>
+        <input type='number' name='movieYear'><br>
         <label>Actores: </label>
         <select class="form-select" name="movieCast" multiple>
             {{#cast}}
