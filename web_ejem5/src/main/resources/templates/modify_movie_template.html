@@ -1,0 +1,31 @@
+<html>
+
+<body>
+
+    <h1>Subir película</h1>
+    <h3>Rellene con los datos de la película a subir</h3>
+    {{#movie}}
+    <form action="/movie/{{id}}/modify" method="post" enctype="multipart/form-data">
+        <label>Título:</label>
+        <input type='text' name='movieName' value="{{name}}"><br>
+        <label>Argumento:</label>
+        <textarea name='movieArgument' rows=5 cols=40>{{argument}}</textarea><br>
+        <label>Fecha estreno:</label>
+        <input type='number' name='movieYear' value="{{year}}"><br>
+        <label>Actores: </label>
+        <select class="form-select" name="movieCast" multiple>
+            {{#allCast}}
+            <option value="{{ id }}">{{name}}</option>
+            {{/allCast}}
+        </select>
+        <label>Póster:</label>
+        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" />
+        <label>Enlace al tráiler de YouTube:</label>
+        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler" value="{{trailer}}"><br>
+        <input type='submit' name='Subir película'><br>
+    </form>
+    {{/movie}}
+</body>
+{{>backToHome_template}}
+
+</html>

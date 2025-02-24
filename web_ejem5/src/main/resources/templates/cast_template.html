@@ -1,83 +1,28 @@
 <html>
-<head>
-    <title>Cast</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #181818;
-            color: white;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: #222;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .person-header {
-            display: flex;
-            align-items: center;
-        }
-        .person-header img {
-            width: 150px;
-            height: auto;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-        .person-name {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .person-info {
-            margin-top: 20px;
-        }
-        .movies-list, .awards-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .movies-list li, .awards-list li {
-            background: #333;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="person-header">
-            <img src="/resources/{{image.id}}image" alt="Foto de {{name}}">
-            <div>
-                <div class="person-name">{{firstName}} {{lastName}}</div>
-                <div><strong>Campo:</strong> {{workField}}</div>
-                <div><strong>Fecha de nacimiento:</strong> {{birthDate}}</div>
-                <div><strong>País de origen:</strong> {{originCountry}}</div>
-            </div>
-        </div>
-        <div class="person-info">
-            <h3>Biografía</h3>
-            <p>{{biography}}</p>
-            
-            <h3>Películas</h3>
-            <ul class="movies-list">
-                {{movies}}
-            </ul>
 
-            <h3>Premios</h3>
-            <ul class="awards-list">
-                {{awards}}
-            </ul>
-        </div>
-        <div class="buttons">
-            {{#user.userAdmi}}
-            <div class="admin-buttons">
-                <button class="btn btn-primary" onclick="location.href='pendientePonerformulariomModificar'">Modificar Reparto</button>
-                <button class="btn btn-primary" onclick="location.href='/cast/{id}/delete'">Borrar Reparto</button>
-            </div>
-            {{/user.userAdmi}}
-        </div>
-    </div>
+<body>
+    {{#cast}}
+        <h1>{{name}}</h1>
+        <img src="/movie/{{id}}image"></img>
+        <p>Campo de trabajo: {{workField}}</p>
+        <p>País de origen: {{originCountry}}</p>
+        <h3>Biografía</h3>
+        <p>{{biography}}</p>
+        <h3>Películas</h3>
+        {{#movies}}
+        <ul>
+            <li>
+                <img src="/movie/{{id}}/image"></img>
+                <a href="/movie/{{id}}">{{name}}</a>
+            </li>
+        </ul>
+        {{/movies}}
+        <form action="/cast/{{id}}/delete" method="post">
+            <input type='submit' value='Borrar cast'/>
+        </form>
+        <button onclick="window.location.href='/cast/{{id}}/modify';">Modificar cast</button>
+        <p></p>
+        <a href="/">Back</a>
+    {{/cast}}
 </body>
 </html>

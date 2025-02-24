@@ -32,7 +32,6 @@ public class CastService {
 		long id = nextId.getAndIncrement();
 
 		cast.setId(id);
-
 		castMap.put(id, cast);
 	}
 

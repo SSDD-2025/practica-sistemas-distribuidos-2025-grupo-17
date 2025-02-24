@@ -90,17 +90,23 @@ public class MoviesController {
 	public String modifyMovieForm(Model model, @PathVariable long id) {
 		Movie movie=moviesService.findById(id);
 		model.addAttribute("movie", movie);
+		model.addAttribute("allCast", castService.findAll());
 		return "modify_movie_template";
 	}
 	
 	@PostMapping("/movie/{id}/modify")
-	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Cast> movieCast, MultipartFile image) throws IOException {
+	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile image) throws IOException {
 
 		Movie movie=moviesService.findById(id);
+		List<Cast> castList=new ArrayList<Cast>();
+		for (int i=0;i<movieCast.size();i++){
+			castList.add(castService.findById(movieCast.get(i)));
+		}
 		movie.setArgument(movieArgument);
-		movie.setCast(movieCast);
+		movie.setCast(castList);
 		movie.setName(movieName);
 		movie.setYear(movieYear);
+		movie.setTrailer(movieTrailer);
 		
 		imageService.deleteImage(MOVIES_IMAGES_FOLDER, movie.getId());
 		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);

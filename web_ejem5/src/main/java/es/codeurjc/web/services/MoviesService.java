@@ -32,7 +32,6 @@ public class MoviesService {
 		long id = nextId.getAndIncrement();
 
 		movie.setId(id);
-
 		movies.put(id, movie);
 	}
 

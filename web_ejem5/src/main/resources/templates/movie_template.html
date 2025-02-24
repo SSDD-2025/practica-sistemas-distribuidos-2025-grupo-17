@@ -24,9 +24,16 @@
     <p>No hay trailer disponible</p>
     {{/trailer}}
     <h3>Reseñas</h3>
+    <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
     {{#reviews}}
     <ul>
-        <li>{{text}}</li>
+        <li>
+            {{title}}
+            {{text}}
+            <form action="/movie/{{id}}/review/{{idReview}}/delete" method="post">
+                <input type='submit' value='Borrar reseña'/>
+            </form>
+        </li>
     </ul>
     {{/reviews}}
     <form action="/movie/{{id}}/delete" method="post">

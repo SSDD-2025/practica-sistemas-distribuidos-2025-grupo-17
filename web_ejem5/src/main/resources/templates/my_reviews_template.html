@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {{#user}}
+            <h1>Mis reseñas:</h1>
+            {{#reviews}}
+                <ul>
+                    <li>
+                        {{title}} 
+                        {{text}}
+                    </li>
+                </ul>
+            {{/reviews}}
+        {{/user}}
+    </body>
+    {{>backToHome_template}}
+</html>

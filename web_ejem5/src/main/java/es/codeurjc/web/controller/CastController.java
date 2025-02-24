@@ -58,7 +58,7 @@ public class CastController {
 	}
 	
 	@PostMapping("/cast/new")
-	public String newCast(Model model, @RequestParam List<Long> castMovies,@RequestParam String castName, @RequestParam String castBiography,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
+	public String newCast(Model model, @RequestParam List<Long> castMovies,@RequestParam String castName, @RequestParam String castBiography,@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
 
 		List<Movie> moviesList=new ArrayList<Movie>();
 		for (int i=0;i<castMovies.size();i++){
