@@ -16,11 +16,15 @@ public class HomeController {
 	@Autowired
 	private CastService castService;
 
+	@Autowired
+	private ReviewService reviewService;
+
     @GetMapping("/")
 	public String showMoviesList(Model model) {
 
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast",castService.findAll());
+		model.addAttribute("reviews",reviewService.findAll());
 
 		return "home_template";
 	}

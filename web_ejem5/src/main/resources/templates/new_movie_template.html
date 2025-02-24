@@ -1,31 +1,36 @@
-<html>
+{{>header_template}}
 
 <body>
-
-    <h1>Subir película</h1>
-    <h3>Rellene con los datos de la película a subir</h3>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Nueva película</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
+    <h2>Rellene con los datos de la película a subir</h2>
 
     <form action="/movie/new" method="post" enctype="multipart/form-data">
-        <label>Título:</label>
+        <label id="fieldName">Título:</label>
         <input type='text' name='movieName'><br>
-        <label>Argumento:</label>
-        <textarea name='movieArgument' rows=5 cols=40></textarea><br>
-        <label>Fecha estreno:</label>
+        <div id="textAreaToAlign">
+            <label id="fieldName">Argumento:</label>
+            <textarea name='movieArgument' rows=5 cols=40></textarea><br>
+        </div>
+        <label id="fieldName">Fecha estreno:</label>
         <input type='number' name='movieYear'><br>
-        <label>Actores: </label>
+        <label id="fieldName">Actores: </label>
         <select class="form-select" name="movieCast" multiple>
             {{#cast}}
             <option value="{{ id }}">{{name}}</option>
             {{/cast}}
-        </select>
-        <label>Póster:</label>
-        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" />
-        <label>Enlace al tráiler de YouTube:</label>
+        </select><br>
+        <label id="fieldName">Póster:</label>
+        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
+        <label id="fieldName">Enlace al tráiler de YouTube:</label>
         <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"><br>
-        <input type='submit' name='Subir película'><br>
+        <input type='submit' name='Subir película' id="submitButton"><br>
     </form>
 
-</body>
-{{>backToHome_template}}
 
-</html>
+    {{>backToHome_template}}

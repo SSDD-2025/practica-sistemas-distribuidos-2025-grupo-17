@@ -25,7 +25,7 @@ public class ReviewController {
 	@GetMapping("/myReviews")
 	public String  showMyReviews(Model model) {
 		model.addAttribute("reviews", reviewService.findAll());
-		return "my_reviews_template.html";
+		return "my_reviews_template";
 	}
 
     @GetMapping("/movie/{id}/review/new")

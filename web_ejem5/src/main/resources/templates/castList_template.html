@@ -1,15 +1,19 @@
-<html>
-    {{>header_template}}
+{{>header_template}}
 <body>
-
-	<h1>Página de inicio</h1>
+	<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Página de inicio</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
+	{{>options_template}}
+	<h2>Actores disponibles:</h2>
 	
-	<h2>Actores</h2>
-	<button onclick="window.location.href='/cast/new';">Añadir actor</button>
 	{{#cast}}
 	<ul>
 		<li>
-			<img src="/cast/{{id}}/image"></img>
+			<img src="/cast/{{id}}/image" id="imageSize"></img><br>
 			<a href="/cast/{{id}}">{{name}}</a>
 		</li>
 	</ul>
@@ -20,9 +24,5 @@
 	{{/cast}}
 	
 	
-
-	<a href="/">Back</a>
-
-</body>
-
-</html>
+	<button onclick="window.location.href='/cast/new';">Añadir actor</button><br>
+{{>backToHome_template}}

@@ -11,3 +11,23 @@
     font-weight: bold;
     color:#161064;
 }
+
+#imageSize{
+    max-width: 200px; 
+    max-height: 200px; 
+    width: auto; 
+    height: auto;
+}
+
+#errorText{
+    color:red;
+}
+
+#infoText{
+    color:#18162b;
+    font-weight: bold;
+}
+
+#textAreaToAlign{
+    display: flex;
+}

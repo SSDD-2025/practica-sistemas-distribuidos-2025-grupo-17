@@ -1,18 +1,27 @@
-<!DOCTYPE html>
-<html>
-    {{>header_template}}
-    <body>
-        {{#user}}
-            <h1>Mis reseñas:</h1>
-            {{#reviews}}
-                <ul>
-                    <li>
-                        {{title}} 
-                        {{text}}
-                    </li>
-                </ul>
-            {{/reviews}}
-        {{/user}}
-    </body>
+{{>header_template}}
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Página de inicio</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
+    {{>options_template}}
+    {{#user}}
+        <h1>Mis reseñas:</h1>
+        {{#reviews}}
+            <ul>
+                <li>
+                    {{title}}
+                    {{text}}
+                </li>
+            </ul>
+        {{/reviews}}
+        {{^reviews}}
+            <p id="infoText">No hay reseñas todavía</p>
+        {{/reviews}}
+    {{/user}}
+    <button onclick="window.location.href='/review/new';">Añadir review</button><br>
     {{>backToHome_template}}
-</html>

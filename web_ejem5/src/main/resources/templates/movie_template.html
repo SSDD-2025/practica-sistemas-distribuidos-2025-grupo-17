@@ -1,9 +1,15 @@
-<html>
-    {{>header_template}}
+{{>header_template}}
 <body>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Película</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
     {{#movie}}
     <h1>{{name}}</h1>
-    <img src="/movie/{{id}}/image"></img>
+    <img src="/movie/{{id}}/image" id="imageSize"></img>
     <p>Año de lanzamiento: {{year}}</p>
     <h3>Sinopsis</h3>
     <p>{{argument}}</p>
@@ -11,8 +17,8 @@
     {{#cast}}
     <ul>
         <li>
-            <img src="/cast/{{id}}/image"></img>
-            <a href="/cast/{{id}}">{{name}} {{workField}}</a>
+            <img src="/cast/{{id}}/image" id="imageSize"></img>
+            <a href="/cast/{{id}}">{{name}}</a>
         </li>
     </ul>
     {{/cast}}
@@ -39,6 +45,9 @@
             </form>
         </li>
     </ul>
+    {{/reviews}}
+    {{^reviews}}
+        <p id="infoText">No hay reviews aún.</p>
     {{/reviews}}
     {{/movie}}
     <p></p>

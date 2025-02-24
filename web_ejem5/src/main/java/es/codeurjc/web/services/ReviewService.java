@@ -16,7 +16,7 @@ public class ReviewService {
 	private AtomicLong nextId = new AtomicLong();
 
 	public ReviewService() {
-		//save(new Review("Pepe", "Vendo moto", "Barata, barata"));
+		save(new Review("Pepe", "Vendo moto"));
 	}
 
 	public Collection<Review> findAll() {

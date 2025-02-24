@@ -1,7 +1,11 @@
-<!DOCTYPE html>
-<html>
+{{>header_template}}
     <body>
-        <h1>¡Actor eliminado!</h1>
-        <button onclick="window.location.href='/castList';">Volver a la lista de actores</button>
-    </body>
-</html>
+        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">Cambios guardados</a>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                </div>
+            </div>
+        </nav>
+        <h1 id="infoText">Actor eliminado.</h1>
+    {{>backToHome_template}}

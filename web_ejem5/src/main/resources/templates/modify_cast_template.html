@@ -1,30 +1,37 @@
-<html>
+{{>header_template}}
 
 <body>
-    <h1>Nuevo actor</h1>
-    <h3>Rellene con los datos del actor a añadir</h3>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Modificar actor</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
+    <h2>Rellene con los datos del actor a modificar</h2>
     {{#cast}}
     <form action="/cast/{{id}}/modify" method="post" enctype="multipart/form-data">
-        <label>Nombre:</label>
+        <label id="labelText">Nombre:</label>
         <input type='text' name='castName' value="{{name}}"><br>
-        <label>Biografía:</label>
-        <textarea name='castBiography' rows=5 cols=40>{{biography}}</textarea><br>
-        <label>Fecha nacimiento:</label>
+        <div id="textAreaToAlign">
+            <label id="labelText">Biografía:</label>
+            <textarea name='castBiography' rows=5 cols=40>{{biography}}</textarea><br>
+        </div>
+        <label id="labelText">Fecha nacimiento:</label>
         <input type='date' name='castBirthDate'><br>
-        <label>País de origen:</label>
-        <input type='text' name='castOriginCountry' value="{{originCountry}}"/>
-        <label>Películas: </label>
+        <label id="labelText">País de origen:</label>
+        <input type='text' name='castOriginCountry' value="{{originCountry}}" /><br>
+        <label id="labelText">Películas: </label>
         <select class="form-select" name="castMovies" multiple>
             {{#allMovies}}
             <option value="{{ id }}">{{name}}</option>
             {{/allMovies}}
-        </select>
-        <label>Imagen:</label>
-        <input type='file' name='castImage' accept=".png, .jpg, .jpeg" />
+        </select><br>
+        <label id="labelText">Imagen:</label>
+        <input type='file' name='castImage' accept=".png, .jpg, .jpeg" /><br>
 
         <input type='submit' name='Añadir actor'><br>
     </form>
     {{/cast}}
-</body>
+
     {{>backToHome_template}}
-</html>

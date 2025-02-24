@@ -1,31 +1,36 @@
-<html>
+{{>header_template}}
 
 <body>
-
-    <h1>Subir película</h1>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Editar película</a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            </div>
+        </div>
+    </nav>
     <h3>Rellene con los datos de la película a subir</h3>
     {{#movie}}
     <form action="/movie/{{id}}/modify" method="post" enctype="multipart/form-data">
-        <label>Título:</label>
+        <label id="labelText">Título:</label>
         <input type='text' name='movieName' value="{{name}}"><br>
-        <label>Argumento:</label>
+        <div id="textAreaToAlign">
+        <label id="labelText">Argumento:</label>
         <textarea name='movieArgument' rows=5 cols=40>{{argument}}</textarea><br>
-        <label>Fecha estreno:</label>
+        </div>
+        <label id="labelText">Fecha estreno:</label>
         <input type='number' name='movieYear' value="{{year}}"><br>
-        <label>Actores: </label>
+        <label id="labelText">Actores: </label>
         <select class="form-select" name="movieCast" multiple>
             {{#allCast}}
             <option value="{{ id }}">{{name}}</option>
             {{/allCast}}
-        </select>
-        <label>Póster:</label>
-        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" />
-        <label>Enlace al tráiler de YouTube:</label>
+        </select><br>
+        <label id="labelText">Póster:</label>
+        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
+        <label id="labelText">Enlace al tráiler de YouTube:</label>
         <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler" value="{{trailer}}"><br>
         <input type='submit' name='Subir película'><br>
     </form>
     {{/movie}}
-</body>
-{{>backToHome_template}}
 
-</html>
+    {{>backToHome_template}}
