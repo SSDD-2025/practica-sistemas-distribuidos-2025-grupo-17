@@ -1,0 +1,28 @@
+<html>
+    {{>header_template}}
+<body>
+
+	<h1>Página de inicio</h1>
+	
+	<h2>Actores</h2>
+	<button onclick="window.location.href='/cast/new';">Añadir actor</button>
+	{{#cast}}
+	<ul>
+		<li>
+			<img src="/cast/{{id}}/image"></img>
+			<a href="/cast/{{id}}">{{name}}</a>
+		</li>
+	</ul>
+	{{/cast}}
+
+	{{^cast}}
+	<p>No hay actores todavía.</p>
+	{{/cast}}
+	
+	
+
+	<a href="/">Back</a>
+
+</body>
+
+</html>

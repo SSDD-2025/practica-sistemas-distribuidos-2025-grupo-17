@@ -1,0 +1,13 @@
+#fieldName{
+    color: #264097;
+    font-size: 0.85em;
+    font-family: Verdana, "Times New Roman", Georgia, serif;
+    font-weight: bold;
+    line-height: 30px;
+    text-shadow: 1px 1px #42098367;
+}
+
+#submitButton{
+    font-weight: bold;
+    color:#161064;
+}
