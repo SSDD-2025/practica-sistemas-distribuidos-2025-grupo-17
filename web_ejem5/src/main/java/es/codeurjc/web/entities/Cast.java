@@ -1,7 +1,6 @@
 package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,8 +12,7 @@ public class Cast {
 
     private String name;
     private String biography;
-    private Date birthDate;
-    private String workField; // Actor, director, guionista, etc.
+    private String birthDate;
     private String originCountry;
     private List<Movie> movies;
 
@@ -22,11 +20,10 @@ public class Cast {
     protected Cast() {}
 
     // Constructor
-    public Cast(String name, String biography, Date birthDate, String workField, String originCountry, List<Movie> movies) {
+    public Cast(String name, String biography, String birthDate, String originCountry, List<Movie> movies) {
         this.name = name;
         this.biography = biography;
         this.birthDate = birthDate;
-        this.workField = workField;
         this.originCountry = originCountry;
         this.movies=movies;
     }
@@ -64,20 +61,12 @@ public class Cast {
         this.biography = biography;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getWorkField() {
-        return workField;
-    }
-
-    public void setWorkField(String workField) {
-        this.workField = workField;
     }
 
     public String getOriginCountry() {

@@ -2,6 +2,7 @@ package es.codeurjc.web.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,6 +36,12 @@ public class CastController {
     @Autowired
 	private MoviesService moviesService;
 
+	@GetMapping("/castList")
+	public String showCastList(Model model){
+		model.addAttribute("cast", castService.findAll());
+		return "castList_template";
+	}
+
     @GetMapping("/cast/{id}")
 	public String showCast(Model model, @PathVariable long id) {
 
@@ -58,21 +65,23 @@ public class CastController {
 	}
 	
 	@PostMapping("/cast/new")
-	public String newCast(Model model, @RequestParam List<Long> castMovies,@RequestParam String castName, @RequestParam String castBiography,@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
-
-		List<Movie> moviesList=new ArrayList<Movie>();
-		for (int i=0;i<castMovies.size();i++){
-			moviesList.add(moviesService.findById(castMovies.get(i)));
+	public String newCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,@RequestParam String castName, @RequestParam String castBiography,@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    	String castBirthDateCorrect = sdf.format(castBirthDate);
+		Cast cast;
+		if (castMovies!=null){
+			List<Movie> moviesList=new ArrayList<Movie>();
+			for (int i=0;i<castMovies.size();i++){
+				moviesList.add(moviesService.findById(castMovies.get(i)));
+			}
+			cast=new Cast(castName,castBiography,castBirthDateCorrect,castOriginCountry,moviesList);
+		} else{
+			cast=new Cast(castName,castBiography,castBirthDateCorrect,castOriginCountry,null);
 		}
-        Cast cast=new Cast(castName,castBiography,castBirthDate,castWorkfield,castOriginCountry,moviesList);
 		castService.save(cast);
 		
 		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
-
-		model.addAttribute("movies", moviesService.findAll());
-		model.addAttribute("cast",castService.findAll());
-
-		return "home_template";
+		return "cast_created_template";
 	}
 
     @PostMapping("/cast/{id}/delete")
@@ -82,34 +91,41 @@ public class CastController {
 
 		imageService.deleteImage(CAST_IMAGES_FOLDER, id);
 
-		model.addAttribute("movies", moviesService.findAll());
-		model.addAttribute("cast",castService.findAll());
-
-		return "home_template";
+		return "cast_deleted_template";
 	}
 
 	@GetMapping("/cast/{id}/modify")
 	public String modifyCastForm(Model model,@PathVariable long id) {
 		Cast cast=castService.findById(id);
 		model.addAttribute("cast",cast);
+		model.addAttribute("allMovies", moviesService.findAll());
 		return "modify_cast_template";
 	}
 	
 	@PostMapping("/cast/{id}/modify")
-	public String modifyCast(Model model, @PathVariable long id,@RequestParam String castName, @RequestParam String castBiography,@RequestParam Date castBirthDate, @RequestParam String castWorkfield, @RequestParam String originCountry, MultipartFile image) throws IOException {
-
-        Cast cast=castService.findById(id);
+	public String modifyCast(Model model,@RequestParam(value = "castMovies", required = false) List<Long> castMovies,@PathVariable long id,@RequestParam String castName, @RequestParam String castBiography,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate, @RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    	String castBirthDateCorrect = sdf.format(castBirthDate);
+		Cast cast=castService.findById(id);
+		if (castMovies!=null){
+			List<Movie> moviesList=new ArrayList<Movie>();
+			for (int i=0;i<castMovies.size();i++){
+				moviesList.add(moviesService.findById(castMovies.get(i)));
+			}
+			cast.setMovies(moviesList);
+		} else{
+			cast.setMovies(null);
+		}
 		cast.setBiography(castBiography);
-		cast.setBirthDate(castBirthDate);
+		cast.setBirthDate(castBirthDateCorrect);
 		cast.setName(castName);
-		cast.setOriginCountry(originCountry);
-		cast.setWorkField(castWorkfield);
+		cast.setOriginCountry(castOriginCountry);
 		
 		imageService.deleteImage(CAST_IMAGES_FOLDER, cast.getId());
-		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), image);
+		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
 
 		model.addAttribute("cast",cast);
 
-		return "cast_template";
+		return "cast_modified_template";
 	}
 }

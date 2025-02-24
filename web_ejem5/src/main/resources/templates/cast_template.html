@@ -1,10 +1,10 @@
 <html>
-
+    {{>header_template}}
 <body>
     {{#cast}}
         <h1>{{name}}</h1>
         <img src="/movie/{{id}}image"></img>
-        <p>Campo de trabajo: {{workField}}</p>
+        <p>Fecha de nacimiento: {{birthDate}}</p>
         <p>País de origen: {{originCountry}}</p>
         <h3>Biografía</h3>
         <p>{{biography}}</p>

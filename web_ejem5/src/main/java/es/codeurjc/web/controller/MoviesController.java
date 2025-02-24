@@ -56,21 +56,22 @@ public class MoviesController {
 	}
 	
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-
-		List<Cast> castList=new ArrayList<Cast>();
-		for (int i=0;i<movieCast.size();i++){
-			castList.add(castService.findById(movieCast.get(i)));
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+		Movie movie;
+		if (movieCast!=null){
+			List<Cast> castList=new ArrayList<Cast>();
+			for (int i=0;i<movieCast.size();i++){
+				castList.add(castService.findById(movieCast.get(i)));
+			}
+			movie=new Movie(movieName,movieArgument,movieYear,castList,movieTrailer);
+		} else{
+			movie=new Movie(movieName,movieArgument,movieYear,null,movieTrailer);
 		}
-		Movie movie=new Movie(movieName,movieArgument,movieYear,castList,movieTrailer);
 		moviesService.save(movie);
 		
 		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
 
-		model.addAttribute("movies", moviesService.findAll());
-		model.addAttribute("cast",castService.findAll());
-
-		return "home_template";
+		return "movie_created_template";
 	}
 
 	@PostMapping("/movie/{id}/delete")
@@ -80,10 +81,7 @@ public class MoviesController {
 
 		imageService.deleteImage(MOVIES_IMAGES_FOLDER, id);
 
-		model.addAttribute("movies", moviesService.findAll());
-		model.addAttribute("cast",castService.findAll());
-
-		return "home_template";
+		return "movie_deleted_template";
 	}
 
 	@GetMapping("/movie/{id}/modify")
@@ -95,24 +93,27 @@ public class MoviesController {
 	}
 	
 	@PostMapping("/movie/{id}/modify")
-	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile image) throws IOException {
-
+	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
 		Movie movie=moviesService.findById(id);
-		List<Cast> castList=new ArrayList<Cast>();
-		for (int i=0;i<movieCast.size();i++){
-			castList.add(castService.findById(movieCast.get(i)));
+		if (movieCast!=null){
+			List<Cast> castList=new ArrayList<Cast>();
+			for (int i=0;i<movieCast.size();i++){
+				castList.add(castService.findById(movieCast.get(i)));
+			}
+			movie.setCast(castList);
+		} else{
+			movie.setCast(null);
 		}
 		movie.setArgument(movieArgument);
-		movie.setCast(castList);
 		movie.setName(movieName);
 		movie.setYear(movieYear);
 		movie.setTrailer(movieTrailer);
 		
 		imageService.deleteImage(MOVIES_IMAGES_FOLDER, movie.getId());
-		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), image);
+		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
 
-		model.addAttribute("movie", movie);
+		model.addAttribute("movie", moviesService.findById(id));
 
-		return "movie_template";
+		return "movie_modified_template";
 	}
 }

@@ -1,10 +1,10 @@
 <html>
-
+    {{>header_template}}
 <body>
     {{#movie}}
     <h1>{{name}}</h1>
     <img src="/movie/{{id}}/image"></img>
-    <p>{{year}}</p>
+    <p>Año de lanzamiento: {{year}}</p>
     <h3>Sinopsis</h3>
     <p>{{argument}}</p>
     <h3>Reparto</h3>
@@ -23,6 +23,10 @@
     {{^trailer}}
     <p>No hay trailer disponible</p>
     {{/trailer}}
+    <form action="/movie/{{id}}/delete" method="post">
+		<input type='submit' value='Borrar película'/>
+	</form>
+    <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
     <h3>Reseñas</h3>
     <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
     {{#reviews}}
@@ -36,10 +40,6 @@
         </li>
     </ul>
     {{/reviews}}
-    <form action="/movie/{{id}}/delete" method="post">
-		<input type='submit' value='Borrar película'/>
-	</form>
-    <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
     {{/movie}}
     <p></p>
     <a href="/">Back</a>

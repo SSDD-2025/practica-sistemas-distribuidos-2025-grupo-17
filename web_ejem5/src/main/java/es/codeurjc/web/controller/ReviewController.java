@@ -22,6 +22,12 @@ public class ReviewController {
     @Autowired
 	private ReviewService reviewService;
 
+	@GetMapping("/myReviews")
+	public String  showMyReviews(Model model) {
+		model.addAttribute("reviews", reviewService.findAll());
+		return "my_reviews_template.html";
+	}
+
     @GetMapping("/movie/{id}/review/new")
 	public String newReviewForm(Model model, @PathVariable int id) {
 		model.addAttribute("movie", moviesService.findById(id));
@@ -38,7 +44,7 @@ public class ReviewController {
 		
 		model.addAttribute("movie", movie);
 
-		return "movie_template";
+		return "review_created_template";
 	}
 
     @PostMapping("/movie/{id}/review/{idReview}/delete")
@@ -50,6 +56,6 @@ public class ReviewController {
 
 		model.addAttribute("movie", movie);
 
-		return "movie_template";
+		return "review_deleted_template";
 	}
 }
