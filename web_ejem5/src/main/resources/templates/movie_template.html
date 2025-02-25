@@ -22,16 +22,19 @@
         </li>
     </ul>
     {{/cast}}
+    {{^cast}}
+        <p id="infoText">No hay cast disponible.</p>
+    {{/cast}}
     <h3>Tráiler</h3>
     {{#trailer}}
-    <a href="{{trailer}}" target="_blank">Trailer</a>
+    <a href="{{trailer}}" target="_blank">Ver el tráiler de la película "{{name}}" </a>
     {{/trailer}}
     {{^trailer}}
-    <p>No hay trailer disponible</p>
+    <p id="infoText">No hay trailer disponible</p><br>
     {{/trailer}}
     <form action="/movie/{{id}}/delete" method="post">
 		<input type='submit' value='Borrar película'/>
-	</form>
+	</form><br>
     <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
     <h3>Reseñas</h3>
     <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
@@ -50,8 +53,4 @@
         <p id="infoText">No hay reviews aún.</p>
     {{/reviews}}
     {{/movie}}
-    <p></p>
-    <a href="/">Back</a>
-</body>
-
-</html>
+    {{>backToHome_template}}

@@ -10,7 +10,7 @@
     </nav>
     {{>options_template}}
     {{#user}}
-        <h1>Mis reseñas:</h1>
+        <h2>Mis reseñas:</h1>
         {{#reviews}}
             <ul>
                 <li>
@@ -20,8 +20,11 @@
             </ul>
         {{/reviews}}
         {{^reviews}}
-            <p id="infoText">No hay reseñas todavía</p>
+            <p id="infoText">No hay reseñas tuyas todavía</p>
         {{/reviews}}
+        <button onclick="window.location.href='/review/new';">Añadir review</button><br>
     {{/user}}
-    <button onclick="window.location.href='/review/new';">Añadir review</button><br>
+    {{^user}}
+        <p id ="infoText">Usuarios aún no implementados.</p>
+    {{/user}}
     {{>backToHome_template}}

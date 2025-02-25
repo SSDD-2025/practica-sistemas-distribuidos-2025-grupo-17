@@ -1,5 +1,7 @@
 package es.codeurjc.web.entities;
 import jakarta.persistence.Entity;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
 public class User {
 
 	@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
     private String password;

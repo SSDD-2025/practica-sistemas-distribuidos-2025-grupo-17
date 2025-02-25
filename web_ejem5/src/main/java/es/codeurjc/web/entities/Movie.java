@@ -7,6 +7,7 @@ import java.util.List;
 public class Movie {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;

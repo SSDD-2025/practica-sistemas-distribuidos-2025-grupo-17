@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
+//import es.codeurjc.web.repository.*;
 
 @Controller
 public class ReviewController {
+
+	//@Autowired
+	//private ReviewRepository reviews;
 
     @Autowired
 	private MoviesService moviesService;
