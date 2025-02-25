@@ -33,9 +33,6 @@ public class MoviesController {
 	@Autowired
 	private ImageService imageService;
 
-	@Autowired
-	private ReviewService reviewService;
-
 	@GetMapping("/movies/{id}")
 	public String showMovie(Model model, @PathVariable long id) {
 

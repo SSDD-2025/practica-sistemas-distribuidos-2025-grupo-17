@@ -25,10 +25,6 @@ public class UserController {
     @Autowired
 	private UserService userService;
 
-	@Autowired
-
-	private ReviewService reviewService;
-
     @GetMapping("/user/{id}")
 	public String showUser(Model model, @PathVariable long id) {
 
@@ -50,7 +46,6 @@ public class UserController {
 		User user=new User(userName,userPassword,userAdmin);
 		userService.save(user);
 
-		model.addAttribute("review",reviewService.findAll());
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast",castService.findAll());
 
@@ -62,7 +57,6 @@ public class UserController {
 
 		userService.deleteById(id);
 
-		model.addAttribute("review",reviewService.findAll());
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast",castService.findAll());
 
