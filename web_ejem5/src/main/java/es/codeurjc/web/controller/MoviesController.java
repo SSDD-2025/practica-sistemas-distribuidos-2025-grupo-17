@@ -2,6 +2,7 @@ package es.codeurjc.web.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,28 +53,34 @@ public class MoviesController {
         return imageService.createResponseFromImage(MOVIES_IMAGES_FOLDER, id);		
     }
 
-    @GetMapping("/movie/new")
-    public String newMovieForm(Model model) {
-        model.addAttribute("cast", castService.findAll());
-        return "new_movie_template";
-    }
-    
-    @PostMapping("/movie/new")
-    public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-        Movie movie;
-        if (movieCast != null) {
-            List<Cast> castList = new ArrayList<Cast>();
-            for (int i = 0; i < movieCast.size(); i++) {
-                castList.add(castService.findById(movieCast.get(i)));
-            }
-            movie = new Movie(movieName, movieArgument, movieYear, castList, movieTrailer);
-        } else {
-            movie = new Movie(movieName, movieArgument, movieYear, null, movieTrailer);
-        }
-        moviesService.save(movie);
-        imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
-        return "movie_created_template";
-    }
+	@GetMapping("/movie/new")
+	public String newMovieForm(Model model) {
+		model.addAttribute("cast",castService.findAll());
+		return "new_movie_template";
+	}
+	
+	@PostMapping("/movie/new")
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+		Movie movie;
+		if (movieCast!=null){
+			List<Cast> castList=new ArrayList<Cast>();
+			for (int i=0;i<movieCast.size();i++){
+				Optional <Cast> op = castService.findById(movieCast.get(i));
+				if(op.isPresent()){
+					Cast cast = op.get();
+					castList.add(cast);
+				}
+			}
+			movie=new Movie(movieName,movieArgument,movieYear,castList,movieTrailer);
+		} else{
+			movie=new Movie(movieName,movieArgument,movieYear,null,movieTrailer);
+		}
+		moviesService.save(movie);
+		
+		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
+
+		return "movie_created_template";
+	}
 
     @PostMapping("/movie/{id}/delete")
     public String deleteMovie(Model model, @PathVariable long id) throws IOException {
@@ -82,39 +89,40 @@ public class MoviesController {
         return "movie_deleted_template";
     }
 
-    @GetMapping("/movie/{id}/modify")
-    public String modifyMovieForm(Model model, @PathVariable long id) {
-        Movie movie = moviesService.findById(id);
-        if (movie == null) {
-            return "redirect:/error?status=404";
-        }
-        model.addAttribute("movie", movie);
-        model.addAttribute("allCast", castService.findAll());
-        return "modify_movie_template";
-    }
-    
-    @PostMapping("/movie/{id}/modify")
-    public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument, @RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-        Movie movie = moviesService.findById(id);
-        if (movie == null) {
-            return "redirect:/error?status=404";
-        }
-        if (movieCast != null) {
-            List<Cast> castList = new ArrayList<Cast>();
-            for (int i = 0; i < movieCast.size(); i++) {
-                castList.add(castService.findById(movieCast.get(i)));
-            }
-            movie.setCast(castList);
-        } else {
-            movie.setCast(null);
-        }
-        movie.setArgument(movieArgument);
-        movie.setName(movieName);
-        movie.setYear(movieYear);
-        movie.setTrailer(movieTrailer);
-        imageService.deleteImage(MOVIES_IMAGES_FOLDER, movie.getId());
-        imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
-        model.addAttribute("movie", moviesService.findById(id));
-        return "movie_modified_template";
-    }
+	@GetMapping("/movie/{id}/modify")
+	public String modifyMovieForm(Model model, @PathVariable long id) {
+		Movie movie=moviesService.findById(id);
+		model.addAttribute("movie", movie);
+		model.addAttribute("allCast", castService.findAll());
+		return "modify_movie_template";
+	}
+	
+	@PostMapping("/movie/{id}/modify")
+	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+		Movie movie=moviesService.findById(id);
+		if (movieCast!=null){
+			List<Cast> castList=new ArrayList<Cast>();
+			for (int i=0;i<movieCast.size();i++){
+				Optional <Cast> op = castService.findById(movieCast.get(i));
+				if(op.isPresent()){
+					Cast cast = op.get();
+					castList.add(cast);
+				}
+			}
+			movie.setCast(castList);
+		} else{
+			movie.setCast(null);
+		}
+		movie.setArgument(movieArgument);
+		movie.setName(movieName);
+		movie.setYear(movieYear);
+		movie.setTrailer(movieTrailer);
+		
+		imageService.deleteImage(MOVIES_IMAGES_FOLDER, movie.getId());
+		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
+
+		model.addAttribute("movie", moviesService.findById(id));
+
+		return "movie_modified_template";
+	}
 }

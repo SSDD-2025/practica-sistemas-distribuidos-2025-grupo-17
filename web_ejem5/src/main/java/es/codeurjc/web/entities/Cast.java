@@ -14,7 +14,8 @@ public class Cast {
     private String biography;
     private String birthDate;
     private String originCountry;
-    @ManyToMany
+
+    @ManyToMany()
     private List<Movie> movies;
 
     // Constructor for JPA
@@ -22,6 +23,7 @@ public class Cast {
 
     // Constructor
     public Cast(String name, String biography, String birthDate, String originCountry, List<Movie> movies) {
+        super();
         this.name = name;
         this.biography = biography;
         this.birthDate = birthDate;
