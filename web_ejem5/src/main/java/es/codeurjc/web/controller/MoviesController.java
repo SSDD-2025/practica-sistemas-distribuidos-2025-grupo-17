@@ -28,6 +28,9 @@ public class MoviesController {
 	private MoviesService moviesService;
 	
 	@Autowired
+	private ReviewService reviewService;
+
+	@Autowired
 	private CastService castService;
 
 	@Autowired
@@ -39,6 +42,7 @@ public class MoviesController {
 		Movie movie = moviesService.findById(id);
 
 		model.addAttribute("movie", movie);
+		model.addAttribute("movieReviews", reviewService.findByMovie(movie));
 
 		return "movie_template";
 	}

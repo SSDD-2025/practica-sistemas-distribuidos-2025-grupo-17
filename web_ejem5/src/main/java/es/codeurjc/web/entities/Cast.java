@@ -14,6 +14,7 @@ public class Cast {
     private String biography;
     private String birthDate;
     private String originCountry;
+    @ManyToMany
     private List<Movie> movies;
 
     // Constructor for JPA

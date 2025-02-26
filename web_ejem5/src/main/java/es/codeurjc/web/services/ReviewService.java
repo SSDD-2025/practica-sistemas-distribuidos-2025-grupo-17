@@ -1,43 +1,33 @@
 package es.codeurjc.web.services;
 
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
+import es.codeurjc.web.repository.ReviewRepository;
 
 @Service
 public class ReviewService {
 
-	private ConcurrentMap<Long, Review> reviews = new ConcurrentHashMap<>();
-	private AtomicLong nextId = new AtomicLong();
+	@Autowired 
+	private ReviewRepository reviewRepository;
 
-	public ReviewService() {
-		save(new Review("Pepe", "Vendo moto",null));
+	public Collection<Review> findByMovie(Movie movie){
+		return reviewRepository.findByMovie(movie);
 	}
-
 	public Collection<Review> findAll() {
-		return reviews.values();
-	}
-
-	public Review findById(long id) {
-		return reviews.get(id);
+		return reviewRepository.findAll();
 	}
 
 	public void save(Review review) {
-
-		long id = nextId.getAndIncrement();
-
-		review.setId(id);
-
-		reviews.put(id, review);
+		reviewRepository.save(review);
 	}
 
 	public void deleteById(long id) {
-		reviews.remove(id);
+		reviewRepository.deleteById(id);
 	}
 
 }

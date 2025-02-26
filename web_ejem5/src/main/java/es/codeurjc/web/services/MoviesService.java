@@ -1,42 +1,38 @@
 package es.codeurjc.web.services;
 
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.web.entities.Movie;
+import es.codeurjc.web.repository.MoviesRepository;
 
 @Service
 public class MoviesService {
 
-	private ConcurrentMap<Long, Movie> movies = new ConcurrentHashMap<>();
-	private AtomicLong nextId = new AtomicLong();
+	@Autowired
+	private MoviesRepository moviesRepository;
 
 	public MoviesService() {
 		save(new Movie("Pepe", "Vendo moto", 5,null,""));
 	}
 
 	public Collection<Movie> findAll() {
-		return movies.values();
+		return moviesRepository.findAll();
 	}
 
-	public Movie findById(long id) {
-		return movies.get(id);
+	public Optional<Movie> findById(long id) {
+		return moviesRepository.findById(id);
 	}
 
 	public void save(Movie movie) {
-
-		long id = nextId.getAndIncrement();
-
-		movie.setId(id);
-		movies.put(id, movie);
+		moviesRepository.save(movie);
 	}
 
 	public void deleteById(long id) {
-		movies.remove(id);
+		moviesRepository.deleteById(id);
 	}
 
 }

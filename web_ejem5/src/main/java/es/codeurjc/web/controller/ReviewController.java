@@ -17,9 +17,6 @@ import es.codeurjc.web.entities.*;
 @Controller
 public class ReviewController {
 
-	//@Autowired
-	//private ReviewRepository reviews;
-
     @Autowired
 	private MoviesService moviesService;
 
@@ -44,8 +41,6 @@ public class ReviewController {
 		Movie movie=moviesService.findById(id);
 		Review review=new Review(reviewTitle,reviewText,movie);
 		reviewService.save(review);
-		
-		model.addAttribute("movie", movie);
 
 		return "review_created_template";
 	}

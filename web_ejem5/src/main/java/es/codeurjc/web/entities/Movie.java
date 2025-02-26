@@ -7,10 +7,11 @@ import java.util.List;
 public class Movie {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;
+    @ManyToMany
     private List<Cast> cast;
     private String argument;
     private int year;

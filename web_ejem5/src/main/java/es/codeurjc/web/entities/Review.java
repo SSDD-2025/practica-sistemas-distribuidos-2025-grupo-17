@@ -1,7 +1,7 @@
 package es.codeurjc.web.entities;
 import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 public class Review {
 
 	@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private long idReview;
  	
     @ManyToOne
@@ -18,7 +18,7 @@ public class Review {
     private String text;
     
     //Constructor JPA
-    //protected Review() {}
+    protected Review() {}
 
     public Review(String title,String text,Movie movie){
         this.title=title;
