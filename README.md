@@ -57,6 +57,58 @@
 ## ENTITIES DIAGRAM 📈
 >It can be of the database or a UML diagram of the Java classes
 
+> [!NOTE]
+TODO: The following code will create an uncompleted entities diagram on the webpage: https://dbdiagram.io/d
+
+### Code:
+Table movies {
+  id integer [primary key]
+  name varchar
+  argument text
+  release_date date
+  mark float
+  platform varchar
+  pegi integer
+  duration integer
+  origin_country varchar
+  genres text [note: 'List of genres']
+  prizes text [note: 'List of prizes won']
+}
+
+Table cast {
+  id integer [primary key]
+  name varchar
+  biography text
+  birth_date date
+  work_field varchar [note: 'Actor, director, etc.']
+  origin_country varchar
+  awards text [note: 'List of awards']
+}
+
+Table users {
+  id integer [primary key]
+  username varchar
+  password varchar
+  email varchar
+  profile_picture varchar
+  role varchar [note: 'Anonymous, Registered, Admin']
+  created_at timestamp
+}
+
+Table reviews {
+  id integer [primary key]
+  user_id integer [ref: > users.id]
+  movie_id integer [ref: > movies.id]
+  type varchar [note: 'Rating or full review']
+  rating float
+  title varchar [note: 'Only if full review']
+  body text [note: 'Only if full review']
+  likes integer [default: 0]
+  created_at timestamp
+}
+
+
+
 
 ## CLASS DIAGRAM AND TEMPLATES 📈
 >Diagram of the application classes. Must specify what classes are "@Controller,
