@@ -14,7 +14,6 @@ public class Movie {
     private List<Cast> cast;
     private String argument;
     private int year;
-    private List<Review> reviews;
     private String trailer;
 
     // Constructor  JPA
@@ -68,14 +67,6 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 
     public String getTrailer() {

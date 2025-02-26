@@ -41,10 +41,9 @@ public class ReviewController {
 	@PostMapping("/movie/{id}/review/new")
 	public String newReview(Model model,@PathVariable int id, @RequestParam String reviewTitle, @RequestParam String reviewText) throws IOException {
 
-		Review review=new Review(reviewTitle,reviewText);
+		Movie movie=moviesService.findById(id);
+		Review review=new Review(reviewTitle,reviewText,movie);
 		reviewService.save(review);
-
-		Movie movie = moviesService.findById(id);
 		
 		model.addAttribute("movie", movie);
 
