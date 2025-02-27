@@ -28,20 +28,20 @@ public class CastController {
 
 	private static final String CAST_IMAGES_FOLDER = "cast_images";
 
-    @Autowired
-    private CastService castService;
+	@Autowired
+	private CastService castService;
 
-    @Autowired
-    private ImageService imageService;
+	@Autowired
+	private ImageService imageService;
 
-    @Autowired
-    private MoviesService moviesService;
+	@Autowired
+	private MoviesService moviesService;
 
-    @GetMapping("/castList")
-    public String showCastList(Model model){
-        model.addAttribute("cast", castService.findAll());
-        return "castList_template";
-    }
+	@GetMapping("/castList")
+	public String showCastList(Model model) {
+		model.addAttribute("cast", castService.findAll());
+		return "castList_template";
+	}
 
 	@GetMapping("/cast/{id}")
 	public String showCast(Model model, @PathVariable long id) {
@@ -52,14 +52,14 @@ public class CastController {
 			model.addAttribute("cast", cast);
 			return "cast_template";
 		} else {
-			return "cast_not_found_template";
+			return "redirect:/error?status=404&resource=cast";
 		}
 	}
 
-    @GetMapping("/cast/{id}/image")	
-    public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws MalformedURLException {
-        return imageService.createResponseFromImage(CAST_IMAGES_FOLDER, id);		
-    }
+	@GetMapping("/cast/{id}/image")
+	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws MalformedURLException {
+		return imageService.createResponseFromImage(CAST_IMAGES_FOLDER, id);
+	}
 
 	@GetMapping("/cast/new")
 	public String newCastForm(Model model) {
@@ -78,7 +78,11 @@ public class CastController {
 		if (castMovies != null) {
 			List<Movie> moviesList = new ArrayList<Movie>();
 			for (int i = 0; i < castMovies.size(); i++) {
-				moviesList.add(moviesService.findById(castMovies.get(i)));
+				Optional<Movie> op = moviesService.findById(castMovies.get(i));
+				if (op.isPresent()) {
+					Movie movie = op.get();
+					moviesList.add(movie);
+				}
 			}
 			cast = new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry, moviesList);
 		} else {
@@ -90,12 +94,17 @@ public class CastController {
 		return "cast_created_template";
 	}
 
-    @PostMapping("/cast/{id}/delete")
-    public String deleteCast(Model model, @PathVariable long id) throws IOException {
-        castService.deleteById(id);
-        imageService.deleteImage(CAST_IMAGES_FOLDER, id);
-        return "cast_deleted_template";
-    }
+	@PostMapping("/cast/{id}/delete")
+	public String deleteCast(Model model, @PathVariable long id) throws IOException {
+		Optional<Cast> op = castService.findById(id);
+		if (op.isPresent()) {
+			castService.deleteById(id);
+			imageService.deleteImage(CAST_IMAGES_FOLDER, id);
+			return "cast_deleted_template";
+		} else {
+			return "redirect:/error?status=404";
+		}
+	}
 
 	@GetMapping("/cast/{id}/modify")
 	public String modifyCastForm(Model model, @PathVariable long id) {
@@ -106,7 +115,7 @@ public class CastController {
 			model.addAttribute("allMovies", moviesService.findAll());
 			return "modify_cast_template";
 		} else {
-			return "cast_not_found_template";
+			return "redirect:/error?status=404";
 		}
 	}
 
@@ -122,7 +131,11 @@ public class CastController {
 			List<Movie> moviesList = new ArrayList<Movie>();
 			Cast cast = op.get();
 			for (int i = 0; i < castMovies.size(); i++) {
-				moviesList.add(moviesService.findById(castMovies.get(i)));
+				Optional<Movie> op2 = moviesService.findById(castMovies.get(i));
+				if (op2.isPresent()) {
+					Movie movie = op2.get();
+					moviesList.add(movie);
+				}
 			}
 			cast.setMovies(moviesList);
 			cast.setBiography(castBiography);
@@ -132,10 +145,9 @@ public class CastController {
 			imageService.deleteImage(CAST_IMAGES_FOLDER, cast.getId());
 			imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
 			model.addAttribute("cast", cast);
-
 			return "cast_modified_template";
 		} else {
-			return "cast_not_found_template";
+			return "redirect:/error?status=404";
 		}
 	}
 }

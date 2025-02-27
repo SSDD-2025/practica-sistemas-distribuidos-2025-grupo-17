@@ -2,7 +2,6 @@ package es.codeurjc.web.services;
 
 import java.util.Optional;
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +11,6 @@ import es.codeurjc.web.repository.CastRepository;
 
 @Service
 public class CastService {
-
-	private AtomicLong nextId = new AtomicLong();
-
 	@Autowired
 	private CastRepository castRepository;
 

@@ -24,7 +24,7 @@ import es.codeurjc.web.repository.MoviesRepository;
 @Controller
 public class MoviesController {
 
-    private static final String MOVIES_IMAGES_FOLDER = "movies_images";
+	private static final String MOVIES_IMAGES_FOLDER = "movies_images";
 
 	@Autowired
 	private MoviesService moviesService;
@@ -49,35 +49,37 @@ public class MoviesController {
 		}
     }
 
-    @GetMapping("/movie/{id}/image")	
-    public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws MalformedURLException {
-        return imageService.createResponseFromImage(MOVIES_IMAGES_FOLDER, id);		
-    }
+	@GetMapping("/movie/{id}/image")
+	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws MalformedURLException {
+		return imageService.createResponseFromImage(MOVIES_IMAGES_FOLDER, id);
+	}
 
 	@GetMapping("/movie/new")
 	public String newMovieForm(Model model) {
-		model.addAttribute("cast",castService.findAll());
+		model.addAttribute("cast", castService.findAll());
 		return "new_movie_template";
 	}
-	
+
 	@PostMapping("/movie/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,
+			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
+			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
 		Movie movie;
-		if (movieCast!=null){
-			List<Cast> castList=new ArrayList<Cast>();
-			for (int i=0;i<movieCast.size();i++){
-				Optional <Cast> op = castService.findById(movieCast.get(i));
-				if(op.isPresent()){
+		if (movieCast != null) {
+			List<Cast> castList = new ArrayList<Cast>();
+			for (int i = 0; i < movieCast.size(); i++) {
+				Optional<Cast> op = castService.findById(movieCast.get(i));
+				if (op.isPresent()) {
 					Cast cast = op.get();
 					castList.add(cast);
 				}
 			}
-			movie=new Movie(movieName,movieArgument,movieYear,castList,movieTrailer);
-		} else{
-			movie=new Movie(movieName,movieArgument,movieYear,null,movieTrailer);
+			movie = new Movie(movieName, movieArgument, movieYear, castList, movieTrailer);
+		} else {
+			movie = new Movie(movieName, movieArgument, movieYear, null, movieTrailer);
 		}
 		moviesService.save(movie);
-		
+
 		imageService.saveImage(MOVIES_IMAGES_FOLDER, movie.getId(), movieImage);
 
 		return "movie_created_template";
@@ -106,17 +108,20 @@ public class MoviesController {
 			return "movieNotFound_template";
 		}
 	}
-	
+
 	@PostMapping("/movie/{id}/modify")
-	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName, @RequestParam String movieArgument,@RequestParam int movieYear,@RequestParam(value = "movieCast", required = false) List<Long> movieCast, @RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-		Movie oldMovie = moviesRepository.findById(id).orElseThrow();
+	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName,
+			@RequestParam String movieArgument, @RequestParam int movieYear,
+			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
+			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+		Movie oldMovie = moviesService.findById(id).orElseThrow();
 		Movie updatedMovie;
+		List<Cast> castList=new ArrayList<>();
 		if (movieCast!=null){
-			List<Cast> castList=new ArrayList<Cast>();
-			for (int i=0;i<movieCast.size();i++){
-				Optional <Cast> op = castService.findById(movieCast.get(i));
-				if(op.isPresent()){
-					Cast cast = op.get();
+			for (int i = 0; i < movieCast.size(); i++) {
+				Optional<Cast> op2 = castService.findById(movieCast.get(i));
+				if (op2.isPresent()) {
+					Cast cast = op2.get();
 					castList.add(cast);
 				}
 			}
@@ -133,5 +138,6 @@ public class MoviesController {
 		model.addAttribute("movie", moviesService.findById(id));
 
 		return "movie_modified_template";
+
 	}
 }

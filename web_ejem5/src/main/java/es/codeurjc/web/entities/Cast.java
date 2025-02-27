@@ -15,11 +15,12 @@ public class Cast {
     private String birthDate;
     private String originCountry;
 
-    @ManyToMany()
+    @ManyToMany(mappedBy = "cast")
     private List<Movie> movies;
 
     // Constructor for JPA
-    protected Cast() {}
+    protected Cast() {
+    }
 
     // Constructor
     public Cast(String name, String biography, String birthDate, String originCountry, List<Movie> movies) {
@@ -28,7 +29,7 @@ public class Cast {
         this.biography = biography;
         this.birthDate = birthDate;
         this.originCountry = originCountry;
-        this.movies=movies;
+        this.movies = movies;
     }
 
     // Getters and Setters

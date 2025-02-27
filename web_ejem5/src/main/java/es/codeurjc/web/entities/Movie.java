@@ -19,16 +19,18 @@ public class Movie {
     @OneToMany(mappedBy = "movie",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<Review> reviews;
 
-    // Constructor  JPA
-    protected Movie() {}
+    // Constructor JPA
+    protected Movie() {
+    }
 
     // Constructor
     public Movie(String name, String argument, int year, List<Cast> cast, String trailer) {
+        super();
         this.name = name;
         this.argument = argument;
         this.year = year;
-        this.cast=cast;
-        this.trailer=trailer;
+        this.cast = cast;
+        this.trailer = trailer;
     }
 
     public void addReview(Review review) {
