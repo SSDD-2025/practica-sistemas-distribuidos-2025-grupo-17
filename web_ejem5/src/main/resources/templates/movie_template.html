@@ -38,8 +38,7 @@
     <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
     <h3>Reseñas</h3>
     <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
-    {{/movie}}
-    {{#movieReviews}}
+    {{#reviews}}
     <ul>
         <li>
             {{title}}
@@ -49,8 +48,9 @@
             </form>
         </li>
     </ul>
-    {{/movieReviews}}
-    {{^movieReviews}}
+    {{/reviews}}
+    {{^reviews}}
         <p id="infoText">No hay reviews aún.</p>
-    {{/movieReviews}}
+    {{/reviews}}
+    {{/movie}}
     {{>backToHome_template}}

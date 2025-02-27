@@ -16,6 +16,8 @@ public class Movie {
     private String argument;
     private int year;
     private String trailer;
+    @OneToMany(mappedBy = "movie",cascade=CascadeType.ALL,orphanRemoval = true)
+    private List<Review> reviews;
 
     // Constructor  JPA
     protected Movie() {}
@@ -27,6 +29,16 @@ public class Movie {
         this.year = year;
         this.cast=cast;
         this.trailer=trailer;
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setMovie(this);
+    }
+ 
+    public void removeReview(Review review) {
+        reviews.remove(review);
+        review.setMovie(null);
     }
 
     // Getters Setters
@@ -76,6 +88,14 @@ public class Movie {
 
     public void setTrailer(String trailer) {
         this.trailer = trailer;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
 }

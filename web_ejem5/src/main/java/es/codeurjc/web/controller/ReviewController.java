@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
-//import es.codeurjc.web.repository.*;
+import es.codeurjc.web.repository.ReviewRepository;
 
 @Controller
 public class ReviewController {
@@ -22,6 +22,9 @@ public class ReviewController {
 
     @Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@GetMapping("/myReviews")
 	public String  showMyReviews(Model model) {
@@ -38,7 +41,7 @@ public class ReviewController {
 	@PostMapping("/movie/{id}/review/new")
 	public String newReview(Model model,@PathVariable int id, @RequestParam String reviewTitle, @RequestParam String reviewText) throws IOException {
 
-		Movie movie=moviesService.findById(id);
+		Movie movie=moviesService.findById(id).orElseThrow();
 		Review review=new Review(reviewTitle,reviewText,movie);
 		reviewService.save(review);
 
@@ -48,9 +51,10 @@ public class ReviewController {
     @PostMapping("/movie/{id}/review/{idReview}/delete")
 	public String deleteReview(Model model, @PathVariable long id,@PathVariable long idReview) throws IOException {
 
-		reviewService.deleteById(idReview);
-
-		Movie movie = moviesService.findById(id);
+		Movie movie = moviesService.findById(id).orElseThrow();
+		Review review = reviewRepository.findById(idReview).orElseThrow();
+		movie.removeReview(review);
+		reviewRepository.deleteById(idReview);
 
 		model.addAttribute("movie", movie);
 
