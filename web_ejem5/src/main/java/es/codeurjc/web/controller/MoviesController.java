@@ -103,7 +103,8 @@ public class MoviesController {
 	public String modifyMovieForm(Model model, @PathVariable long id) {
 		Optional<Movie> movie=moviesService.findById(id);
 		if (movie.isPresent()){
-			model.addAttribute("movie", movie);
+			Movie mov=movie.get();
+			model.addAttribute("movie", mov);
 			model.addAttribute("allCast", castService.findAll());
 			return "modify_movie_template";
 		} else{
