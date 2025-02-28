@@ -1,43 +1,42 @@
 package es.codeurjc.web.services;
 
 import java.util.Collection;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.web.entities.User;
+import es.codeurjc.web.repository.UserRepository;
 
 @Service
 public class UserService {
 
-	private ConcurrentMap<Long, User> users = new ConcurrentHashMap<>();
-	private AtomicLong nextId = new AtomicLong();
+	@Autowired
+	private UserRepository userRepository;
 
 	public UserService() {
-		//save(new Review("Pepe", "Vendo moto", "Barata, barata"));
+		
 	}
 
 	public Collection<User> findAll() {
-		return users.values();
+		return userRepository.findAll();
 	}
 
-	public User findById(long id) {
-		return users.get(id);
+	public Optional<User> findById(long id) {
+		return userRepository.findById(id);
+	}
+
+	public User findByUsername(String username){
+		return userRepository.findByUsername(username);
 	}
 
 	public void save(User user) {
-
-		long id = nextId.getAndIncrement();
-
-		user.setId(id);
-
-		users.put(id, user);
+		userRepository.save(user);
 	}
 
 	public void deleteById(long id) {
-		users.remove(id);
+		userRepository.deleteById(id);
 	}
 
 }

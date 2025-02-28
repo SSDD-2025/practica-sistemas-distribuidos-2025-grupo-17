@@ -10,12 +10,15 @@
     </nav>
     {{>options_template}}
     {{#user}}
-        <h2>Mis reseñas:</h1>
+        <h2>Reseñas de {{username}}:</h1>
         {{#reviews}}
             <ul>
                 <li>
                     {{title}}
                     {{text}}
+                    <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
+                        <input type='submit' value='Borrar reseña'/>
+                    </form>
                 </li>
             </ul>
         {{/reviews}}

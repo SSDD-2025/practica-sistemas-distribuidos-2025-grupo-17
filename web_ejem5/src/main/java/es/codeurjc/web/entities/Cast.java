@@ -1,9 +1,11 @@
 package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name="castTable")
 public class Cast {
 
     @Id
@@ -23,13 +25,28 @@ public class Cast {
     }
 
     // Constructor
-    public Cast(String name, String biography, String birthDate, String originCountry, List<Movie> movies) {
+    public Cast(String name, String biography, String birthDate, String originCountry) {
         super();
         this.name = name;
         this.biography = biography;
         this.birthDate = birthDate;
         this.originCountry = originCountry;
-        this.movies = movies;
+        movies=new ArrayList<>();
+    }
+
+    public boolean containsMovie(Movie movie){
+        return movies.contains(movie);
+    }
+
+    public void addMovie(Movie newMovie) {
+        movies.add(newMovie);
+        if (!newMovie.containsCast(this)){
+            newMovie.addCast(this);
+        }
+    }
+ 
+    public void removeMovie(Movie deleteMovie) {
+        movies.remove(deleteMovie);
     }
 
     // Getters and Setters

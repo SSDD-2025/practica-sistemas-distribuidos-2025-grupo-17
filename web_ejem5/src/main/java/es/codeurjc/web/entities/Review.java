@@ -16,14 +16,18 @@ public class Review {
     private Movie movie;
 	private String title;
     private String text;
+    @ManyToOne
+    private User author;
     
     //Constructor JPA
     protected Review() {}
 
-    public Review(String title,String text,Movie movie){
+    public Review(String title,String text,Movie movie,User author){
+        super();
         this.title=title;
         this.text=text;
         this.movie=movie;
+        this.author=author;
     }
 
     public long getId() {
@@ -32,6 +36,14 @@ public class Review {
 
     public void setId(long id) {
         this.idReview = id;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Movie getMovie() {

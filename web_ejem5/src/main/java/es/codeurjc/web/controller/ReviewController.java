@@ -17,6 +17,9 @@ import es.codeurjc.web.repository.ReviewRepository;
 @Controller
 public class ReviewController {
 
+	@Autowired
+	private UserService userService;
+
     @Autowired
 	private MoviesService moviesService;
 
@@ -28,7 +31,7 @@ public class ReviewController {
 
 	@GetMapping("/myReviews")
 	public String  showMyReviews(Model model) {
-		model.addAttribute("reviews", reviewService.findAll());
+		model.addAttribute("user", userService.findByUsername("user1"));
 		return "my_reviews_template";
 	}
 
@@ -42,7 +45,8 @@ public class ReviewController {
 	public String newReview(Model model,@PathVariable int id, @RequestParam String reviewTitle, @RequestParam String reviewText) throws IOException {
 
 		Movie movie=moviesService.findById(id).orElseThrow();
-		Review review=new Review(reviewTitle,reviewText,movie);
+		User user=userService.findByUsername("user1");
+		Review review=new Review(reviewTitle,reviewText,movie,user);
 		reviewService.save(review);
 
 		return "review_created_template";
@@ -52,8 +56,10 @@ public class ReviewController {
 	public String deleteReview(Model model, @PathVariable long id,@PathVariable long idReview) throws IOException {
 
 		Movie movie = moviesService.findById(id).orElseThrow();
+		User user=userService.findByUsername("user1");
 		Review review = reviewRepository.findById(idReview).orElseThrow();
 		movie.removeReview(review);
+		user.removeReview(review);
 		reviewRepository.deleteById(idReview);
 
 		model.addAttribute("movie", movie);

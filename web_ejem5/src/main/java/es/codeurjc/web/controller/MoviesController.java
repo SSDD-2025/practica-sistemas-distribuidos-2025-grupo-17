@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.codeurjc.web.services.*;
@@ -44,7 +43,8 @@ public class MoviesController {
         if (!movie.isPresent()) {
             return "movieNotFound_template";
         } else{
-			model.addAttribute("movie", movie);
+			Movie mov=movie.get();
+			model.addAttribute("movie", mov);
 			return "movie_template";
 		}
     }
@@ -64,19 +64,15 @@ public class MoviesController {
 	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,
 			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-		Movie movie;
+		Movie movie=new Movie(movieName, movieArgument, movieYear, movieTrailer);
 		if (movieCast != null) {
-			List<Cast> castList = new ArrayList<Cast>();
 			for (int i = 0; i < movieCast.size(); i++) {
 				Optional<Cast> op = castService.findById(movieCast.get(i));
 				if (op.isPresent()) {
 					Cast cast = op.get();
-					castList.add(cast);
+					movie.addCast(cast);
 				}
 			}
-			movie = new Movie(movieName, movieArgument, movieYear, castList, movieTrailer);
-		} else {
-			movie = new Movie(movieName, movieArgument, movieYear, null, movieTrailer);
 		}
 		moviesService.save(movie);
 
@@ -89,6 +85,12 @@ public class MoviesController {
     public String deleteMovie(Model model, @PathVariable long id) throws IOException {
 		Optional<Movie> movie=moviesService.findById(id);
 		if (movie.isPresent()){
+			Movie mov=movie.get();
+			List<Cast> castList=mov.getCast();
+			for(Cast cast:castList){
+				cast.removeMovie(mov);
+			}
+			mov.setCast(null);
 			moviesService.deleteById(id);
         	imageService.deleteImage(MOVIES_IMAGES_FOLDER, id);
         	return "movie_deleted_template";
@@ -115,19 +117,20 @@ public class MoviesController {
 			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
 		Movie oldMovie = moviesService.findById(id).orElseThrow();
-		Movie updatedMovie;
-		List<Cast> castList=new ArrayList<>();
+		List<Cast> castOldMovie=oldMovie.getCast();
+		for(Cast cast:castOldMovie){
+			cast.removeMovie(oldMovie);
+		}
+		oldMovie.setCast(null);
+		Movie updatedMovie=new Movie(movieName, movieArgument, movieYear, movieTrailer);
 		if (movieCast!=null){
 			for (int i = 0; i < movieCast.size(); i++) {
 				Optional<Cast> op2 = castService.findById(movieCast.get(i));
 				if (op2.isPresent()) {
 					Cast cast = op2.get();
-					castList.add(cast);
+					updatedMovie.addCast(cast);
 				}
 			}
-			updatedMovie=new Movie(movieName, movieArgument, movieYear, castList, movieTrailer);
-		} else{
-			updatedMovie=new Movie(movieName, movieArgument, movieYear, null, movieTrailer);
 		}
 		updatedMovie.setId(id);
 		oldMovie.getReviews().forEach(c -> updatedMovie.addReview(c));

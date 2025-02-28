@@ -16,7 +16,6 @@ public class MoviesService {
 	private MoviesRepository moviesRepository;
 
 	public MoviesService() {
-		save(new Movie("Pepe", "Vendo moto", 5,null,""));
 	}
 
 	public Collection<Movie> findAll() {

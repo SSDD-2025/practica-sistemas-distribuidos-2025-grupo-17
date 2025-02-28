@@ -1,28 +1,44 @@
 package es.codeurjc.web.entities;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.List;
 
-@Entity
+@Entity(name="UserTable")
 public class User {
 
 	@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private String name;
+	private String username;
     private String password;
-    @OneToMany
+    @OneToMany(mappedBy = "author",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<Review> reviews;
-    private boolean admin;
+    private String role;
 
-    public User(String name, String password, boolean admin) {
-        this.name = name;
+    protected User(){
+
+    }
+
+    public User(String username, String password, String role) {
+        super();
+        this.username = username;
         this.password = password;
-        this.admin = admin;
+        this.role = role;
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setAuthor(this);
+    }
+ 
+    public void removeReview(Review review) {
+        reviews.remove(review);
+        review.setAuthor(null);
     }
 
     public long getId() {
@@ -33,12 +49,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public String getPassword() {
@@ -57,13 +73,15 @@ public class User {
         this.reviews = reviews;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public String getRole() {
+        return role;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setRole(String role) {
+        this.role = role;
     }
+
+    
 
     
     

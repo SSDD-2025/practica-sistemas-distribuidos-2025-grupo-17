@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class CastController {
 			model.addAttribute("cast", cast);
 			return "cast_template";
 		} else {
-			return "redirect:/error?status=404&resource=cast";
+			return "castNotFound_template";
 		}
 	}
 
@@ -74,19 +73,15 @@ public class CastController {
 			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		String castBirthDateCorrect = sdf.format(castBirthDate);
-		Cast cast;
+		Cast cast=new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry);
 		if (castMovies != null) {
-			List<Movie> moviesList = new ArrayList<Movie>();
 			for (int i = 0; i < castMovies.size(); i++) {
 				Optional<Movie> op = moviesService.findById(castMovies.get(i));
 				if (op.isPresent()) {
 					Movie movie = op.get();
-					moviesList.add(movie);
+					cast.addMovie(movie);
 				}
 			}
-			cast = new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry, moviesList);
-		} else {
-			cast = new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry, null);
 		}
 		castService.save(cast);
 
@@ -98,11 +93,17 @@ public class CastController {
 	public String deleteCast(Model model, @PathVariable long id) throws IOException {
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
+			Cast cast=op.get();
+			List<Movie> movies=cast.getMovies();
+			for (Movie movie:movies){
+				movie.removeCast(cast);
+			}
+			cast.setMovies(null);
 			castService.deleteById(id);
 			imageService.deleteImage(CAST_IMAGES_FOLDER, id);
 			return "cast_deleted_template";
 		} else {
-			return "redirect:/error?status=404";
+			return "castNotFound_template";
 		}
 	}
 
@@ -115,7 +116,7 @@ public class CastController {
 			model.addAttribute("allMovies", moviesService.findAll());
 			return "modify_cast_template";
 		} else {
-			return "redirect:/error?status=404";
+			return "castNotFound_template";
 		}
 	}
 
@@ -128,26 +129,28 @@ public class CastController {
 		String castBirthDateCorrect = sdf.format(castBirthDate);
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
-			List<Movie> moviesList = new ArrayList<Movie>();
-			Cast cast = op.get();
-			for (int i = 0; i < castMovies.size(); i++) {
-				Optional<Movie> op2 = moviesService.findById(castMovies.get(i));
-				if (op2.isPresent()) {
-					Movie movie = op2.get();
-					moviesList.add(movie);
+			Cast cast=op.get();
+			List<Movie> movies=cast.getMovies();
+			for (Movie movie:movies){
+				movie.removeCast(cast);
+			}
+			cast.setMovies(null);
+			Cast updatedCast=new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry);
+			if (castMovies!=null){
+				for (int i = 0; i < castMovies.size(); i++) {
+					Optional<Movie> op2 = moviesService.findById(castMovies.get(i));
+					if (op2.isPresent()) {
+						Movie movie = op2.get();
+						updatedCast.addMovie(movie);
+					}
 				}
 			}
-			cast.setMovies(moviesList);
-			cast.setBiography(castBiography);
-			cast.setBirthDate(castBirthDateCorrect);
-			cast.setName(castName);
-			cast.setOriginCountry(castOriginCountry);
-			imageService.deleteImage(CAST_IMAGES_FOLDER, cast.getId());
+			updatedCast.setId(id);
 			imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
 			model.addAttribute("cast", cast);
 			return "cast_modified_template";
 		} else {
-			return "redirect:/error?status=404";
+			return "castNotFound_template";
 		}
 	}
 }

@@ -1,19 +1,27 @@
 package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name="MovieTable")
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String name;
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
+    @JoinTable(
+        name = "movie_cast",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "cast_id")
+    )
     private List<Cast> cast;
     private String argument;
+    @Column(name = "movie_year")
     private int year;
     private String trailer;
     @OneToMany(mappedBy = "movie",cascade=CascadeType.ALL,orphanRemoval = true)
@@ -24,13 +32,14 @@ public class Movie {
     }
 
     // Constructor
-    public Movie(String name, String argument, int year, List<Cast> cast, String trailer) {
+    public Movie(String name, String argument, int year, String trailer) {
         super();
         this.name = name;
         this.argument = argument;
         this.year = year;
-        this.cast = cast;
         this.trailer = trailer;
+        cast=new ArrayList<>();
+        reviews=new ArrayList<>();
     }
 
     public void addReview(Review review) {
@@ -41,6 +50,21 @@ public class Movie {
     public void removeReview(Review review) {
         reviews.remove(review);
         review.setMovie(null);
+    }
+
+    public boolean containsCast(Cast containsCast){
+        return cast.contains(containsCast);
+    }
+
+    public void addCast(Cast newCast) {
+        cast.add(newCast);
+        if (!newCast.containsMovie(this)){
+            newCast.addMovie(this);
+        }
+    }
+ 
+    public void removeCast(Cast deleteCast) {
+        cast.remove(deleteCast);
     }
 
     // Getters Setters

@@ -16,7 +16,6 @@ public class CastService {
 
 	
 	public CastService() {
-		save(new Cast("Pepe", "Vendo moto", "2300","Barata, barata",null));
 	}
 
 	public Collection<Cast> findAll() {
