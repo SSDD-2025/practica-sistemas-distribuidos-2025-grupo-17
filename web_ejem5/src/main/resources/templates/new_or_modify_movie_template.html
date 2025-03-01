@@ -11,8 +11,8 @@
     <h2>Rellene con los datos de la película a subir</h2>
 
     <form action="{{#movie}}/movie/{{id}}/modify{{/movie}}{{^movie}}/movie/new{{/movie}}" method="post" enctype="multipart/form-data">
-        <label id="fieldName">Título:</label>
-        <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}"required><br>
+        <label id="fieldName">Título: {{#error}}({{.}}){{/error}}</label>
+        <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}"><br>
         <div id="textAreaToAlign">
             <label id="fieldName">Argumento:</label>
             <textarea name='movieArgument' rows=5 cols=40 required>{{#movie}}{{argument}}{{/movie}}</textarea><br>

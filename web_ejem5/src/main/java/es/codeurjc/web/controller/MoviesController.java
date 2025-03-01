@@ -73,6 +73,11 @@ public class MoviesController {
 			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
 	
+		if (movieName==null|| movieName.trim().isEmpty()){
+			model.addAttribute("error", "El título de la película es obligatorio");
+			model.addAttribute("cast", castService.findAll());
+			return "new_or_modify_movie_template";
+		}
 		moviesService.save(moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer),movieImage);
 
 		return "movie_created_template";
