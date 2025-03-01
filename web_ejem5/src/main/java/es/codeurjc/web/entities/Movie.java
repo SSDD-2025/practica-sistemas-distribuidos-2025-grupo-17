@@ -2,6 +2,7 @@ package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Movie {
     private String trailer;
     @OneToMany(mappedBy = "movie",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<Review> reviews;
+    @Lob
+    private Blob movieImage;
 
     // Constructor JPA
     protected Movie() {
@@ -74,6 +77,14 @@ public class Movie {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Blob getMovieImage() {
+        return movieImage;
+    }
+
+    public void setMovieImage(Blob movieImage) {
+        this.movieImage = movieImage;
     }
 
     public String getName() {

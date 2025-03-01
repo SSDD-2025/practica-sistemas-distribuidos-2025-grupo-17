@@ -1,12 +1,15 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +28,8 @@ import es.codeurjc.web.entities.*;
 @Controller
 public class CastController {
 
-	private static final String CAST_IMAGES_FOLDER = "cast_images";
-
 	@Autowired
 	private CastService castService;
-
-	@Autowired
-	private ImageService imageService;
 
 	@Autowired
 	private MoviesService moviesService;
@@ -56,14 +54,26 @@ public class CastController {
 	}
 
 	@GetMapping("/cast/{id}/image")
-	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws MalformedURLException {
-		return imageService.createResponseFromImage(CAST_IMAGES_FOLDER, id);
+	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws SQLException {
+		Optional<Cast> op = castService.findById(id);
+
+		if (op.isPresent() && op.get().getCastImage() != null) {
+			
+			Blob image = op.get().getCastImage();
+			Resource file = new InputStreamResource(image.getBinaryStream());
+
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+					.contentLength(image.length()).body(file);
+
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping("/cast/new")
 	public String newCastForm(Model model) {
 		model.addAttribute("movies", moviesService.findAll());
-		return "new_cast_template";
+		return "new_or_modify_cast_template";
 	}
 
 	@PostMapping("/cast/new")
@@ -71,21 +81,9 @@ public class CastController {
 			@RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
 			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		String castBirthDateCorrect = sdf.format(castBirthDate);
-		Cast cast=new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry);
-		if (castMovies != null) {
-			for (int i = 0; i < castMovies.size(); i++) {
-				Optional<Movie> op = moviesService.findById(castMovies.get(i));
-				if (op.isPresent()) {
-					Movie movie = op.get();
-					cast.addMovie(movie);
-				}
-			}
-		}
-		castService.save(cast);
+	
+		castService.save(castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies),castImage);
 
-		imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
 		return "cast_created_template";
 	}
 
@@ -94,13 +92,8 @@ public class CastController {
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
 			Cast cast=op.get();
-			List<Movie> movies=cast.getMovies();
-			for (Movie movie:movies){
-				movie.removeCast(cast);
-			}
-			cast.setMovies(null);
+			castService.removeMovies(cast);
 			castService.deleteById(id);
-			imageService.deleteImage(CAST_IMAGES_FOLDER, id);
 			return "cast_deleted_template";
 		} else {
 			return "castNotFound_template";
@@ -114,7 +107,7 @@ public class CastController {
 			Cast cast = op.get();
 			model.addAttribute("cast", cast);
 			model.addAttribute("allMovies", moviesService.findAll());
-			return "modify_cast_template";
+			return "new_or_modify_cast_template";
 		} else {
 			return "castNotFound_template";
 		}
@@ -125,29 +118,14 @@ public class CastController {
 			@PathVariable long id, @RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
 			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-		String castBirthDateCorrect = sdf.format(castBirthDate);
+
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
-			Cast cast=op.get();
-			List<Movie> movies=cast.getMovies();
-			for (Movie movie:movies){
-				movie.removeCast(cast);
-			}
-			cast.setMovies(null);
-			Cast updatedCast=new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry);
-			if (castMovies!=null){
-				for (int i = 0; i < castMovies.size(); i++) {
-					Optional<Movie> op2 = moviesService.findById(castMovies.get(i));
-					if (op2.isPresent()) {
-						Movie movie = op2.get();
-						updatedCast.addMovie(movie);
-					}
-				}
-			}
+			Cast oldCast=op.get();
+			castService.removeMovies(oldCast);
+			Cast updatedCast=castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies);
 			updatedCast.setId(id);
-			imageService.saveImage(CAST_IMAGES_FOLDER, cast.getId(), castImage);
-			model.addAttribute("cast", cast);
+			castService.save(updatedCast,castImage);
 			return "cast_modified_template";
 		} else {
 			return "castNotFound_template";

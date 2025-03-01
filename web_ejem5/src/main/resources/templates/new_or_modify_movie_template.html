@@ -3,22 +3,22 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand">Nueva película</a>
+            <a class="navbar-brand">{{#movie}}Editar película{{/movie}}{{^movie}}Nueva película{{/movie}}</a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             </div>
         </div>
     </nav>
     <h2>Rellene con los datos de la película a subir</h2>
 
-    <form action="/movie/new" method="post" enctype="multipart/form-data">
+    <form action="{{#movie}}/movie/{{id}}/modify{{/movie}}{{^movie}}/movie/new{{/movie}}" method="post" enctype="multipart/form-data">
         <label id="fieldName">Título:</label>
-        <input type='text' name='movieName'><br>
+        <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}"required><br>
         <div id="textAreaToAlign">
             <label id="fieldName">Argumento:</label>
-            <textarea name='movieArgument' rows=5 cols=40></textarea><br>
+            <textarea name='movieArgument' rows=5 cols=40 required>{{#movie}}{{argument}}{{/movie}}</textarea><br>
         </div>
         <label id="fieldName">Fecha estreno:</label>
-        <input type='number' name='movieYear'><br>
+        <input type='number' name='movieYear' value="{{#movie}}{{year}}{{/movie}}" required><br>
         <label id="fieldName">Actores: </label>
         <select class="form-select" name="movieCast" multiple>
             {{#cast}}
@@ -28,7 +28,7 @@
         <label id="fieldName">Póster:</label>
         <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
         <label id="fieldName">Enlace al tráiler de YouTube:</label>
-        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"><br>
+        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler" value="{{#movie}}{{trailer}}{{/movie}}"><br>
         <input type='submit' name='Subir película' id="submitButton"><br>
     </form>
 

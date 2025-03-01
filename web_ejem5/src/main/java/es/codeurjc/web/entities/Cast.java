@@ -2,6 +2,7 @@ package es.codeurjc.web.entities;
 
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,10 @@ public class Cast {
     private String biography;
     private String birthDate;
     private String originCountry;
-
     @ManyToMany(mappedBy = "cast")
     private List<Movie> movies;
+    @Lob
+    private Blob castImage;
 
     // Constructor for JPA
     protected Cast() {
@@ -96,5 +98,13 @@ public class Cast {
 
     public void setOriginCountry(String originCountry) {
         this.originCountry = originCountry;
+    }
+
+    public Blob getCastImage() {
+        return castImage;
+    }
+
+    public void setCastImage(Blob castImage) {
+        this.castImage = castImage;
     }
 }
