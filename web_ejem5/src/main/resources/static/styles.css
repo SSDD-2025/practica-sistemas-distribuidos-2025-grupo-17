@@ -1,4 +1,4 @@
-#fieldName{
+#fieldName {
     color: #264097;
     font-size: 0.85em;
     font-family: Verdana, "Times New Roman", Georgia, serif;
@@ -7,27 +7,36 @@
     text-shadow: 1px 1px #42098367;
 }
 
-#submitButton{
+#submitButton {
     font-weight: bold;
-    color:#161064;
+    color: #161064;
 }
 
-#imageSize{
-    max-width: 200px; 
-    max-height: 200px; 
-    width: auto; 
+#imageSize {
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
     height: auto;
 }
 
-#errorText{
-    color:red;
+#errorText {
+    color: red;
 }
 
-#infoText{
-    color:#18162b;
+#infoText {
+    color: #18162b;
     font-weight: bold;
 }
 
-#textAreaToAlign{
+#textAreaToAlign {
     display: flex;
+}
+
+#reviewBox {
+    border: 2px solid #ccc;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 600px;
 }

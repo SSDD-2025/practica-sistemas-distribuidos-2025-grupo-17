@@ -10,7 +10,8 @@
     </nav>
 
     <h2>Rellene con los datos del actor a añadir</h2>
-    <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post" enctype="multipart/form-data">
+    <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post"
+        enctype="multipart/form-data">
         <label id="fieldName">Nombre:</label>
         <input type='text' name='castName' value="{{#cast}}{{name}}{{/cast}}" required><br>
         <div id="textAreaToAlign">
@@ -20,7 +21,7 @@
         <label id="fieldName">Fecha nacimiento:</label>
         <input type='date' name='castBirthDate' value="{{#cast}}{{birthDate}}{{/cast}}" required><br>
         <label id="fieldName">País de origen:</label>
-        <input type='text' name='castOriginCountry' value="{{#cast}}{{originCountry}}{{/cast}}" required/> <br>
+        <input type='text' name='castOriginCountry' value="{{#cast}}{{originCountry}}{{/cast}}" required /> <br>
         <label id="fieldName">Películas: </label>
         <select class="form-select" name="castMovies" multiple>
             {{#movies}}

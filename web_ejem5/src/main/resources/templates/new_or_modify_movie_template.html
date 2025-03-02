@@ -10,7 +10,8 @@
     </nav>
     <h2>Rellene con los datos de la película a subir</h2>
 
-    <form action="{{#movie}}/movie/{{id}}/modify{{/movie}}{{^movie}}/movie/new{{/movie}}" method="post" enctype="multipart/form-data">
+    <form action="{{#movie}}/movie/{{id}}/modify{{/movie}}{{^movie}}/movie/new{{/movie}}" method="post"
+        enctype="multipart/form-data">
         <label id="fieldName">Título: {{#error}}({{.}}){{/error}}</label>
         <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}"><br>
         <div id="textAreaToAlign">
@@ -28,7 +29,8 @@
         <label id="fieldName">Póster:</label>
         <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
         <label id="fieldName">Enlace al tráiler de YouTube:</label>
-        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler" value="{{#movie}}{{trailer}}{{/movie}}"><br>
+        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"
+            value="{{#movie}}{{trailer}}{{/movie}}"><br>
         <input type='submit' name='Subir película' id="submitButton"><br>
     </form>
 

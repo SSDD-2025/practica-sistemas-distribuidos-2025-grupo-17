@@ -10,23 +10,23 @@
     </nav>
     {{>options_template}}
     {{#user}}
-        <h2>Reseñas de {{username}}:</h1>
+    <h2>Reseñas de {{username}}:</h1>
         {{#reviews}}
-            <ul>
-                <li>
-                    {{title}}
-                    {{text}}
-                    <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
-                        <input type='submit' value='Borrar reseña'/>
-                    </form>
-                </li>
-            </ul>
+        <ul>
+            <li>
+                <p id="infoText">{{title}}</p><br>
+                <textarea rows=5 cols=40>{{text}}</textarea>
+                <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
+                    <input type='submit' value='Borrar reseña' />
+                </form>
+            </li>
+        </ul>
         {{/reviews}}
         {{^reviews}}
-            <p id="infoText">No hay reseñas tuyas todavía</p>
+        <p id="infoText">No hay reseñas tuyas todavía</p>
         {{/reviews}}
-    {{/user}}
-    {{^user}}
-        <p id ="infoText">Usuarios aún no implementados.</p>
-    {{/user}}
-    {{>backToHome_template}}
+        {{/user}}
+        {{^user}}
+        <p id="infoText">Usuarios aún no implementados.</p>
+        {{/user}}
+        {{>backToHome_template}}

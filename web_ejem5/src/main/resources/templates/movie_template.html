@@ -1,4 +1,5 @@
 {{>header_template}}
+
 <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
@@ -23,7 +24,7 @@
     </ul>
     {{/cast}}
     {{^cast}}
-        <p id="infoText">No hay cast disponible.</p>
+    <p id="infoText">No hay cast disponible.</p>
     {{/cast}}
     <h3>Tráiler</h3>
     {{#trailer}}
@@ -33,24 +34,24 @@
     <p id="infoText">No hay trailer disponible</p><br>
     {{/trailer}}
     <form action="/movie/{{id}}/delete" method="post">
-		<input type='submit' value='Borrar película'/>
-	</form><br>
+        <input type='submit' value='Borrar película' />
+    </form><br>
     <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
     <h3>Reseñas</h3>
     <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
     {{#reviews}}
     <ul>
         <li>
-            {{title}}
-            {{text}}
+            <p id="infoText">{{title}}</p>
+            <div id="reviewBox">{{text}}</div>
             <form action="/movie/{{id}}/review/{{idReview}}/delete" method="post">
-                <input type='submit' value='Borrar reseña'/>
+                <input type='submit' value='Borrar reseña' />
             </form>
         </li>
     </ul>
     {{/reviews}}
     {{^reviews}}
-        <p id="infoText">No hay reviews aún.</p>
+    <p id="infoText">No hay reviews aún.</p>
     {{/reviews}}
     {{/movie}}
     {{>backToHome_template}}

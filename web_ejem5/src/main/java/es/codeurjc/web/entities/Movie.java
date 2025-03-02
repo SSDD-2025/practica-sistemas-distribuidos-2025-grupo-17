@@ -6,7 +6,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="MovieTable")
+@Entity(name = "MovieTable")
 public class Movie {
 
     @Id
@@ -14,18 +14,14 @@ public class Movie {
     private Long id;
 
     private String name;
-    @ManyToMany(cascade=CascadeType.MERGE,fetch=FetchType.LAZY)
-    @JoinTable(
-        name = "movie_cast",
-        joinColumns = @JoinColumn(name = "movie_id"),
-        inverseJoinColumns = @JoinColumn(name = "cast_id")
-    )
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "movie_cast", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "cast_id"))
     private List<Cast> cast;
     private String argument;
     @Column(name = "movie_year")
     private int year;
     private String trailer;
-    @OneToMany(mappedBy = "movie",cascade=CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
     @Lob
     private Blob movieImage;
@@ -41,31 +37,31 @@ public class Movie {
         this.argument = argument;
         this.year = year;
         this.trailer = trailer;
-        cast=new ArrayList<>();
-        reviews=new ArrayList<>();
+        cast = new ArrayList<>();
+        reviews = new ArrayList<>();
     }
 
     public void addReview(Review review) {
         reviews.add(review);
         review.setMovie(this);
     }
- 
+
     public void removeReview(Review review) {
         reviews.remove(review);
         review.setMovie(null);
     }
 
-    public boolean containsCast(Cast containsCast){
+    public boolean containsCast(Cast containsCast) {
         return cast.contains(containsCast);
     }
 
     public void addCast(Cast newCast) {
         cast.add(newCast);
-        if (!newCast.containsMovie(this)){
+        if (!newCast.containsMovie(this)) {
             newCast.addMovie(this);
         }
     }
- 
+
     public void removeCast(Cast deleteCast) {
         cast.remove(deleteCast);
     }
