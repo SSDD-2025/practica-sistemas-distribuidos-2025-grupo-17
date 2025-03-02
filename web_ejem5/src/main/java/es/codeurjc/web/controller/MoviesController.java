@@ -114,7 +114,7 @@ public class MoviesController {
 			@RequestParam String movieArgument, @RequestParam int movieYear,
 			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-		Movie oldMovie = moviesService.findById(id).orElseThrow();
+		Movie oldMovie = moviesService.findById(id).orElseThrow(()->new IOException());
 		moviesService.removeCast(oldMovie);
 		Movie updatedMovie=moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer);
 		updatedMovie.setId(id);
