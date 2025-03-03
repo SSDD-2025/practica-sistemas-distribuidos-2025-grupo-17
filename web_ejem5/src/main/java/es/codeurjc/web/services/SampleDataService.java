@@ -28,6 +28,7 @@ public class SampleDataService {
 
 	private Cast c[] = new Cast[4];
 	private Movie m[] = new Movie[3];
+	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
 	@PostConstruct
@@ -116,10 +117,10 @@ public class SampleDataService {
 				castBio2 = "Genio inventor y gran actor, mueve masas como el que más.",
 				castBio3 = "Santiago Segura Silva es un actor y cineasta español, popular por su saga de Torrente.",
 				castBio4 = "Pablo Motos Burgos es un actor de televisión, locutor de radio, humorista y empresario español. Desde 2006 es el presentador y actor del programa de entrevistas La madriguera.";
-		String castBirthDate1 = "1965",
-				castBirthDate2 = "2034",
-				castBirthDate3 = "1900",
-				castBirthDate4 = "1867";
+		String castBirthDate1 = "1965-06-05",
+				castBirthDate2 = "2034-12-24",
+				castBirthDate3 = "1900-1-6",
+				castBirthDate4 = "1867-12-12";
 		String castCountry1 = "EE.UU",
 				castCountry2 = "España",
 				castCountry3 = "Uzbekistán",

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,12 @@ public class MoviesService {
 	public void save(Movie movie, MultipartFile movieImage) throws IOException{
 		if(!movieImage.isEmpty()) {
 			movie.setMovieImage(BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize()));
+		}
+		this.save(movie);
+	}
+	public void save(Movie movie, Blob movieImage) throws IOException, SQLException{
+		if (movieImage != null) { 
+			movie.setMovieImage(movieImage);
 		}
 		this.save(movie);
 	}

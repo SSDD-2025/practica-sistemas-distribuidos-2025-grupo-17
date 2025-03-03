@@ -32,17 +32,17 @@ public class MoviesController {
 	@Autowired
 	private CastService castService;
 
-    @GetMapping("/movies/{id}")
-    public String showMovie(Model model, @PathVariable long id) {
-        Optional<Movie> movie = moviesService.findById(id);
-        if (!movie.isPresent()) {
-            return "movieNotFound_template";
-        } else{
-			Movie mov=movie.get();
+	@GetMapping("/movies/{id}")
+	public String showMovie(Model model, @PathVariable long id) {
+		Optional<Movie> movie = moviesService.findById(id);
+		if (!movie.isPresent()) {
+			return "movieNotFound_template";
+		} else {
+			Movie mov = movie.get();
 			model.addAttribute("movie", mov);
 			return "movie_template";
 		}
-    }
+	}
 
 	@GetMapping("/movie/{id}/image")
 	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws SQLException {
@@ -50,7 +50,7 @@ public class MoviesController {
 		Optional<Movie> op = moviesService.findById(id);
 
 		if (op.isPresent() && op.get().getMovieImage() != null) {
-			
+
 			Blob image = op.get().getMovieImage();
 			Resource file = new InputStreamResource(image.getBinaryStream());
 
@@ -72,39 +72,40 @@ public class MoviesController {
 	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,
 			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-	
-		if (movieName==null|| movieName.trim().isEmpty()){
+
+		if (movieName == null || movieName.trim().isEmpty()) {
 			model.addAttribute("error", "El título de la película es obligatorio");
 			model.addAttribute("cast", castService.findAll());
 			return "new_or_modify_movie_template";
 		}
-		moviesService.save(moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer),movieImage);
+		moviesService.save(moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer),
+				movieImage);
 
 		return "movie_created_template";
 	}
 
-    @PostMapping("/movie/{id}/delete")
-    public String deleteMovie(Model model, @PathVariable long id) throws IOException {
-		Optional<Movie> movie=moviesService.findById(id);
-		if (movie.isPresent()){
-			Movie mov=movie.get();
+	@PostMapping("/movie/{id}/delete")
+	public String deleteMovie(Model model, @PathVariable long id) throws IOException {
+		Optional<Movie> movie = moviesService.findById(id);
+		if (movie.isPresent()) {
+			Movie mov = movie.get();
 			moviesService.removeCast(mov);
 			moviesService.deleteById(id);
-        	return "movie_deleted_template";
-		} else{
+			return "movie_deleted_template";
+		} else {
 			return "movieNotFound_template";
 		}
-    }
+	}
 
 	@GetMapping("/movie/{id}/modify")
 	public String modifyMovieForm(Model model, @PathVariable long id) {
-		Optional<Movie> movie=moviesService.findById(id);
-		if (movie.isPresent()){
-			Movie mov=movie.get();
+		Optional<Movie> movie = moviesService.findById(id);
+		if (movie.isPresent()) {
+			Movie mov = movie.get();
 			model.addAttribute("movie", mov);
 			model.addAttribute("allCast", castService.findAll());
 			return "new_or_modify_movie_template";
-		} else{
+		} else {
 			return "movieNotFound_template";
 		}
 	}
@@ -113,15 +114,24 @@ public class MoviesController {
 	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName,
 			@RequestParam String movieArgument, @RequestParam int movieYear,
 			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
-			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
-		Movie oldMovie = moviesService.findById(id).orElseThrow(()->new IOException());
-		moviesService.removeCast(oldMovie);
-		Movie updatedMovie=moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer);
-		updatedMovie.setId(id);
-		oldMovie.getReviews().forEach(c -> updatedMovie.addReview(c));
-		moviesService.save(updatedMovie,movieImage);
-
-		return "movie_modified_template";
-
+			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException, SQLException {
+		Optional<Movie> op = moviesService.findById(id);
+		if (op.isPresent()) {
+			Movie oldMovie = op.get();
+			Blob oldMovieImage = oldMovie.getMovieImage();
+			moviesService.removeCast(oldMovie);
+			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
+					movieTrailer);
+			updatedMovie.setId(id);
+			oldMovie.getReviews().forEach(c -> updatedMovie.addReview(c));
+			if (!movieImage.isEmpty()) {
+				moviesService.save(updatedMovie, movieImage);
+			} else {
+				moviesService.save(updatedMovie, oldMovieImage);
+			}
+			return "movie_modified_template";
+		} else {
+			return "movieNotFound_template";
+		}
 	}
 }

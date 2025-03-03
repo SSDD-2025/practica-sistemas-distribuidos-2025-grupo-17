@@ -58,7 +58,7 @@ public class CastController {
 		Optional<Cast> op = castService.findById(id);
 
 		if (op.isPresent() && op.get().getCastImage() != null) {
-			
+
 			Blob image = op.get().getCastImage();
 			Resource file = new InputStreamResource(image.getBinaryStream());
 
@@ -81,8 +81,9 @@ public class CastController {
 			@RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
 			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
-	
-		castService.save(castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies),castImage);
+
+		castService.save(castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies),
+				castImage);
 
 		return "cast_created_template";
 	}
@@ -91,7 +92,7 @@ public class CastController {
 	public String deleteCast(Model model, @PathVariable long id) throws IOException {
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
-			Cast cast=op.get();
+			Cast cast = op.get();
 			castService.removeMovies(cast);
 			castService.deleteById(id);
 			return "cast_deleted_template";
@@ -117,15 +118,21 @@ public class CastController {
 	public String modifyCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
 			@PathVariable long id, @RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
-			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
+			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException, SQLException {
 
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
-			Cast oldCast=op.get();
+			Cast oldCast = op.get();
+			Blob oldCastImage = oldCast.getCastImage();
 			castService.removeMovies(oldCast);
-			Cast updatedCast=castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies);
+			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry,
+					castMovies);
 			updatedCast.setId(id);
-			castService.save(updatedCast,castImage);
+			if (!castImage.isEmpty()) {
+				castService.save(updatedCast, castImage);
+			} else {
+				castService.save(updatedCast, oldCastImage);
+			}
 			return "cast_modified_template";
 		} else {
 			return "castNotFound_template";

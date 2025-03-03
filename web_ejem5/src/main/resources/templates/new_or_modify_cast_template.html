@@ -23,11 +23,16 @@
         <label id="fieldName">País de origen:</label>
         <input type='text' name='castOriginCountry' value="{{#cast}}{{originCountry}}{{/cast}}" required /> <br>
         <label id="fieldName">Películas: </label>
-        <select class="form-select" name="castMovies" multiple>
+        <div class="checkbox-group">
             {{#movies}}
-            <option value="{{ id }}">{{name}}</option>
+            <label><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
             {{/movies}}
-        </select> <br>
+            {{^movies}}
+            {{#allMovies}}
+            <label><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
+            {{/allMovies}}
+            {{/movies}}
+        </div> <br>
         <label id="fieldName">Imagen:</label>
         <input type='file' name='castImage' accept=".png, .jpg, .jpeg" /> <br>
 

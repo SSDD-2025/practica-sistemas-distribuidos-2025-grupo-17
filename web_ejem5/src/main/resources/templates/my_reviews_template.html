@@ -14,8 +14,10 @@
         {{#reviews}}
         <ul>
             <li>
-                <p id="infoText">{{title}}</p><br>
-                <textarea rows=5 cols=40>{{text}}</textarea>
+                <p id="infoText">{{title}}</p>
+                <div id="reviewBox">
+                    <p>{{text}}</p>
+                </div>
                 <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
                     <input type='submit' value='Borrar reseña' />
                 </form>
