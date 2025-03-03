@@ -49,7 +49,27 @@
 ## NAVIGATION 🧭
 >Screenshots of the main pages in the application and navigation diagram
 
-
+```mermaid
+graph TD;
+    Home[🏠 Home Page] -->|View Movies| Movies[🎬 Movies List];
+    Home -->|View Actors| Actors[🎭 Actors List];
+    Home -->|View My Reviews| MyReviews[📝 My Reviews];
+    Movies -->|View Movie Details| MovieDetails[📄 Movie Details];
+    Movies -->|Add Movie| AddMovie[➕ Add Movie];
+    MovieDetails -->|View Cast| Cast[🎭 Cast Details];
+    MovieDetails -->|Watch Trailer| Trailer[▶️ Watch Trailer];
+    MovieDetails -->|Delete Movie| DeleteMovie[🗑️ Delete Movie];
+    MovieDetails -->|Edit Movie| EditMovie[✏️ Edit Movie];
+    MovieDetails -->|View Reviews| Reviews[📝 Reviews];
+    MovieDetails -->|Add Review| AddReview[➕ Add Review];
+    Reviews -->|Delete Review| DeleteReview[🗑️ Delete Review];
+    Actors -->|Add Actor| AddActor[➕ Add Actor];
+    MyReviews -->|Delete Review| DeleteMyReview[🗑️ Delete My Review];
+    Home -->|Back to Home| BackHome[🏠 Back to Home];
+    AddMovie -->|Back to Movies| BackToMovies[🎬 Back to Movies];
+    AddActor -->|Back to Actors| BackToActors[🎭 Back to Actors];
+```
+    
 ## EXECUTION INSTRUCTIONS
 >Instructions on what steps someone has to follow to be able to correctly download the repository and execute the application. Also specifying versions of java, sql, Maven... If possible the instructions must be specified on command lines, if not possible, it must be described in an interactive way
 
