@@ -21,11 +21,16 @@
         <label id="fieldName">Fecha estreno:</label>
         <input type='number' name='movieYear' value="{{#movie}}{{year}}{{/movie}}" required><br>
         <label id="fieldName">Actores: </label>
-        <select class="form-select" name="movieCast" multiple>
+        <div class="checkbox-group">
             {{#cast}}
-            <option value="{{ id }}">{{name}}</option>
+            <label><input type="checkbox" name="movieCast" value="{{ id }}"> {{ name }}</label><br>
             {{/cast}}
-        </select><br>
+            {{^cast}}
+            {{#allCast}}
+            <label><input type="checkbox" name="movieCast" value="{{ id }}"> {{ name }}</label><br>
+            {{/allCast}}
+            {{/cast}}
+        </div> <br>
         <label id="fieldName">Póster:</label>
         <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
         <label id="fieldName">Enlace al tráiler de YouTube:</label>
