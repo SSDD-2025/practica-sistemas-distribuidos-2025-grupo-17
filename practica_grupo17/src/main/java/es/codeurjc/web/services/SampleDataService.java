@@ -31,8 +31,11 @@ public class SampleDataService {
 	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
+	private final static String IMAGES_PATH = "images/";
+
 	@PostConstruct
 	public void init() {
+
 		// User
 		User user = new User("user1", "password", "admin");
 		userService.save(user);
@@ -66,13 +69,13 @@ public class SampleDataService {
 			castService.save(c[2]);
 			castService.save(c[3]);
 			// Agregar imágenes a cast y movies y guardarlos de nuevo usando File y Blob
-			File imageFile1 = new File("web_ejem5\\src\\main\\resources\\static\\images\\cast-images\\image-1.jpg"),
-					imageFile2 = new File("web_ejem5\\src\\main\\resources\\static\\images\\cast-images\\image-0.jpg"),
-					imageFile3 = new File("web_ejem5\\src\\main\\resources\\static\\images\\cast-images\\image-3.jpg"),
-					imageFile4 = new File("web_ejem5\\src\\main\\resources\\static\\images\\cast-images\\image-2.jpg"),
-					imageFile5 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-0.jpg"),
-					imageFile6 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-1.jpg"),
-					imageFile7 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-2.jpg");
+			File imageFile1 = new File(IMAGES_PATH + "cast-images/image-1.jpg"),
+					imageFile2 = new File(IMAGES_PATH + "cast-images/image-0.jpg"),
+					imageFile3 = new File(IMAGES_PATH + "cast-images/image-3.jpg"),
+					imageFile4 = new File(IMAGES_PATH + "cast-images/image-2.jpg"),
+					imageFile5 = new File(IMAGES_PATH + "movies-images/image-0.jpg"),
+					imageFile6 = new File(IMAGES_PATH + "movies-images/image-1.jpg"),
+					imageFile7 = new File(IMAGES_PATH + "movies-images/image-2.jpg");
 			byte[] imageBytes1 = Files.readAllBytes(imageFile1.toPath()),
 					imageBytes2 = Files.readAllBytes(imageFile2.toPath()),
 					imageBytes3 = Files.readAllBytes(imageFile3.toPath()),
