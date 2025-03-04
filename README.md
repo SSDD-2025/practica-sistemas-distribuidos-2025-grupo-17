@@ -132,12 +132,13 @@ All the "volver a la pgina de inicio" links lead you to the home page.
 It is needed the following features:
 1. Java 21 [Download here](https://www.oracle.com/es/java/technologies/downloads/#java21)
 2. MySQL 8.0.33 [Download here](https://dev.mysql.com/downloads/workbench/)
-3. Maven 3.9.9 (Although it does exist the 4.0.0 version, it is recommended to download the 3.9.9 version)[Donwload here](https://maven.apache.org/download.cgi)
+3. Maven 3.9.9 (Although it does exist the 4.0.0 version, it is recommended to download the 3.9.9 version)
+[Download here](https://maven.apache.org/download.cgi)
 4. Spring Boot 3.4.2 
 5. Visual Studio Code + SpringBoot 
 
 Then, follow this steps:
-1. Download this repository with ZIP, UN-ZIP it and  
+1. Download this repository with ZIP and unzip it
 2. Download MySQL workBench
 3. Type user: root password: URJC2019!
 4. Create a new scheme called "moviesapp"
