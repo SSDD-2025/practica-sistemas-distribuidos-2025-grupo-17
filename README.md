@@ -25,13 +25,13 @@
 
 ## Authors:
 ### Carlos Ivorra Salinas
-### Manuel
+### Manuel Torres Juárez
 ### Zaira Ruiz Fernández
 ### Miguel
 | Name | Email | Github |
 |-----:|-----------|-----------|
 | Carlos Ivorra Salinas |  | carlosivorrasalinas |
-| Manuel |  | tempusfugit04 |
+| Manuel | mm.torres.2022@alumnos.urjc.es | tempusfugit04 |
 | Zaira Ruiz Fernández | z.ruiz.2022@alumnos.urjc.es | ZairaURJC |
 | Miguel Lameiro Martinez | m.lameiro.2023@alumnos.urjc.es | The-lost-Apolo |
 
@@ -173,7 +173,7 @@ Altough I have participated in some templates and other things, my main tasks we
 
 ## MANUEL
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Tasks: added styles in templates, created templates, added sampleData, made diagrams, added some functionality of dataBase and functions related.
+>Tasks: I added most styles in templates, created most templates, created the sampleData, made diagrams in README, added functionality of dataBase to CastController, MoviesConstroller (and functions related), and fixing some bugs or errors in various files.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
