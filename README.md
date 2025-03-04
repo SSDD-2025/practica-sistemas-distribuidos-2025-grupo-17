@@ -28,6 +28,12 @@
 ### Manuel
 ### Zaira Ruiz Fernández
 ### Miguel
+| Name | Email | Github |
+|-----:|-----------|
+| Carlos Ivorra Salinas |  | carlosivorrasalinas |
+| Manuel |  | tempusfugit04 |
+| Zaira Ruiz Fernández | z.ruiz.2022@alumnos.urjc.es | ZairaURJC |
+| Miguel |  | The-lost-Apolo |
 
 ## Description:
 ### This is a web application that we developed for "Distribuited systems" in our collegue degree. We had to develop a web application using _Spring_, _MySQL_ and _GitHub_.
@@ -46,6 +52,7 @@
 
 # REQUESTED FEATURES
 >Below there are all requests made in the project description  
+
   -Java version: 21  
   -MySQL version: 8.0.33  
   -Maven version: 4.0.0  
@@ -192,16 +199,18 @@ Table reviews {
 
 ## ZAIRA
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Add description here
+>Add description here  
+
+Altough I have participated in some templates and other things, my main tasks were the creation of the controllers and services, the database integration and the inclusion of entity, navigation and requirements information in the readme file.  
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| Commit example|
-|     2| Commit example |
-|     3| Commit example |
-|     4| Commit example|
-|     5| Commit example        |
+|     1| [Database funcionality finished (N:M relation between movies and cast and 1:M relation between users and reviews (new repositories and changes in controllers, services and entities), my_reviews_template creation)](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/6f857507db107c31459a4a327094833a59965265)|
+|     2| [New header with show cast list, show movie list and show my reviews functions and some upgrades in modify, create and delete functions](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a1f0368fd0f94be11c71f8fd4ccfa1132c51af1d) |
+|     3| [Images in database and some structure changes](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/261e68b7ce2bb6555ac37628290c6b3fb71c777f) |
+|     4| [Some little corrections for modifyMovie, modifyCast and newReview functions (and their html) and new my_reviews_template](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/baa3ea11a123cecb557e5a8a10f43465ffecfb36)|
+|     5| [New entity, controller and service for users and some changes in the controllers structure](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/33faed76bffb53ab9d10c9312632d61c2331fdd9)       |
 
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
