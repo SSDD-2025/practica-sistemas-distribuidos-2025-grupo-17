@@ -224,14 +224,11 @@ I improved the IMDb-style web project by enhancing error handling for missing mo
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| file link example|
-|     2| file link example |
-|     3| file link example |
-|     4| file link example|
-|     5| file link example        |
-
-
-
+|     1| [CustomErrorController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/CustomErrorController.java) |
+|     2| [movieNotFound_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/movieNotFound_template.html) |
+|     3| [CastController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/CastController.java) |
+|     4| [movie_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/movie_template.html) |
+|     5| [cast_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/cast_template.html) | 
 
 ## CARLOS
 # DESCRIPTION OF THE TASKS DONE ✍️
