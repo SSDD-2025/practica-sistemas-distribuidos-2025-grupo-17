@@ -29,7 +29,7 @@
 ### Zaira Ruiz Fernández
 ### Miguel
 | Name | Email | Github |
-|-----:|-----------|
+|-----:|-----------|-----------|
 | Carlos Ivorra Salinas |  | carlosivorrasalinas |
 | Manuel |  | tempusfugit04 |
 | Zaira Ruiz Fernández | z.ruiz.2022@alumnos.urjc.es | ZairaURJC |
@@ -199,7 +199,6 @@ Table reviews {
 
 ## ZAIRA
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Add description here  
 
 Altough I have participated in some templates and other things, my main tasks were the creation of the controllers and services, the database integration and the inclusion of entity, navigation and requirements information in the readme file.  
 
