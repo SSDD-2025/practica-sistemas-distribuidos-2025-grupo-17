@@ -1,19 +1,3 @@
-> [!NOTE]
-> Useful information that users should know, even when skimming content.
-
-> [!TIP]
-> Helpful advice for doing things better or more easily.
-
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
-
-> [!WARNING]
-> Urgent info that needs immediate user attention to avoid problems.
-
-> [!CAUTION]
-> Advises about risks or negative outcomes of certain actions.
-
-
 # MOVIE REVIEW WEB APPLICATION 🎥 
 
 <picture>
@@ -21,6 +5,23 @@
  <source media="(prefers-color-scheme: light)" srcset="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
  <img alt="YOUR-ALT-TEXT" src="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
 </picture>
+
+## 📌 Table of Contents
+- [Authors](#authors)
+- [Description](#description)
+- [Entities Used](#entities-we-used)
+- [Requested Features](#requested-features)
+- [Navigation 🧭](#navigation-)
+- [Execution Instructions](#execution-instructions)
+- [Entities Diagram 📈](#entities-diagram-)
+- [Class Diagram & Templates 📈](#class-diagram--templates-)
+- [Team Contributions 👥](#members-participation-)
+  - [Zaira](#zaira)
+  - [Manuel](#manuel)
+  - [Miguel](#miguel)
+  - [Carlos](#carlos)
+
+
 
 ## Authors:
 ### Carlos Ivorra Salinas
