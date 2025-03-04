@@ -33,7 +33,7 @@
 | Carlos Ivorra Salinas |  | carlosivorrasalinas |
 | Manuel |  | tempusfugit04 |
 | Zaira Ruiz Fernández | z.ruiz.2022@alumnos.urjc.es | ZairaURJC |
-| Miguel |  | The-lost-Apolo |
+| Miguel Lameiro Martinez | m.lameiro.2023@alumnos.urjc.es | The-lost-Apolo |
 
 ## Description:
 ### This is a web application that we developed for "Distribuited systems" in our collegue degree. We had to develop a web application using _Spring_, _MySQL_ and _GitHub_.
@@ -249,16 +249,16 @@ Altough I have participated in some templates and other things, my main tasks we
 
 ## MIGUEL
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Add description here
+I improved the IMDb-style web project by enhancing error handling for missing movies and cast, refining the user interface with functional buttons, and ensuring proper access control for admin and registered users. I also integrated a trailer request feature, designed structured HTML templates for movies and cast, and optimized repository hygiene by updating the `.gitignore` file to exclude unnecessary files.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| Commit example|
-|     2| Commit example |
-|     3| Commit example |
-|     4| Commit example|
-|     5| Commit example        |
+|     1| [Adding page errors for movies and cast when they arent found](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/5e75e3542638097777769de86c7a5a2ae3dbb187)|
+|     2| [Fixing buttons for admin and registered users and adding requesting URL trailer in newMovie html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/4a1510d83603ceeb3ce029c45766e55833934c0b) |
+|     3| [Adding Buttons to html templates](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/875b42d8fa2f93459551759c85aeac06e6f2a27f) |
+|     4| [Adding HTML templates for Movie and Cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/48dda01b3c98bad1842787ab7725c58fe7cc7c27) |
+|     5| [Adding .gitignore without any dont deserved file in the repo](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/7366f8f7ae5d4e023521c21fdd3235e83e3b2fc8) |
 
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
