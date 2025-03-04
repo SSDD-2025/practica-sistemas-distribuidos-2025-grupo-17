@@ -232,7 +232,8 @@ I improved the IMDb-style web project by enhancing error handling for missing mo
 
 ## CARLOS
 # DESCRIPTION OF THE TASKS DONE ✍️
->Add description here
+
+I have created entities and the documentation skeleton and I have included sample data.  
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
@@ -246,11 +247,11 @@ I improved the IMDb-style web project by enhancing error handling for missing mo
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| file link example|
-|     2| file link example |
-|     3| file link example |
-|     4| file link example|
-|     5| file link example        |
+|     1| [README.md](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/README.md)|
+|     2| [Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Cast.java) |
+|     3| [Movie.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Movie.java) |
+|     4| [User.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/User.java)|
+|     5| [SampleDataService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/SampleDataService.java)       |
 
 
 
