@@ -54,41 +54,72 @@
 
 ## NAVIGATION 🧭
 >Screenshots of the main pages in the application and navigation diagram  
-HOME PAGE (MOVIES LIST)  
+
+   **·HOME PAGE (MOVIES LIST)**  
 ![home](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/home_template.png)  
+The three buttons of the header lead to this, the cast list or the users reviews, in that order.  
+The title of each movie leads to its info page.  
+The "añadir película" button leads to the movie form.  
+The "volver a la página de inicio" link always leads to this page, wathever page are you on.  
 
-CAST LIST  
+   **·CAST LIST**  
 ![castList](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/castList_template.png)  
+The three buttons of the header are the same that in the home page and their actions are the same, too.  
+The name of each actor leads to its info page.  
+The "añadir actor" button leads to the cast form.  
 
-USER REVIEWS  
+   **·USER REVIEWS**  
 ![my_reviews](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/my_reviews_template.png)  
+This time the header is the same, too.  
+All "borrar reseña" buttons do the same: delete the review associated and return the review deleted page.  
 
-MOVIE INFO  
+   **·MOVIE INFO**  
 ![movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movie_template.png)  
+The name of each actor in "Reparto" section leads to its info page.  
+The trailer link open a new window with the trailer video (if the movie has one).  
+The "borrar película" button deletes the movie and returns the movie deleted page.  
+The "modificar película" button leads to the movie form.  
+The "añadir reseña" button leads to the review form.  
+The "borrar reseña" buttons do the same that in the last page (user reviews).  
 
-CAST INFO  
+   **·CAST INFO**  
 ![cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/cast_template.png)  
+The title of each movie in "Películas" section leads to its info page.  
+The "borrar cast" button deletes the cast and returns the cast deleted page.  
+The "modificar cast" button leads to the cast form.  
 
-MOVIE FORM  
+   **·MOVIE FORM**  
 ![new_or_modify_movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_or_modify_movie_template.png)  
+The "enviar consulta" button leads to the movie created (or modified) page.  
+This form has default info in case of being for modification purposes (the movie info).  
 
-CAST FORM  
+   **·CAST FORM**  
 ![new_or_modify_cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_cast_template.png)  
+The "enviar consulta" button leads to the cast created (or modified) page.  
+This form has default info in case of being for modification purposes (the cast info).  
 
-REVIEW FORM  
+   **·REVIEW FORM**  
 ![new_review](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_review_template.png)  
+The "enviar consulta" button leads to the review created page.  
 
-ENTITY CREATED OR MODIFIED  
+   **·ENTITY CREATED, DELETED OR MODIFIED**  
 ![review_created](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/review_created_template.png)  
+This is the review created page, but there are also similar pages for: movie created, cast created, movie modified, cast modified, movie deleted, cast deleted and review deleted.  
+Their button leads to the movies list, cast list or user reviews depending on the entity.  
 
-GENERAL ERROR  
+   **·GENERAL ERROR**  
 ![error](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/error_template.png)  
+This page appears when an error has occurred (except when the error is movie or cast not found). It allows you to return to the home page.  
 
-MOVIE/CAST NOT FOUND ERROR  
+   **·MOVIE/CAST NOT FOUND ERROR**  
 ![movieNotFound](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movieNotFound_template.png)  
+This error page appears when the user is trying to access a non-existent movie or cast (for cast the page is a little different). It allows you to return to the home page.  
 
-NAVIGATION DIAGRAM  
-![navigation_diagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/Navigation_diagram.png)  
+   **·NAVIGATION DIAGRAM**  
+![navigation_diagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/navigation_diagram.png)  
+You can go to general error page from all other pages (if any error occurs).  
+All forms lead you to the entity created/modified page when finished and all delete buttons lead you to the entity deleted page.  
+All the "volver a la pgina de inicio" links lead you to the home page.  
 
 ## EXECUTION INSTRUCTIONS
 >Instructions on what steps someone has to follow to be able to correctly download the repository and execute the application. Also specifying versions of java, sql, Maven... If possible the instructions must be specified on command lines, if not possible, it must be described in an interactive way
