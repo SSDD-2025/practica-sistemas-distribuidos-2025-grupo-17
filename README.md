@@ -187,7 +187,7 @@ Altough I have participated in some templates and other things, my main tasks we
 
 ## MANUEL
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Tasks: I added most styles in templates, created most templates, created the sampleData, made diagrams in README, added functionality of dataBase to CastController, MoviesConstroller (and functions related), and fixing some bugs or errors in various files.
+I added most styles in templates, created most templates, created the sampleData, made diagrams in README, added functionality of dataBase to CastController, MoviesConstroller (and functions related), and fixing some bugs or errors in various files.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
