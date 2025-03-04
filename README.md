@@ -26,11 +26,11 @@
 ## Authors:
 ### Carlos Ivorra Salinas
 ### Manuel
-### Zaira
+### Zaira Ruiz Fernández
 ### Miguel
 
 ## Description:
-### This is a web application that we developed for "Distribuited systems" in our collegue degree. We had to develop a web application using _Spring_, _MySQL_ and _GitHub_. W
+### This is a web application that we developed for "Distribuited systems" in our collegue degree. We had to develop a web application using _Spring_, _MySQL_ and _GitHub_.
 ### We decided a movie rating application because movies was a common interest between ourselves.
 
 
@@ -39,38 +39,57 @@
 
 | Entity | Description |
 |-----:|-----------|
-|     User| 3 types: Admin, anonymous and registered. This entitie define all the types of users|
-|     Movie| The movies that are available for the users to review on the application   |
-|     Cast| The cast for the movies; actors, directors...       |
-|     Review| 2 types: star rating and elaborated rating with a text, a date, likes...       |
+|     User| 3 types: Admin, anonymous and registered. This entitie define all the types of users. In this first part, however, there is only one user that can do everything. One user can have many reviews.|
+|     Movie| The movies that are available for the users to review or see their info on the application. One movie can have many actors and reviews.   |
+|     Cast| The actors that are available for the users to see their info on the application. One actor can have many movies.      |
+|     Review| Users reviews of a movie. One review has one movie and one user associated.      |
 
 # REQUESTED FEATURES
 >Below there are all requests made in the project description
+  -Java version: 21
+  -MySQL version: 8.0.33
+  -Maven version: 4.0.0
+  -Spring Boot version: 3.4.2
+  -VisualStudioCode + SpringBoot
 
 ## NAVIGATION 🧭
 >Screenshots of the main pages in the application and navigation diagram
+HOME PAGE (MOVIES LIST)
+![home](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/home_template.png)
 
-```mermaid
-graph TD;
-    Home[🏠 Home Page] -->|View Movies| Movies[🎬 Movies List];
-    Home -->|View Actors| Actors[🎭 Actors List];
-    Home -->|View My Reviews| MyReviews[📝 My Reviews];
-    Movies -->|View Movie Details| MovieDetails[📄 Movie Details];
-    Movies -->|Add Movie| AddMovie[➕ Add Movie];
-    MovieDetails -->|View Cast| Cast[🎭 Cast Details];
-    MovieDetails -->|Watch Trailer| Trailer[▶️ Watch Trailer];
-    MovieDetails -->|Delete Movie| DeleteMovie[🗑️ Delete Movie];
-    MovieDetails -->|Edit Movie| EditMovie[✏️ Edit Movie];
-    MovieDetails -->|View Reviews| Reviews[📝 Reviews];
-    MovieDetails -->|Add Review| AddReview[➕ Add Review];
-    Reviews -->|Delete Review| DeleteReview[🗑️ Delete Review];
-    Actors -->|Add Actor| AddActor[➕ Add Actor];
-    MyReviews -->|Delete Review| DeleteMyReview[🗑️ Delete My Review];
-    Home -->|Back to Home| BackHome[🏠 Back to Home];
-    AddMovie -->|Back to Movies| BackToMovies[🎬 Back to Movies];
-    AddActor -->|Back to Actors| BackToActors[🎭 Back to Actors];
-```
-    
+CAST LIST
+![castList](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/castList_template.png)
+
+USER REVIEWS
+![my_reviews](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/my_reviews_template.png)
+
+MOVIE INFO
+![movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movie_template.png)
+
+CAST INFO
+![cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/cast_template.png)
+
+MOVIE FORM
+![new_or_modify_movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_or_modify_movie_template.png)
+
+CAST FORM
+![new_or_modify_cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_cast_template.png)
+
+REVIEW FORM
+![new_review](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_review_template.png)
+
+ENTITY CREATED OR MODIFIED
+![review_created](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/review_created_template.png)
+
+GENERAL ERROR
+![error](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/error_template.png)
+
+MOVIE/CAST NOT FOUND ERROR
+![movieNotFound](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movieNotFound_template.png)
+
+NAVIGATION DIAGRAM
+![navigation_diagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/Navigation_diagram.png)
+
 ## EXECUTION INSTRUCTIONS
 >Instructions on what steps someone has to follow to be able to correctly download the repository and execute the application. Also specifying versions of java, sql, Maven... If possible the instructions must be specified on command lines, if not possible, it must be described in an interactive way
 
