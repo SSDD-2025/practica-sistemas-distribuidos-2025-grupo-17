@@ -133,64 +133,13 @@ All the "volver a la pgina de inicio" links lead you to the home page.
 
 
 ## ENTITIES DIAGRAM 📈
->It can be of the database or a UML diagram of the Java classes
 
-> [!NOTE]
-TODO: The following code will create an uncompleted entities diagram on the webpage: https://dbdiagram.io/d
-
-### Code:
-Table movies {
-  id integer [primary key]
-  name varchar
-  argument text
-  release_date date
-  mark float
-  platform varchar
-  pegi integer
-  duration integer
-  origin_country varchar
-  genres text [note: 'List of genres']
-  prizes text [note: 'List of prizes won']
-}
-
-Table cast {
-  id integer [primary key]
-  name varchar
-  biography text
-  birth_date date
-  work_field varchar [note: 'Actor, director, etc.']
-  origin_country varchar
-  awards text [note: 'List of awards']
-}
-
-Table users {
-  id integer [primary key]
-  username varchar
-  password varchar
-  email varchar
-  profile_picture varchar
-  role varchar [note: 'Anonymous, Registered, Admin']
-  created_at timestamp
-}
-
-Table reviews {
-  id integer [primary key]
-  user_id integer [ref: > users.id]
-  movie_id integer [ref: > movies.id]
-  type varchar [note: 'Rating or full review']
-  rating float
-  title varchar [note: 'Only if full review']
-  body text [note: 'Only if full review']
-  likes integer [default: 0]
-  created_at timestamp
-}
-
-
-
+![entitiesDiagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/entitiesDiagram.png)
 
 ## CLASS DIAGRAM AND TEMPLATES 📈
->Diagram of the application classes. Must specify what classes are "@Controller,
-@Service, Repository, domain classes (entidades) or other types. In this diagram we also have to include templates and specify with what @Controller are they related to. It can be differenced with colours (Like in the page 11 of the project description)
+
+![classesDiagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/classesDiagram.png)
+
 
 
 # MEMBERS PARTICIPATION 👥
@@ -224,27 +173,25 @@ Altough I have participated in some templates and other things, my main tasks we
 
 ## MANUEL
 ## DESCRIPTION OF THE TASKS DONE ✍️
->Add description here
+>Tasks: added styles in templates, created templates, added sampleData, made diagrams, added some functionality of dataBase and functions related.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| Commit example|
-|     2| Commit example |
-|     3| Commit example |
-|     4| Commit example|
-|     5| Commit example        |
+|     1| [2nd part to include CSS style to all templates and fixing some minor errors in some .java classes](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/87e64d08d1a90786d92a9c9a9aea5ab8bdf2f443)|
+|     2| [Changes to implement DataBase, new repository classes, and changes in entity relations](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a4ffe6acdabb9f419cee705f11c9d83a9e1774d2)|
+|     3| [Cast and Movie fixes and changes to import DataBase functionality](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/2c71c8d892bc657e662907e6b13cd8af7134446c)|
+|     4| [Fixes inconsistencies when modify movies and cast, fixed minor error in sampledata castBirthDate format, added new styles to reviews, fixed bug in delete review on a movie template.](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/f592e1082d9cffa85fce4473bcd213334ae62ffc)|
+|     5| [Added new templates to add new entities and modified old ones](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/bd66b1374a0467641a66baae6306c1442376589c)|
 
 # 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| file link example|
-|     2| file link example |
-|     3| file link example |
-|     4| file link example|
-|     5| file link example        |
-
-
+|     1| [SampleDataService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/SampleDataService.java)|
+|     2| [MoviesController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/MoviesController.java)|
+|     3| [CastController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/CastController.java)|
+|     4| [home_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/home_template.html)|
+|     5| [styles.css](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/static/styles.css)|
 
 
 ## MIGUEL
