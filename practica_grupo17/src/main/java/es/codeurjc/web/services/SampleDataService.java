@@ -27,7 +27,7 @@ public class SampleDataService {
 	private UserService userService;
 
 	private Cast c[] = new Cast[4];
-	private Movie m[] = new Movie[3];
+	private Movie m[] = new Movie[4];
 	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
@@ -53,13 +53,16 @@ public class SampleDataService {
 			// Cast list
 			ArrayList<Cast> cast1 = new ArrayList<>(),
 					cast2 = new ArrayList<>(),
+					cast4 = new ArrayList<>(),
 					cast3 = new ArrayList<>();
+
 			// Add cast list to movies entities
-			addCastToMovies(cast1, cast2, cast3);
+			addCastToMovies(cast1, cast2, cast3, cast4);
 			// Save movies entities in moviesService (no images)
 			moviesService.save(m[0]);
 			moviesService.save(m[1]);
 			moviesService.save(m[2]);
+			moviesService.save(m[3]);
 			// Save cast entities in castService (no images)
 			castService.save(c[0]);
 			castService.save(c[1]);
@@ -72,6 +75,7 @@ public class SampleDataService {
 					imageFile4 = new File("web_ejem5\\src\\main\\resources\\static\\images\\cast-images\\image-2.jpg"),
 					imageFile5 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-0.jpg"),
 					imageFile6 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-1.jpg"),
+					imageFile8 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-3.jpg"),
 					imageFile7 = new File("web_ejem5\\src\\main\\resources\\static\\images\\movies-images\\image-2.jpg");
 			byte[] imageBytes1 = Files.readAllBytes(imageFile1.toPath()),
 					imageBytes2 = Files.readAllBytes(imageFile2.toPath()),
@@ -79,6 +83,7 @@ public class SampleDataService {
 					imageBytes4 = Files.readAllBytes(imageFile4.toPath()),
 					imageBytes5 = Files.readAllBytes(imageFile5.toPath()),
 					imageBytes6 = Files.readAllBytes(imageFile6.toPath()),
+					imageBytes8 = Files.readAllBytes(imageFile8.toPath()),
 					imageBytes7 = Files.readAllBytes(imageFile7.toPath());
 			Blob imageBlob1 = new SerialBlob(imageBytes1),
 					imageBlob2 = new SerialBlob(imageBytes2),
@@ -86,6 +91,7 @@ public class SampleDataService {
 					imageBlob4 = new SerialBlob(imageBytes4),
 					imageBlob5 = new SerialBlob(imageBytes5),
 					imageBlob6 = new SerialBlob(imageBytes6),
+					imageBlob8 = new SerialBlob(imageBytes8),
 					imageBlob7 = new SerialBlob(imageBytes7);
 
 			c[0].setCastImage(imageBlob1);
@@ -95,6 +101,7 @@ public class SampleDataService {
 			m[0].setMovieImage(imageBlob5);
 			m[1].setMovieImage(imageBlob6);
 			m[2].setMovieImage(imageBlob7);
+			m[3].setMovieImage(imageBlob8);
 
 			castService.save(c[0]);
 			castService.save(c[1]);
@@ -103,6 +110,7 @@ public class SampleDataService {
 			moviesService.save(m[0]);
 			moviesService.save(m[1]);
 			moviesService.save(m[2]);
+			moviesService.save(m[3]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -141,23 +149,32 @@ public class SampleDataService {
 	private Movie[] initMovies() {
 		String movieName1 = "Mortadelo y Filemon Contra Jimmy El Cachondo",
 				movieName2 = "Torrente 10",
-				movieName3 = "Vengadores: Guardianes de las patatas";
+				movieName3 = "Vengadores: Guardianes de las patatas",
+				movieName4 = "Oppenheimer";
 		String movieArg1 = "La T.I.A acaba de sufrir uno de sus peores asaltos criminales, un ataque de risa en toda regla perpetrado por Jimmy el Cachondo para poder hacerse con un documento ultrasecreto.",
 				movieArg2 = "Torrente sale de la cárcel en el año 2018 para encontrarse una España totalmente diferente de la que él conocía. Ante este 'shock' decide pasar a ser un 'fuera de la ley' y atracar un casino.",
-				movieArg3 = "Taki y Mitsuha descubren un día que durante el sueño sus cuerpos se intercambian, y comienzan a comunicarse por medio de notas.";
+				movieArg3 = "Taki y Mitsuha descubren un día que durante el sueño sus cuerpos se intercambian, y comienzan a comunicarse por medio de notas.",
+				movieArg4 = "La historia del físico J. Robert Oppenheimer y su papel en el desarrollo de la bomba atómica.";
 		int movieYear1 = 2000,
 				movieYear2 = 3015,
+				movieYear4 = 2023,
 				movieYear3 = 2014;
 		String movieTrailer1 = "https: www.youtube.com/watch?v=aNgdO0CQAVw&ab_channel=WarnerBros.PicturesEspa%C3%B1a",
 				movieTrailer2 = "https: www.youtube.com/watch?v=ppiadC1sSik&ab_channel=SonyPicturesEspa%C3%B1a",
-				movieTrailer3 = "https: www.youtube.com/watch?v=osY929PCs2o&ab_channel=Netflix";
-		Movie mInit[] = new Movie[3];
+				movieTrailer3 = "https: www.youtube.com/watch?v=osY929PCs2o&ab_channel=Netflix",
+				movieTrailer4 = "https://www.youtube.com/watch?v=bK6ldnjE3Y0";
+
+		;
+		Movie mInit[] = new Movie[4];
 		mInit[0] = new Movie(movieName1, movieArg1, movieYear1, movieTrailer1);
 		mInit[1] = new Movie(movieName2, movieArg2, movieYear2, movieTrailer2);
 		mInit[2] = new Movie(movieName3, movieArg3, movieYear3, movieTrailer3);
+		mInit[3] = new Movie(movieName4, movieArg4, movieYear4, movieTrailer4);
+
 		moviesService.save(mInit[0]);
 		moviesService.save(mInit[1]);
 		moviesService.save(mInit[2]);
+		moviesService.save(mInit[3]);
 		return mInit;
 	}
 
@@ -188,11 +205,11 @@ public class SampleDataService {
 		return rInit;
 	}
 
-	private void addMoviesToCast(ArrayList<Movie> movies1, ArrayList<Movie> movies2, ArrayList<Movie> movies3,
-			ArrayList<Movie> movies4) {
+	private void addMoviesToCast(ArrayList<Movie> movies1, ArrayList<Movie> movies2, ArrayList<Movie> movies3,ArrayList<Movie> movies4) {
 		movies1.add(m[0]);
 		movies1.add(m[1]);
 		movies1.add(m[2]);
+		movies1.add(m[3]);
 		movies2.add(m[0]);
 		movies2.add(m[2]);
 		movies3.add(m[1]);
@@ -206,7 +223,7 @@ public class SampleDataService {
 	}
 
 	private void addCastToMovies(ArrayList<Cast> cast1, ArrayList<Cast> cast2,
-			ArrayList<Cast> cast3) {
+								 ArrayList<Cast> cast3,ArrayList<Cast> cast4) {
 		cast1.add(c[0]);
 		cast1.add(c[1]);
 		cast1.add(c[3]);
@@ -216,9 +233,12 @@ public class SampleDataService {
 		cast3.add(c[0]);
 		cast3.add(c[1]);
 		cast3.add(c[2]);
-
+		cast4.add(c[0]);
+		cast4.add(c[1]);
+		cast4.add(c[2]);
 		m[0].setCast(cast1);
 		m[1].setCast(cast2);
 		m[2].setCast(cast3);
+		m[3].setCast(cast4);
 	}
 }
