@@ -30,7 +30,7 @@
 ### Miguel
 | Name | Email | Github |
 |-----:|-----------|-----------|
-| Carlos Ivorra Salinas |  | carlosivorrasalinas |
+| Carlos Ivorra Salinas | c.ivorra.2021@alumnos.urjc.es | carlosivorrasalinas |
 | Manuel | mm.torres.2022@alumnos.urjc.es | tempusfugit04 |
 | Zaira Ruiz Fernández | z.ruiz.2022@alumnos.urjc.es | ZairaURJC |
 | Miguel Lameiro Martinez | m.lameiro.2023@alumnos.urjc.es | The-lost-Apolo |
@@ -232,25 +232,25 @@ I improved the IMDb-style web project by enhancing error handling for missing mo
 
 ## CARLOS
 # DESCRIPTION OF THE TASKS DONE ✍️
->Add description here
+I created entities and skeleton documentation and inclusion of sample data.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| Commit example|
-|     2| Commit example |
-|     3| Commit example |
-|     4| Commit example|
-|     5| Commit example        |
+|     1| [I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters. I have also added the completed entities Review and User.](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/10a57135db7fa801ebfaa1b0d124b87f5437eb8e)|
+|     2| [Update README.md](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/5eba7404e506094625e30d04ba3ab729af08fb75)|
+|     3| [Create Movie.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/407b2cd85c3a14d1d0d452dc312e23840d1ef780)|
+|     4| [Create Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/f6ec7ec8929ac9b2a35b95a76bde6f9e56590326)|
+|     5| [Added "Oppenheimer" movie to the SampleData](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a0725ed632b3c8f64728373dc69931152a63abb9)|
 
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| file link example|
-|     2| file link example |
-|     3| file link example |
-|     4| file link example|
-|     5| file link example        |
+|     1| [README.md](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/README.md)|
+|     2| [SampleDataService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/SampleDataService.java)|
+|     3| [Movie.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Movie.java)|
+|     4| [Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Cast.java)|
+|     5| [Review.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Review.java)|
 
 
 
