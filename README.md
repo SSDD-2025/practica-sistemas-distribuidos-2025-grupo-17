@@ -45,50 +45,50 @@
 |     Review| Users reviews of a movie. One review has one movie and one user associated.      |
 
 # REQUESTED FEATURES
->Below there are all requests made in the project description
-  -Java version: 21
-  -MySQL version: 8.0.33
-  -Maven version: 4.0.0
-  -Spring Boot version: 3.4.2
-  -VisualStudioCode + SpringBoot
+>Below there are all requests made in the project description  
+  -Java version: 21  
+  -MySQL version: 8.0.33  
+  -Maven version: 4.0.0  
+  -Spring Boot version: 3.4.2  
+  -VisualStudioCode + SpringBoot  
 
 ## NAVIGATION 🧭
->Screenshots of the main pages in the application and navigation diagram
-HOME PAGE (MOVIES LIST)
-![home](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/home_template.png)
+>Screenshots of the main pages in the application and navigation diagram  
+HOME PAGE (MOVIES LIST)  
+![home](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/home_template.png)  
 
-CAST LIST
-![castList](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/castList_template.png)
+CAST LIST  
+![castList](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/castList_template.png)  
 
-USER REVIEWS
-![my_reviews](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/my_reviews_template.png)
+USER REVIEWS  
+![my_reviews](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/my_reviews_template.png)  
 
-MOVIE INFO
-![movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movie_template.png)
+MOVIE INFO  
+![movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movie_template.png)  
 
-CAST INFO
-![cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/cast_template.png)
+CAST INFO  
+![cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/cast_template.png)  
 
-MOVIE FORM
-![new_or_modify_movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_or_modify_movie_template.png)
+MOVIE FORM  
+![new_or_modify_movie](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_or_modify_movie_template.png)  
 
-CAST FORM
-![new_or_modify_cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_cast_template.png)
+CAST FORM  
+![new_or_modify_cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_cast_template.png)  
 
-REVIEW FORM
-![new_review](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_review_template.png)
+REVIEW FORM  
+![new_review](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/new_review_template.png)  
 
-ENTITY CREATED OR MODIFIED
-![review_created](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/review_created_template.png)
+ENTITY CREATED OR MODIFIED  
+![review_created](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/review_created_template.png)  
 
-GENERAL ERROR
-![error](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/error_template.png)
+GENERAL ERROR  
+![error](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/error_template.png)  
 
-MOVIE/CAST NOT FOUND ERROR
-![movieNotFound](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movieNotFound_template.png)
+MOVIE/CAST NOT FOUND ERROR  
+![movieNotFound](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/movieNotFound_template.png)  
 
-NAVIGATION DIAGRAM
-![navigation_diagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/Navigation_diagram.png)
+NAVIGATION DIAGRAM  
+![navigation_diagram](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/readme_images/Navigation_diagram.png)  
 
 ## EXECUTION INSTRUCTIONS
 >Instructions on what steps someone has to follow to be able to correctly download the repository and execute the application. Also specifying versions of java, sql, Maven... If possible the instructions must be specified on command lines, if not possible, it must be described in an interactive way
