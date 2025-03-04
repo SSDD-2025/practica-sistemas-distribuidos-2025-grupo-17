@@ -16,6 +16,21 @@
 
 # MOVIE REVIEW WEB APPLICATION 🎥 
 
+## 📌 Índice
+- [Autores](#autores)
+- [Descripción](#descripción)
+- [Entidades utilizadas](#entidades-utilizadas)
+- [Características solicitadas](#requested-features)
+- [Navegación 🧭](#navegación-)
+- [Instrucciones de ejecución](#execution-instructions)
+- [Diagrama de entidades 📈](#entidades-diagram-)
+- [Diagrama de clases y plantillas 📈](#class-diagram-and-templates-)
+- [Participación de los miembros 👥](#members-participation-)
+  - [Zaira](#zaira)
+  - [Manuel](#manuel)
+  - [Miguel](#miguel)
+  - [Carlos](#carlos)
+
 <picture>
  <source media="(prefers-color-scheme: dark)" srcset="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
  <source media="(prefers-color-scheme: light)" srcset="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
