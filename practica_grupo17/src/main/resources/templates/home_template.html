@@ -11,12 +11,17 @@
 	{{>options_template}}
 	<h2>Películas disponibles:</h2>
 	{{#movies}}
-	<ul>
-		<li>
-			<img src="/movie/{{id}}/image" id="imageSize"></img><br>
-			<a href="/movies/{{id}}">{{name}}</a>
-		</li>
-	</ul>
+	<div>
+		<ul>
+			<li>
+
+				<img src="/movie/{{id}}/image" id="imageSize"></img><br>
+				<a href="/movies/{{id}}">{{name}}</a>
+
+			</li>
+
+		</ul>
+	</div>
 	{{/movies}}
 
 	{{^movies}}
