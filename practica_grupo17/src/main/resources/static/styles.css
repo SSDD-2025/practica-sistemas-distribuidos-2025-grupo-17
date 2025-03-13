@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 #fieldName {
     color: #264097;
     font-size: 0.85em;
@@ -19,25 +23,40 @@
     height: auto;
 }
 
-#logoImage {
+#topBanner {
+    background-size: cover;
+    background-color: rgb(39, 32, 59);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    text-shadow: 3px 3px 4px #c9c619;
+}
+
+
+#bannerImage {
     max-width: 100px;
     max-height: 100px;
     width: auto;
     height: auto;
-    margin: auto;
     cursor: pointer;
-}
-
-#topBanner {
-    background-color: rgb(51, 44, 110);
-    margin:auto;
+    display: flex;
     align-items: center;
+    padding: 1%;
 }
 
-#bannerText{
-    color:#f9f9f9;
+#bannerText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 170%;
+    color: #f9f9f9;
+    width: 70%;
+    height: 80%;
+    margin-left: 5%;
+    align-items: center;
+    font-style: italic;
+    letter-spacing: 7px;
+    font-weight: bolder;
+    text-transform: uppercase;
 }
-
 
 #errorText {
     color: red;
@@ -58,4 +77,32 @@
     border-radius: 8px;
     background-color: #f9f9f9;
     max-width: 30%;
+}
+
+#bannerOptions {
+    background-color: rgb(66, 54, 97);
+    display: inline-block;
+    height: 50px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonOption{
+    text-transform: uppercase;
+    color: #000000;
+    text-decoration: underline;
+    text-shadow: 0px 0px 1px black;
+    background-color: #9a7bbd;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    line-height: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+    border: 5px solid rgb(72, 26, 124);
 }
