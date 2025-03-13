@@ -31,7 +31,7 @@ public class SampleDataService {
 	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
-	private final static String IMAGES_PATH="images/";
+	private final String IMAGE_PATH = "practica_grupo17\\src\\main\\resources\\static\\images\\"; 
 
 	@PostConstruct
 	public void init() {
@@ -68,13 +68,13 @@ public class SampleDataService {
 			castService.save(c[2]);
 			castService.save(c[3]);
 			//Add images to cast and movies and save them with File and Blob
-			File imageFile1 = new File(IMAGES_PATH+"cast-images/image-1.jpg"),
-					imageFile2 = new File(IMAGES_PATH+"cast-images/image-0.jpg"),
-					imageFile3 = new File(IMAGES_PATH+"cast-images/image-3.jpg"),
-					imageFile4 = new File(IMAGES_PATH+"cast-images/image-2.jpg"),
-					imageFile5 = new File(IMAGES_PATH+"movies-images/image-0.jpg"),
-					imageFile6 = new File(IMAGES_PATH+"movies-images/image-1.jpg"),
-					imageFile7 = new File(IMAGES_PATH+"movies-images/image-2.jpg");
+			File imageFile1 = new File(IMAGE_PATH +"cast_images\\image_1.jpg"),
+					imageFile2 = new File(IMAGE_PATH +"cast_images\\image_0.jpg"),
+					imageFile3 = new File(IMAGE_PATH +"cast_images\\image_3.jpg"),
+					imageFile4 = new File(IMAGE_PATH +"cast_images\\image_2.jpg"),
+					imageFile5 = new File(IMAGE_PATH +"movies_images\\image_0.jpg"),
+					imageFile6 = new File(IMAGE_PATH +"movies_images\\image_1.jpg"),
+					imageFile7 = new File(IMAGE_PATH +"movies_images\\image_2.jpg");
 			byte[] imageBytes1 = Files.readAllBytes(imageFile1.toPath()),
 					imageBytes2 = Files.readAllBytes(imageFile2.toPath()),
 					imageBytes3 = Files.readAllBytes(imageFile3.toPath()),
