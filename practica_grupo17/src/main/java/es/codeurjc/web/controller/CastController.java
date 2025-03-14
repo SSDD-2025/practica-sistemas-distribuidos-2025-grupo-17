@@ -108,34 +108,46 @@ public class CastController {
 			Cast cast = op.get();
 			model.addAttribute("cast", cast);
 			model.addAttribute("allMovies", moviesService.findAll());
+	
+			// Si el actor tiene una imagen, pasar su URL al modelo
+			if (cast.getCastImage() != null) {
+				model.addAttribute("currentImageUrl", "/cast/" + id + "/image");
+			}
+	
 			return "new_or_modify_cast_template";
 		} else {
 			return "castNotFound_template";
 		}
 	}
+	
 
 	@PostMapping("/cast/{id}/modify")
 	public String modifyCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
 			@PathVariable long id, @RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
-			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException, SQLException {
-
+			@RequestParam String castOriginCountry, @RequestParam(required = false) MultipartFile castImage) 
+			throws IOException, SQLException {
+	
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
 			Cast oldCast = op.get();
-			Blob oldCastImage = oldCast.getCastImage();
+			Blob oldCastImage = oldCast.getCastImage(); // Guardamos la imagen actual
+	
 			castService.removeMovies(oldCast);
-			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry,
-					castMovies);
+			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies);
 			updatedCast.setId(id);
-			if (!castImage.isEmpty()) {
-				castService.save(updatedCast, castImage);
+	
+			// Si no se sube una nueva imagen, reutilizar la anterior
+			if (castImage == null || castImage.isEmpty()) {
+				updatedCast.setCastImage(oldCastImage);
 			} else {
-				castService.save(updatedCast, oldCastImage);
+				castService.save(updatedCast, castImage);
 			}
+	
 			return "cast_modified_template";
 		} else {
 			return "castNotFound_template";
 		}
 	}
+	
 }

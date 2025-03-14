@@ -12,16 +12,21 @@
     <h2>Rellene con los datos del actor a añadir</h2>
     <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post"
         enctype="multipart/form-data">
+        
         <label id="fieldName">Nombre:</label>
         <input type='text' name='castName' value="{{#cast}}{{name}}{{/cast}}" required><br>
+        
         <div id="textAreaToAlign">
             <label id="fieldName">Biografía:</label>
             <textarea name='castBiography' rows=5 cols=40 required>{{#cast}}{{biography}}{{/cast}}</textarea><br>
         </div>
+        
         <label id="fieldName">Fecha nacimiento:</label>
         <input type='date' name='castBirthDate' value="{{#cast}}{{birthDate}}{{/cast}}" required><br>
+        
         <label id="fieldName">País de origen:</label>
         <input type='text' name='castOriginCountry' value="{{#cast}}{{originCountry}}{{/cast}}" required /> <br>
+        
         <label id="fieldName">Películas: </label>
         <div class="checkbox-group">
             {{#movies}}
@@ -33,9 +38,20 @@
             {{/allMovies}}
             {{/movies}}
         </div> <br>
-        <label id="fieldName">Imagen:</label>
+
+        <!-- Mostrar la imagen actual si existe -->
+        {{#currentImageUrl}}
+        <label id="fieldName">Imagen actual:</label>
+        <br>
+        <img src="{{currentImageUrl}}" alt="Imagen actual" width="150px">
+        <br>
+        {{/currentImageUrl}}
+
+        <label id="fieldName">Seleccionar nueva imagen: (sino se seleccionar ninguna quedara la anterior por defecto)</label>
         <input type='file' name='castImage' accept=".png, .jpg, .jpeg" /> <br>
 
         <input type='submit' name='Subir actor' id="submitButton"><br>
     </form>
+
     {{>backToHome_template}}
+</body>

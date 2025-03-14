@@ -104,6 +104,12 @@ public class MoviesController {
 			Movie mov = movie.get();
 			model.addAttribute("movie", mov);
 			model.addAttribute("allCast", castService.findAll());
+	
+			// Generar la URL de la imagen si existe
+			if (mov.getMovieImage() != null) {
+				model.addAttribute("currentImageUrl", "/movie/" + id + "/image");
+			}
+	
 			return "new_or_modify_movie_template";
 		} else {
 			return "movieNotFound_template";
@@ -114,24 +120,31 @@ public class MoviesController {
 	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName,
 			@RequestParam String movieArgument, @RequestParam int movieYear,
 			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
-			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException, SQLException {
+			@RequestParam String movieTrailer,
+			@RequestParam(required = false) MultipartFile movieImage) 
+			throws IOException, SQLException {
+	
 		Optional<Movie> op = moviesService.findById(id);
 		if (op.isPresent()) {
 			Movie oldMovie = op.get();
-			Blob oldMovieImage = oldMovie.getMovieImage();
+			Blob oldMovieImage = oldMovie.getMovieImage(); // Guardamos la imagen actual
+	
 			moviesService.removeCast(oldMovie);
-			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
-					movieTrailer);
+			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer);
 			updatedMovie.setId(id);
-			oldMovie.getReviews().forEach(c -> updatedMovie.addReview(c));
-			if (!movieImage.isEmpty()) {
-				moviesService.save(updatedMovie, movieImage);
+			oldMovie.getReviews().forEach(updatedMovie::addReview);
+	
+			// Si no se sube una nueva imagen, reutilizar la anterior
+			if (movieImage == null || movieImage.isEmpty()) {
+				updatedMovie.setMovieImage(oldMovieImage);
 			} else {
-				moviesService.save(updatedMovie, oldMovieImage);
+				moviesService.save(updatedMovie, movieImage);
 			}
+	
 			return "movie_modified_template";
 		} else {
 			return "movieNotFound_template";
 		}
 	}
+	
 }
