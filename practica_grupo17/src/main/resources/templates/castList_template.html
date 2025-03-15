@@ -3,6 +3,7 @@
 <body>
 	{{>banner_home_template}}
 	{{>options_cast_selected_template}}
+	<div><button onclick="window.location.href='/cast/new';">Añadir actor</button></bodydiv>
 	<h2>Actores disponibles:</h2>
 
 	{{#cast}}
@@ -18,6 +19,4 @@
 	<p>No hay actores todavía.</p>
 	{{/cast}}
 
-
-	<button onclick="window.location.href='/cast/new';">Añadir actor</button><br>
 	{{>backToHome_template}}

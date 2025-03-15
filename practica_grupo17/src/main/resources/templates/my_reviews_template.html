@@ -2,7 +2,7 @@
 
 <body>
     {{>banner_home_template}}
-	{{>options_reviews_selected_template}}
+    {{>options_reviews_selected_template}}
     {{#user}}
     <h2>Reseñas de {{username}}:</h1>
         {{#reviews}}
@@ -18,10 +18,12 @@
             </li>
         </ul>
         {{/reviews}}
+
         {{^reviews}}
         <p id="infoText">No hay reseñas tuyas todavía</p>
         {{/reviews}}
         {{/user}}
+
         {{^user}}
         <p id="infoText">Usuarios aún no implementados.</p>
         {{/user}}

@@ -3,22 +3,20 @@
 <body>
 	{{>banner_home_template}}
 	{{>options_movies_selected_template}}
+	<div><button onclick="window.location.href='/movie/new';">Añadir película</button></div>
 	<h2>Películas disponibles:</h2>
 	{{#movies}}
-
 	<ul>
 		<li>
 			<img src="/movie/{{id}}/image" id="imageSize"></img><br>
 			<a href="/movies/{{id}}">{{name}}</a>
 
 		</li>
-
 	</ul>
-
 	{{/movies}}
 
 	{{^movies}}
 	<p id="errorText">No hay películas disponibles.</p>
 	{{/movies}}
-	<button onclick="window.location.href='/movie/new';">Añadir película</button><br>
+
 	{{>backToHome_template}}
