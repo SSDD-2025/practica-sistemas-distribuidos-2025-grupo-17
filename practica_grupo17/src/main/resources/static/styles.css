@@ -80,29 +80,31 @@ body {
 }
 
 #bannerOptions {
-    background-color: rgb(66, 54, 97);
-    display: inline-block;
-    height: 50px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+    background-color: rgb(100, 84, 190);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    line-height: 50px;
+    text-align: center;
 }
 
-.buttonOption{
+#bannerOptions>a {
     text-transform: uppercase;
-    color: #000000;
-    text-decoration: underline;
-    text-shadow: 0px 0px 1px black;
-    background-color: #9a7bbd;
     cursor: pointer;
-    align-items: center;
-    text-align: center;
-    line-height: 50px;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 15px;
-    padding-bottom: 10px;
-    margin-left: 2%;
-    margin-right: 2%;
-    border: 5px solid rgb(72, 26, 124);
+    display: block;
+    margin: 5px;
+}
+
+#buttonOption {
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 0px 1px black;
+    background-color: rgb(170, 146, 228);
+    border: 5px solid rgb(39, 30, 63);
+}
+
+#buttonOptionSelected {
+    color: rgb(240, 196, 255);
+    text-shadow: 0px 0px 1px rgb(191, 137, 207);
+    background-color: rgb(84, 70, 124);
+    border: 5px solid rgb(170, 146, 228);
+    text-decoration: underline;
 }

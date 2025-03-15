@@ -1,13 +1,7 @@
 {{>header_template}}
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand">{{#cast}}Modificar actor{{/cast}}{{^cast}}Nuevo actor{{/cast}}</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            </div>
-        </div>
-    </nav>
+    {{>banner_form_template}}
 
     <h2>Rellene con los datos del actor a añadir</h2>
     <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post"
