@@ -1,6 +1,8 @@
 package es.codeurjc.web.entities;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,17 +20,18 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "author",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<Review> reviews;
-    private String role;
+    @ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles;
 
     protected User(){
 
     }
 
-    public User(String username, String password, String role) {
+    public User(String username, String password,String... roles) {
         super();
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = List.of(roles);
     }
 
     public void addReview(Review review) {
@@ -73,12 +76,12 @@ public class User {
         this.reviews = reviews;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String... roles) {
+        this.roles = List.of(roles);
     }
 
     

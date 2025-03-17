@@ -45,7 +45,7 @@ public class ReviewController {
 	public String newReview(Model model,@PathVariable int id, @RequestParam String reviewTitle, @RequestParam String reviewText) throws IOException {
 
 		Movie movie=moviesService.findById(id).orElseThrow(()->new IOException());
-		User user=userService.findByUsername("user1");
+		User user=userService.findByUsername("user1").get();
 		Review review=new Review(reviewTitle,reviewText,movie,user);
 		reviewService.save(review);
 
@@ -56,7 +56,7 @@ public class ReviewController {
 	public String deleteReview(Model model, @PathVariable long id,@PathVariable long idReview) throws IOException {
 
 		Movie movie = moviesService.findById(id).orElseThrow(()->new IOException());
-		User user=userService.findByUsername("user1");
+		User user=userService.findByUsername("user1").get();
 		Review review = reviewRepository.findById(idReview).orElseThrow(()->new IOException());
 		movie.removeReview(review);
 		user.removeReview(review);
