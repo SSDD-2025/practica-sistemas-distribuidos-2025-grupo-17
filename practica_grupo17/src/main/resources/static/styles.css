@@ -37,7 +37,7 @@ body {
     margin-top: 0px;
 }
 
-div, h1, h2, h3, p {
+div, h1, h2, h3, p, a, button, input, img {
      margin-left: 20px;
      margin-top: 10px;
 }
