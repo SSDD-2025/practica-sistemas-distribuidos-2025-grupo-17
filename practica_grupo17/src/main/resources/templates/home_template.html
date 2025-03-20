@@ -3,20 +3,27 @@
 <body>
 	{{>banner_home_template}}
 	{{>options_movies_selected_template}}
-	<div><button onclick="window.location.href='/movie/new';">Añadir película</button></div>
-	<h2>Películas disponibles:</h2>
-	{{#movies}}
-	<ul>
-		<li>
-			<img src="/movie/{{id}}/image" id="imageSize"></img><br>
-			<a href="/movies/{{id}}">{{name}}</a>
+	<div>
+		<div><button onclick="window.location.href='/movie/new';">Añadir película</button></div>
+		<div id="catalogue">
+			<div class="catalogueTitle">
+				<h2>Películas disponibles:</h2>
+			</div>
+			{{#movies}}
+			<ul>
+				<li>
+					<div class="catalogueSingleCard">
+						<img src="/movie/{{id}}/image" id="imageSize"></img>
+						<a href="/movies/{{id}}">{{name}}</a>
+					</div>
+				</li>
+			</ul>
+			{{/movies}}
 
-		</li>
-	</ul>
-	{{/movies}}
+			{{^movies}}
+			<div id="errorBox">
+				<p id="errorText">No hay películas disponibles.</p>
+			</div>
+			{{/movies}}
 
-	{{^movies}}
-	<p id="errorText">No hay películas disponibles.</p>
-	{{/movies}}
-
-	{{>backToHome_template}}
+			{{>backToHome_template}}

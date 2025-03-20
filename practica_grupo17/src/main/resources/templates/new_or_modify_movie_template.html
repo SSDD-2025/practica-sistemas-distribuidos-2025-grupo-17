@@ -2,51 +2,50 @@
 
 <body>
     {{>banner_form_template}}
-    <h2>Rellene con los datos de la película a subir</h2>
+    <div id="form">
+        <h2>Rellene con los datos de la película a subir</h2>
+        <form th:action="@{${movie != null} ? '/movie/' + movie.id + '/modify' : '/movie/new'}" method="post"
+            enctype="multipart/form-data">
 
-    <form th:action="@{${movie != null} ? '/movie/' + movie.id + '/modify' : '/movie/new'}" 
-          method="post" enctype="multipart/form-data">
-        
-        <label id="fieldName">Título: {{#error}}({{.}}){{/error}}</label>
-        <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}" required><br>
-        
-        <div id="textAreaToAlign">
-            <label id="fieldName">Argumento:</label>
-            <textarea name='movieArgument' rows=5 cols=40 required>{{#movie}}{{argument}}{{/movie}}</textarea><br>
-        </div>
-        
-        <label id="fieldName">Fecha estreno:</label>
-        <input type='number' name='movieYear' value="{{#movie}}{{year}}{{/movie}}" required><br>
-        
-        <label id="fieldName">Actores: </label>
-        <div class="checkbox-group">
-            {{#cast}}
-            <label><input type="checkbox" name="movieCast" value="{{ id }}" 
-                  {{#movie.cast}}{{#id == cast.id}}checked{{/id == cast.id}}{{/movie.cast}}> {{ name }}</label><br>
-            {{/cast}}
-            {{^cast}}
-            {{#allCast}}
-            <label><input type="checkbox" name="movieCast" value="{{ id }}"> {{ name }}</label><br>
-            {{/allCast}}
-            {{/cast}}
-        </div> <br>
+            <label id="fieldName">Título: {{#error}}({{.}}){{/error}}</label>
+            <input type='text' name='movieName' value="{{#movie}}{{name}}{{/movie}}" required><br>
 
-        <!-- Mostrar la imagen actual si existe -->
-        {{#movie}}
-        <label id="fieldName">Imagen actual:</label>
-        <br>
-        <img src="/movie/{{id}}/image" alt="Imagen actual" width="150px">
-        <br>
-        {{/movie}}
+            <div id="textAreaToAlign">
+                <label id="fieldName">Argumento:</label>
+                <textarea name='movieArgument' rows=5 cols=40 required>{{#movie}}{{argument}}{{/movie}}</textarea><br>
+            </div>
 
-        <label id="fieldName">Seleccionar nueva imagen: (sino se selecciona ninguna se quedara la anterior por defecto)</label>
-        <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
+            <label id="fieldName">Fecha estreno:</label>
+            <input type='number' name='movieYear' value="{{#movie}}{{year}}{{/movie}}" required><br>
 
-        <label id="fieldName">Enlace al tráiler de YouTube:</label>
-        <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"
-            value="{{#movie}}{{trailer}}{{/movie}}"><br>
-        <input type='submit' value="Guardar película" id="submitButton"><br>
-    </form>
+            <label id="fieldName">Actores: </label>
+            <div class="checkbox-group">
+                {{#cast}}
+                <label><input type="checkbox" name="movieCast" value="{{ id }}"
+                        {{#movie.cast}}{{#id==cast.id}}checked{{/id==cast.id}}{{/movie.cast}}> {{ name }}</label><br>
+                {{/cast}}
+                {{^cast}}
+                {{#allCast}}
+                <label><input type="checkbox" name="movieCast" value="{{ id }}"> {{ name }}</label><br>
+                {{/allCast}}
+                {{/cast}}
+            </div> <br>
 
-    {{>backToHome_template}}
+            {{#movie}}
+            <label id="fieldName">Imagen actual:</label>
+            <br>
+            <img src="/movie/{{id}}/image" alt="Imagen actual" width="150px">
+            <br>
+            {{/movie}}
+
+            <label id="fieldName">Seleccionar nueva imagen <a>(opcional)</a>: </label>
+            <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
+
+            <label id="fieldName">Enlace al tráiler de YouTube:</label>
+            <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"
+                value="{{#movie}}{{trailer}}{{/movie}}"><br>
+            <input type='submit' value="Guardar película" id="submitButton"><br>
+        </form>
+
+        {{>backToHome_template}}
 </body>

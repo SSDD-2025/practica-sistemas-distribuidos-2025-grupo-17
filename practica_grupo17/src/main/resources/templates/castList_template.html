@@ -4,19 +4,25 @@
 	{{>banner_home_template}}
 	{{>options_cast_selected_template}}
 	<div><button onclick="window.location.href='/cast/new';">Añadir actor</button></bodydiv>
-	<h2>Actores disponibles:</h2>
+		<div id="catalogue">
+			<div class="catalogueTitle">
+				<h2>Actores disponibles:</h2>
+			</div>
+			{{#cast}}
+			<ul>
+				<li>
+					<div class="catalogueSingleCard">
+						<img src="/cast/{{id}}/image" id="imageSize"></img>
+						<a href="/cast/{{id}}">{{name}}</a>
+					</div>
+				</li>
+			</ul>
+			{{/cast}}
 
-	{{#cast}}
-	<ul>
-		<li>
-			<img src="/cast/{{id}}/image" id="imageSize"></img><br>
-			<a href="/cast/{{id}}">{{name}}</a>
-		</li>
-	</ul>
-	{{/cast}}
+			{{^cast}}
+			<div id="errorBox">
+				<p id="errorText">No hay actores todavía.</p>
+			</div>
+			{{/cast}}
 
-	{{^cast}}
-	<p>No hay actores todavía.</p>
-	{{/cast}}
-
-	{{>backToHome_template}}
+			{{>backToHome_template}}

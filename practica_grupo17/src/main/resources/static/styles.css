@@ -37,7 +37,7 @@ body {
     margin-top: 0px;
 }
 
-div, h1, h2, h3, p, a, button, input, img {
+h1, h2, h3, p, a, button, input {
      margin-left: 20px;
      margin-top: 10px;
 }
@@ -54,7 +54,7 @@ div, h1, h2, h3, p, a, button, input, img {
 
 }
 
-x#bannerText {
+#bannerText {
     font-family: 'Roboto', sans-serif;
     font-size: 170%;
     color: #f9f9f9;
@@ -90,6 +90,7 @@ h2 {
     font-family: 'Arial', sans-serif;
     font-size: 1.8em;
     font-weight: 600;
+    text-transform: uppercase;
     color: #2c3e50;
     text-align: left;
     border-bottom: 2px solid #bdc3c7;
@@ -118,7 +119,7 @@ p {
     margin-bottom: 12px;
     padding: 8px;
     background-color: #f9f9f9;
-    border-left: 5px solid #5A67D8; /* Un borde colorido en la izquierda */
+    border-left: 5px solid #5A67D8;
     border-radius: 4px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -183,6 +184,7 @@ a:active {
     text-shadow: 0px 0px 1px black;
     background-color: rgb(170, 146, 228);
     border: 5px solid rgb(39, 30, 63);
+    border-radius: 15px;
 }
 
 #buttonOptionSelected {
@@ -191,6 +193,7 @@ a:active {
     background-color: rgb(84, 70, 124);
     border: 5px solid rgb(170, 146, 228);
     text-decoration: underline;
+    border-radius: 15px;
 }
 
 button {
@@ -198,22 +201,22 @@ button {
     font-size: 1em;
     font-weight: bold;
     color: #fff;
-    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102)); /* Degradado morado */
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
     border: none;
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 button:hover {
-    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102)); /* Mantiene el degradado */
+    background: linear-gradient(45deg, rgb(59, 32, 32), rgb(72, 61, 102));
     transform: scale(1.05);
 }
 
 button:active {
-    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102)); /* Mantiene el degradado */
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
     transform: scale(0.98);
 }
 
@@ -223,19 +226,19 @@ input {
     font-size: 1em;
     font-weight: bold;
     color: #fff;
-    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102)); /* Degradado morado */
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
     border: none;
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
-    outline: none; /* Quita el borde por defecto */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    outline: none;
 }
 
 input:focus {
-    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102)); /* Mantiene el degradado */
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.6); /* Sombra azulada al enfocar */
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.6);
 }
 
 input:hover {
@@ -246,44 +249,74 @@ input:active {
     transform: scale(0.98);
 }
 
-#moviesContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+#catalogue {
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
+    margin-top: 10px;
+    border: 2px;
+    border-radius: 8px;
+    background-color: #9987db;
+    max-width: 95%;
 }
 
-.movieCard {
+.catalogueSingleCard {
     background-color: #f0f0f5;
     border: 2px solid #ccc;
     border-radius: 10px;
-    padding: 15px;
     text-align: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    box-shadow: 2px 2px 10px #161064;
     transition: transform 0.2s ease-in-out;
 }
 
-.movieCard:hover {
+.catalogueSingleCard:hover {
     transform: scale(1.05);
 }
 
-.movieCard img {
+.catalogueSingleCard img {
     width: 100%;
     height: auto;
     border-bottom: 2px solid #ccc;
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 10px 30px 10px 30px;
 }
 
-.movieCard a {
-    display: block;
-    margin-top: 10px;
+.catalogueSingleCard a {
+    text-align: center;
+    display: flex;
+    max-width: 50px;
     color: #264097;
     font-weight: bold;
     text-decoration: none;
+    margin: 10% 5% 10% 25%; /*Top Right Bottom Left*/
 }
 
-.movieCard a:hover {
+.catalogueSingleCard a:hover {
     text-decoration: underline;
+}
+
+.catalogueTitle{
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.catalogueTitle h2{
+    padding-left: 33%;
+    color: white;
+}
+
+#errorBox{
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    background-color: #ffffff;
 }
 
 #errorText {
@@ -291,4 +324,36 @@ input:active {
     text-align: center;
     font-weight: bold;
     margin-top: 20px;
+    margin-right: 20px;
+}
+
+.footer {
+    background-size: cover;
+    background-color: #d6d6f5;
+    height: 100px;
+    margin-top: 20px;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 0px;
+    display: grid;
+}
+
+.footer a {
+    color:#424242;
+}
+
+ul{
+    list-style: none;
+}
+
+#form{
+    
+    margin: auto;
+    gap: 20px;
+    padding: 20px;
+    border: 2px;
+    border-radius: 8px;
+    background-color: #9987db;
+    max-width: 95%;
 }

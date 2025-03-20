@@ -31,7 +31,7 @@ public class SampleDataService {
 	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
-	private final String IMAGE_PATH = "practica_grupo17\\src\\main\\resources\\static\\images\\"; 
+	private final String IMAGE_PATH = "images\\"; 
 
 	@PostConstruct
 	public void init() {
