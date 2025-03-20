@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
-    public String handleError(@RequestParam(name = "status", required = false) Integer statusCode, 
-                              @RequestParam(name = "resource", required = false) String resource, 
-                              Model model) {
-        // Verifica si el código de estado es 404 (Not Found)
+    public String handleError(@RequestParam(name = "status", required = false) Integer statusCode,
+            @RequestParam(name = "resource", required = false) String resource,
+            Model model) {
+        // Not Found errors
         if (statusCode != null && statusCode == 404) {
             if ("cast".equals(resource)) {
                 model.addAttribute("errorMessage", "El miembro del elenco no fue encontrado");
@@ -22,10 +22,19 @@ public class CustomErrorController implements ErrorController {
                 model.addAttribute("errorMessage", "La película no fue encontrada");
                 return "movieNotFound_template";
             }
+        //Forbidden errors
+        } else if (statusCode != null && statusCode == 403) {
+            if (resource != null) {
+                model.addAttribute("errorMessage", resource);
+            } else {
+                model.addAttribute("errorMessage",
+                        "Lo sentimos, pero no tienes el permiso necesario para realizar la acción o ir a la página");
+            }
+            return "error_template";
         }
 
-        // Maneja otros errores
-        model.addAttribute("errorMessage", "Ocurrió un error inesperado");
+        // Other errors
+        model.addAttribute("errorMessage", "Lo sentimos, pero la página que estás buscando no existe.");
         return "error_template";
     }
 }

@@ -37,7 +37,7 @@ public class ReviewController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Optional<User> user = userService.findByUsername(username);
-		if (user.isPresent()){
+		if (user.isPresent()) {
 			model.addAttribute("user", user.get());
 		}
 		return "my_reviews_template";
@@ -54,7 +54,9 @@ public class ReviewController {
 			@RequestParam String reviewText) throws IOException {
 
 		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
-		User user = userService.findByUsername("user1").get();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		User user = userService.findByUsername(username).get();
 		Review review = new Review(reviewTitle, reviewText, movie, user);
 		reviewService.save(review);
 
@@ -64,15 +66,21 @@ public class ReviewController {
 	@PostMapping("/movie/{id}/review/{idReview}/delete")
 	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview) throws IOException {
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		User user = userService.findByUsername(username).get();
 		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
-		User user = userService.findByUsername("user1").get();
 		Review review = reviewRepository.findById(idReview).orElseThrow(() -> new IOException());
-		movie.removeReview(review);
-		user.removeReview(review);
-		reviewRepository.deleteById(idReview);
+		if (review.getAuthor().equals(user)||user.getRoles().contains("ADMIN")) {
+			movie.removeReview(review);
+			user.removeReview(review);
+			reviewRepository.deleteById(idReview);
 
-		model.addAttribute("movie", movie);
+			model.addAttribute("movie", movie);
 
-		return "review_deleted_template";
+			return "review_deleted_template";
+		}
+
+		return "redirect:/error?status=403&resource=No%20se%20puede%20borrar%20una%20review%20de%20otro%20usuario";
 	}
 }

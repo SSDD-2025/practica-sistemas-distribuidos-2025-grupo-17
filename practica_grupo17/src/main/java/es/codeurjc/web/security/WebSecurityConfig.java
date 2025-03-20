@@ -51,20 +51,16 @@ public class WebSecurityConfig {
                         .anyRequest().permitAll())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .loginProcessingUrl("/perform_login") // URL para procesar el login
+                        .loginProcessingUrl("/perform_login") // URL to process the login
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
-                        .permitAll()/*
-                                     * .loginPage("/login")
-                                     * .failureUrl("/loginerror")
-                                     * .defaultSuccessUrl("/")
-                                     * .permitAll()
-                                     */
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .permitAll());
+                        .permitAll())
+                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/error?status=403"));
         http.csrf(csrf -> csrf.disable());
 
         return http.build();
