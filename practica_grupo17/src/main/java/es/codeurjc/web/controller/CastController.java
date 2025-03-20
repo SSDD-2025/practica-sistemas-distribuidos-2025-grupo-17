@@ -1,6 +1,7 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import es.codeurjc.web.services.*;
+import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.entities.*;
 
 @Controller
@@ -35,7 +37,11 @@ public class CastController {
 	private MoviesService moviesService;
 
 	@GetMapping("/castList")
-	public String showCastList(Model model) {
+	public String showCastList(Model model,HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) {
+			model.addAttribute("logged", true);
+		}
 		model.addAttribute("cast", castService.findAll());
 		return "castList_template";
 	}

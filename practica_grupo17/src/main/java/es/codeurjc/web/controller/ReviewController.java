@@ -1,6 +1,7 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
+import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.entities.*;
 import es.codeurjc.web.repository.ReviewRepository;
 
@@ -34,6 +36,7 @@ public class ReviewController {
 
 	@GetMapping("/myReviews")
 	public String showMyReviews(Model model) {
+		model.addAttribute("logged", true);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Optional<User> user = userService.findByUsername(username);
@@ -71,7 +74,7 @@ public class ReviewController {
 		User user = userService.findByUsername(username).get();
 		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
 		Review review = reviewRepository.findById(idReview).orElseThrow(() -> new IOException());
-		if (review.getAuthor().equals(user)||user.getRoles().contains("ADMIN")) {
+		if (review.getAuthor().equals(user) || user.getRoles().contains("ADMIN")) {
 			movie.removeReview(review);
 			user.removeReview(review);
 			reviewRepository.deleteById(idReview);
