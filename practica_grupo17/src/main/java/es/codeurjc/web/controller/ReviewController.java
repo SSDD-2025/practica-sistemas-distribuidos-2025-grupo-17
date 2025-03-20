@@ -1,8 +1,11 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,44 +23,50 @@ public class ReviewController {
 	@Autowired
 	private UserService userService;
 
-    @Autowired
+	@Autowired
 	private MoviesService moviesService;
 
-    @Autowired
+	@Autowired
 	private ReviewService reviewService;
 
 	@Autowired
 	private ReviewRepository reviewRepository;
 
 	@GetMapping("/myReviews")
-	public String  showMyReviews(Model model) {
-		model.addAttribute("user", userService.findByUsername("user1"));
+	public String showMyReviews(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Optional<User> user = userService.findByUsername(username);
+		if (user.isPresent()){
+			model.addAttribute("user", user.get());
+		}
 		return "my_reviews_template";
 	}
 
-    @GetMapping("/movie/{id}/review/new")
+	@GetMapping("/movie/{id}/review/new")
 	public String newReviewForm(Model model, @PathVariable int id) {
 		model.addAttribute("movie", moviesService.findById(id));
 		return "new_review_template";
 	}
-	
-	@PostMapping("/movie/{id}/review/new")
-	public String newReview(Model model,@PathVariable int id, @RequestParam String reviewTitle, @RequestParam String reviewText) throws IOException {
 
-		Movie movie=moviesService.findById(id).orElseThrow(()->new IOException());
-		User user=userService.findByUsername("user1").get();
-		Review review=new Review(reviewTitle,reviewText,movie,user);
+	@PostMapping("/movie/{id}/review/new")
+	public String newReview(Model model, @PathVariable int id, @RequestParam String reviewTitle,
+			@RequestParam String reviewText) throws IOException {
+
+		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
+		User user = userService.findByUsername("user1").get();
+		Review review = new Review(reviewTitle, reviewText, movie, user);
 		reviewService.save(review);
 
 		return "review_created_template";
 	}
 
-    @PostMapping("/movie/{id}/review/{idReview}/delete")
-	public String deleteReview(Model model, @PathVariable long id,@PathVariable long idReview) throws IOException {
+	@PostMapping("/movie/{id}/review/{idReview}/delete")
+	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview) throws IOException {
 
-		Movie movie = moviesService.findById(id).orElseThrow(()->new IOException());
-		User user=userService.findByUsername("user1").get();
-		Review review = reviewRepository.findById(idReview).orElseThrow(()->new IOException());
+		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
+		User user = userService.findByUsername("user1").get();
+		Review review = reviewRepository.findById(idReview).orElseThrow(() -> new IOException());
 		movie.removeReview(review);
 		user.removeReview(review);
 		reviewRepository.deleteById(idReview);
