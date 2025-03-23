@@ -1,4 +1,10 @@
 <div id="topBanner">
     <img id="bannerImage" onclick="location.href='/'" src="/logo.png">
     <x id="bannerText">Página de inicio</x>
+    {{#logged}}
+    <button onclick="window.location.href='/logout';">Cerrar sesión</button>
+    {{/logged}}
+    {{^logged}}
+    <button onclick="window.location.href='/login';">Iniciar sesión</button>
+    {{/logged}}
 </div>

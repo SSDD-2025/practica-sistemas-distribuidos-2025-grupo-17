@@ -1,6 +1,7 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import es.codeurjc.web.services.*;
+import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.entities.*;
 
 @Controller
@@ -35,7 +37,11 @@ public class CastController {
 	private MoviesService moviesService;
 
 	@GetMapping("/castList")
-	public String showCastList(Model model) {
+	public String showCastList(Model model,HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) {
+			model.addAttribute("logged", true);
+		}
 		model.addAttribute("cast", castService.findAll());
 		return "castList_template";
 	}
@@ -109,7 +115,6 @@ public class CastController {
 			model.addAttribute("cast", cast);
 			model.addAttribute("allMovies", moviesService.findAll());
 	
-			// Si el actor tiene una imagen, pasar su URL al modelo
 			if (cast.getCastImage() != null) {
 				model.addAttribute("currentImageUrl", "/cast/" + id + "/image");
 			}
@@ -131,13 +136,12 @@ public class CastController {
 		Optional<Cast> op = castService.findById(id);
 		if (op.isPresent()) {
 			Cast oldCast = op.get();
-			Blob oldCastImage = oldCast.getCastImage(); // Guardamos la imagen actual
+			Blob oldCastImage = oldCast.getCastImage();
 	
 			castService.removeMovies(oldCast);
 			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies);
 			updatedCast.setId(id);
 	
-			// Si no se sube una nueva imagen, reutilizar la anterior
 			if (castImage == null || castImage.isEmpty()) {
 				updatedCast.setCastImage(oldCastImage);
 			} else {

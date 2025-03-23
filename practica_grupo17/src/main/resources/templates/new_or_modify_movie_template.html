@@ -31,12 +31,12 @@
                 {{/cast}}
             </div> <br>
 
-            {{#movie}}
-            <label id="fieldName">Imagen actual:</label>
-            <br>
-            <img src="/movie/{{id}}/image" alt="Imagen actual" width="150px">
-            <br>
-            {{/movie}}
+        {{#movie}}
+        <label id="fieldName">Imagen actual:</label>
+        <br>
+        <img src="/movie/{{id}}/image" alt="Imagen actual" width="150px">
+        <br>
+        {{/movie}}
 
             <label id="fieldName">Seleccionar nueva imagen <a>(opcional)</a>: </label>
             <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>

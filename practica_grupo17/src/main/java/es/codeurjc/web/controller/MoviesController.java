@@ -105,7 +105,6 @@ public class MoviesController {
 			model.addAttribute("movie", mov);
 			model.addAttribute("allCast", castService.findAll());
 	
-			// Generar la URL de la imagen si existe
 			if (mov.getMovieImage() != null) {
 				model.addAttribute("currentImageUrl", "/movie/" + id + "/image");
 			}
@@ -117,26 +116,34 @@ public class MoviesController {
 	}
 
 	@PostMapping("/movie/{id}/modify")
-	public String modifyMovie(Model model, @PathVariable long id, @RequestParam String movieName,
-			@RequestParam String movieArgument, @RequestParam int movieYear,
-			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
-			@RequestParam String movieTrailer,
-			@RequestParam(required = false) MultipartFile movieImage) 
+	public String modifyMovie(Model model, @PathVariable long id,
+							  @RequestParam String movieName,
+							  @RequestParam String movieArgument,
+							  @RequestParam int movieYear,
+							  @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
+							  @RequestParam String movieTrailer,
+							  @RequestParam(required = false) MultipartFile movieImage)
 			throws IOException, SQLException {
 	
 		Optional<Movie> op = moviesService.findById(id);
 		if (op.isPresent()) {
 			Movie oldMovie = op.get();
-			Blob oldMovieImage = oldMovie.getMovieImage(); // Guardamos la imagen actual
+			Blob oldMovieImage = oldMovie.getMovieImage();
 	
-			moviesService.removeCast(oldMovie);
 			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer);
 			updatedMovie.setId(id);
 			oldMovie.getReviews().forEach(updatedMovie::addReview);
 	
-			// Si no se sube una nueva imagen, reutilizar la anterior
+			
+			if (movieCast == null || movieCast.isEmpty()) {
+				
+				updatedMovie.setCast(oldMovie.getCast());
+			}
+	
+			
 			if (movieImage == null || movieImage.isEmpty()) {
 				updatedMovie.setMovieImage(oldMovieImage);
+				moviesService.save(updatedMovie); 
 			} else {
 				moviesService.save(updatedMovie, movieImage);
 			}

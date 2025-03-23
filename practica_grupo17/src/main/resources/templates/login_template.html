@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <form action="/perform_login" method="post">
+            {{#error}}
+                <p>{{.}}</p>
+            {{/error}}
+            <label>Nombre de usuario:</label>
+            <input type="text" class="form-control" name="username" placeholder="Username"/><br/>
+            <label>Contraseña:</label>
+            <input type="password" class="form-control" name="password" placeholder="Password"/><br/>
+            <input type="submit" value="Iniciar sesión"/>
+        </form>
+    </body>
+</html>

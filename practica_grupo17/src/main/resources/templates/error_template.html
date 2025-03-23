@@ -3,5 +3,5 @@
 <body>
     {{>banner_show_error_template}}
     <h1 id="infoText">Oops! Algo salió mal.</h1>
-    <p id="errorText">Lo sentimos, pero la página que estás buscando no existe.</p>
+    <p id="errorText">{{errorMessage}}</p>
     {{>backToHome_template}}
