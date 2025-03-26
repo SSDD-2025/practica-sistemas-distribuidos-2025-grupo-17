@@ -1,7 +1,6 @@
 package es.codeurjc.web.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
-import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.entities.*;
 import es.codeurjc.web.repository.ReviewRepository;
 

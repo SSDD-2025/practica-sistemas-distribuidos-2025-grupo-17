@@ -1,6 +1,8 @@
 package es.codeurjc.web.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
@@ -9,12 +11,27 @@ import java.util.ArrayList;
 import javax.sql.rowset.serial.SerialBlob;
 
 import es.codeurjc.web.entities.*;
+import es.codeurjc.web.repository.UserRepository;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.sql.Blob;
 
 @Service
 public class SampleDataService {
+	//Users
+	@Value("${security.user}")
+    private String username;
+
+    @Value("${security.encodedPassword}")
+    private String password;
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+	//Others
 	@Autowired
 	private MoviesService moviesService;
 
@@ -23,8 +40,6 @@ public class SampleDataService {
 
 	@Autowired
 	private ReviewService reviewService;
-	@Autowired
-	private UserService userService;
 
 	private Cast c[] = new Cast[4];
 	private Movie m[] = new Movie[3];
@@ -35,16 +50,21 @@ public class SampleDataService {
 
 	@PostConstruct
 	public void init() {
-		// User
-		User user = new User("user1", "password", "admin");
-		userService.save(user);
+
+		User admin=new User(username,password, "ADMIN");
+		userRepository.save(admin);
+		User user=new User("user",passwordEncoder.encode("passUser"), "USER");
+        userRepository.save(user);
+		User otherUser=new User("otherUser",passwordEncoder.encode("passOtherUser"),"USER");
+        userRepository.save(otherUser);
+
 		try {
 			// Cast
 			c = initCast();
 			// Movies
 			m = initMovies();
 			// Reviews
-			r = initReviews(user);
+			r = initReviews(admin,user,otherUser);
 			// Movie list
 			ArrayList<Movie> movies1 = new ArrayList<Movie>(),
 					movies2 = new ArrayList<Movie>(),
@@ -163,7 +183,7 @@ public class SampleDataService {
 		return mInit;
 	}
 
-	private Review[] initReviews(User user) {
+	private Review[] initReviews(User admin,User user,User otherUser) {
 		String reviewTitle1 = "Muy buena",
 				reviewTitle2 = "Salí llorando",
 				reviewTitle3 = "Casi me duermo",
@@ -173,12 +193,12 @@ public class SampleDataService {
 				reviewText3 = "Llevo 6 días sin poder dormir y vine a la peli para curar mi insomnio",
 				reviewText4 = "Ni tan mal, vine buscando cobre y en efecto encontré cobre, pero de buena calidad.";
 		Review rInit[] = new Review[7];
-		rInit[0] = new Review(reviewTitle1, reviewText1, m[0], user);
+		rInit[0] = new Review(reviewTitle1, reviewText1, m[0], admin);
 		rInit[1] = new Review(reviewTitle2, reviewText2, m[0], user);
-		rInit[2] = new Review(reviewTitle3, reviewText3, m[1], user);
-		rInit[3] = new Review(reviewTitle4, reviewText4, m[2], user);
+		rInit[2] = new Review(reviewTitle3, reviewText3, m[1], otherUser);
+		rInit[3] = new Review(reviewTitle4, reviewText4, m[2], admin);
 		rInit[4] = new Review(reviewTitle1, reviewText1, m[2], user);
-		rInit[5] = new Review(reviewTitle4, reviewText4, m[0], user);
+		rInit[5] = new Review(reviewTitle4, reviewText4, m[0], otherUser);
 		rInit[6] = new Review(reviewTitle3, reviewText3, m[1], user);
 		reviewService.save(rInit[0]);
 		reviewService.save(rInit[1]);
