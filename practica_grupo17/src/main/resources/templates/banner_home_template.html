@@ -3,6 +3,7 @@
     <x id="bannerText">Página de inicio</x>
     {{#logged}}
     <button onclick="window.location.href='/logout';">Cerrar sesión</button>
+    <button onclick="window.location.href='/myProfile';">Mi perfil</button>
     {{/logged}}
     {{^logged}}
     <button onclick="window.location.href='/login';">Iniciar sesión</button>

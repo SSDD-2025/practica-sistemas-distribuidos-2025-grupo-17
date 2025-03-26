@@ -1,0 +1,15 @@
+{{>header_template}}
+
+<body>
+    {{#user}}
+        <h2>Nombe de usuario: {{username}}</h2>
+        <h2>Rol:{{#admin}}Administrador{{/admin}}{{#registered}}Usuario registrado{{/registered}}</h2>
+        <button onclick="window.location.href='/';">Volver a la página de inicio</button>
+        <button onclick="window.location.href='/myReviews';">Mis reseñas</button>
+        <button onclick="window.location.href='/logout';">Cerrar sesión</button>
+        <button onclick="window.location.href='/?';">Modificar datos</button>
+        <button onclick="window.location.href='/?';">Borrar usuario</button>
+        {{#admin}}
+            <button onclick="window.location.href='/?';">Añadir usuario</button>
+        {{/admin}}
+    {{/user}}
