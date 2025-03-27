@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/myReviews").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/movie/{id}/review/new").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/movie/{id}/review/{idReview}/delete").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/myProfile").hasAnyRole("ADMIN","USER")
                         // Public pages (for all users: unregistered, registered and admin)
                         .anyRequest().permitAll())
                 .formLogin(formLogin -> formLogin
@@ -61,7 +62,6 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll())
                 .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/error?status=403"));
-        http.csrf(csrf -> csrf.disable());
 
         return http.build();
     }

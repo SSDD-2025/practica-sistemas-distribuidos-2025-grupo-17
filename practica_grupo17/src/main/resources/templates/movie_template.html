@@ -28,6 +28,7 @@
     <p id="infoText">No hay trailer disponible</p><br>
     {{/trailer}}
     <form action="/movie/{{id}}/delete" method="post">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
         <input type='submit' value='Borrar película' />
     </form><br>
     <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
@@ -41,6 +42,7 @@
                     <p>{{text}}</p>
                 </div>
             <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
                 <input type='submit' value='Borrar reseña' />
             </form>
         </li>

@@ -44,6 +44,9 @@
             <label id="fieldName">Enlace al tráiler de YouTube:</label>
             <input type='text' name='movieTrailer' placeholder="Ingrese la URL del tráiler"
                 value="{{#movie}}{{trailer}}{{/movie}}"><br>
+
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+
             <input type='submit' value="Guardar película" id="submitButton"><br>
         </form>
 

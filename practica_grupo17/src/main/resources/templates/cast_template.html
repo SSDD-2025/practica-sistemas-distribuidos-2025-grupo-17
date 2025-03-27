@@ -21,6 +21,7 @@
     <p id="infoText">Este actor no ha participado en películas aún.</p>
     {{/movies}}
     <form action="/cast/{{id}}/delete" method="post">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
         <input type='submit' value='Borrar cast' />
     </form>
     <button onclick="window.location.href='/cast/{{id}}/modify';">Modificar cast</button><br>

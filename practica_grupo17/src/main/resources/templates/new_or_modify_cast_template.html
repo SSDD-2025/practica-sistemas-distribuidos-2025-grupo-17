@@ -43,6 +43,8 @@
         <label id="fieldName">Seleccionar nueva imagen: </label>
         <input type='file' name='castImage' accept=".png, .jpg, .jpeg" /> <br>
 
+        <input type="hidden" name="_csrf" value="{{token}}"/>
+
         <input type='submit' name='Subir actor' id="submitButton"><br>
     </form>
 

@@ -30,7 +30,7 @@ public class UserController {
                 model.addAttribute("admin", true);
             }
             if (user.getRoles().contains("USER")){
-                model.addAttribute("user", true);
+                model.addAttribute("registered", true);
             }
 		}
 		return "my_profile_template";

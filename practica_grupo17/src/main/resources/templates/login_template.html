@@ -8,6 +8,7 @@
             <input type="text" class="form-control" name="username" placeholder="Username"/><br/>
             <label>Contraseña:</label>
             <input type="password" class="form-control" name="password" placeholder="Password"/><br/>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
             <input type="submit" value="Iniciar sesión"/>
         </form>
     </body>

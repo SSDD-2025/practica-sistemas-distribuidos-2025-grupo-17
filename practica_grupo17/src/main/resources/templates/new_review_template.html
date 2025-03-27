@@ -11,6 +11,9 @@
 			<label id="fieldName">Texto:</label>
 			<textarea name='reviewText' rows=5 cols=40></textarea><br>
 		</div>
+
+		<input type="hidden" name="_csrf" value="{{token}}"/>
+		
 		<input type='submit' name='Subir reseña' id="submitButton" /><br>
 	</form>
 	{{/movie}}

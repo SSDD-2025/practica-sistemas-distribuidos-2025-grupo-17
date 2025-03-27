@@ -2,7 +2,10 @@
     <img id="bannerImage" onclick="location.href='/'" src="/logo.png">
     <x id="bannerText">Página de inicio</x>
     {{#logged}}
-    <button onclick="window.location.href='/logout';">Cerrar sesión</button>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{token}}"/>
+        <input type='submit' value='Cerrar sesión' />
+    </form><br>
     <button onclick="window.location.href='/myProfile';">Mi perfil</button>
     {{/logged}}
     {{^logged}}

@@ -13,6 +13,7 @@
                     <p>{{text}}</p>
                 </div>
                 <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}"/>
                     <input type='submit' value='Borrar reseña' />
                 </form>
             </li>
