@@ -1,15 +1,21 @@
-<html>
-    <body>
+{{>header_template}}
+
+<body>
+    {{>banner_login_template}}
+    <br>
+    <div id="form">
         <form action="/perform_login" method="post">
             {{#error}}
-                <p>{{.}}</p>
+            <p id=errorText>{{.}}</p>
             {{/error}}
-            <label>Nombre de usuario:</label>
-            <input type="text" class="form-control" name="username" placeholder="Username"/><br/>
-            <label>Contraseña:</label>
-            <input type="password" class="form-control" name="password" placeholder="Password"/><br/>
             <input type="hidden" name="_csrf" value="{{token}}"/>
-            <input type="submit" value="Iniciar sesión"/>
+            <div id="login">
+                <p id="loginText">Nombre de usuario:</p>
+                <input type="text" class="form-control" name="username" placeholder="Escribe aqui" /><br />
+                <p id="loginText">Contraseña:</p>
+                <input type="password" class="form-control" name="password" placeholder="Escribe aquí" /><br />
+            </div>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+            <input type="submit" value="Iniciar sesión" />
         </form>
-    </body>
-</html>
+        {{>backToHome_template}}
