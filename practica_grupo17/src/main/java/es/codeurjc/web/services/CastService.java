@@ -39,6 +39,10 @@ public class CastService {
 		return castRepository.findById(id);
 	}
 
+	public boolean exist(long id) {
+		return castRepository.existsById(id);
+	}
+
 	public void save(Cast cast) {
 		castRepository.save(cast);
 	}
