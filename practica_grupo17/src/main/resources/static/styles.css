@@ -134,12 +134,12 @@ a {
 }
 
 a:hover {
-    color: #6A11CB;
+    color: #cb1111;
     text-decoration: underline;
 }
 
 a:active {
-    color: #D35400;
+    color: #e90808;
 }
 
 
@@ -171,12 +171,18 @@ a:active {
     padding: 0;
 }
 
-#bannerOptions>a {
+#bannerOptions a {
     text-transform: uppercase;
     cursor: pointer;
     display: block;
     margin: 5px;
 
+}
+
+#bannerOptions a:hover {
+    color: #dbcd0c;
+    text-shadow: none;
+    text-decoration: underline;
 }
 
 #buttonOption {
@@ -295,6 +301,7 @@ input:active {
 }
 
 .catalogueSingleCard a:hover {
+    color: #db0cdb;
     text-decoration: underline;
 }
 
@@ -325,6 +332,8 @@ input:active {
     font-weight: bold;
     margin-top: 20px;
     margin-right: 20px;
+    font-style: italic;
+    font-weight: bolder;
 }
 
 .footer {
@@ -342,6 +351,10 @@ input:active {
 .footer a {
     color:#424242;
 }
+.footer a:hover {
+    color: #cb1111;
+    text-decoration: underline;
+}
 
 ul{
     list-style: none;
@@ -355,5 +368,28 @@ ul{
     border: 2px;
     border-radius: 8px;
     background-color: #9987db;
+    max-width: 95%;
+}
+
+#loginText{
+    text-transform: uppercase;
+    color: rgb(14, 0, 145);
+    text-decoration: underline;
+    font-weight: bold;
+    font-family: Roboto;
+    letter-spacing: 8px;
+    border: 2px 4px;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+}
+
+#login{
+    display: grid;
+    margin: auto;
+    gap: 20px;
+    padding: 20px;
+    border: 2px;
+    border-radius: 8px;
+    background-color: #c5c8f7;
     max-width: 95%;
 }
