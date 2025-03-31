@@ -2,6 +2,7 @@
 
 <body>
     {{>banner_form_template}}
+    <br>
     <div id="form">
         <h2>Rellene con los datos de la película a subir</h2>
         <form th:action="@{${movie != null} ? '/movie/' + movie.id + '/modify' : '/movie/new'}" method="post"

@@ -37,18 +37,23 @@ public class MoviesService {
 		return moviesRepository.findById(id);
 	}
 
+	public boolean exist(long id) {
+		return moviesRepository.existsById(id);
+	}
+
 	public void save(Movie movie) {
 		moviesRepository.save(movie);
 	}
 
-	public void save(Movie movie, MultipartFile movieImage) throws IOException{
-		if(!movieImage.isEmpty()) {
+	public void save(Movie movie, MultipartFile movieImage) throws IOException {
+		if (!movieImage.isEmpty()) {
 			movie.setMovieImage(BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize()));
 		}
 		this.save(movie);
 	}
-	public void save(Movie movie, Blob movieImage) throws IOException, SQLException{
-		if (movieImage != null) { 
+
+	public void save(Movie movie, Blob movieImage) throws IOException, SQLException {
+		if (movieImage != null) {
 			movie.setMovieImage(movieImage);
 		}
 		this.save(movie);
@@ -58,8 +63,9 @@ public class MoviesService {
 		moviesRepository.deleteById(id);
 	}
 
-	public Movie createMovie(String movieName,String movieArgument,int movieYear,List<Long> movieCast,String movieTrailer){
-		Movie movie=new Movie(movieName, movieArgument, movieYear, movieTrailer);
+	public Movie createMovie(String movieName, String movieArgument, int movieYear, List<Long> movieCast,
+			String movieTrailer) {
+		Movie movie = new Movie(movieName, movieArgument, movieYear, movieTrailer);
 		if (movieCast != null) {
 			for (int i = 0; i < movieCast.size(); i++) {
 				Optional<Cast> op = castRepository.findById(movieCast.get(i));
@@ -72,9 +78,9 @@ public class MoviesService {
 		return movie;
 	}
 
-	public void removeCast(Movie movie){
-		List<Cast> castList=movie.getCast();
-		for(Cast cast:castList){
+	public void removeCast(Movie movie) {
+		List<Cast> castList = movie.getCast();
+		for (Cast cast : castList) {
 			cast.removeMovie(movie);
 		}
 		movie.setCast(null);
