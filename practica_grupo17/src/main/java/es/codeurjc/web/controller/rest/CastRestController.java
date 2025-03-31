@@ -1,4 +1,4 @@
-/*package es.codeurjc.web.controller;
+/*package es.codeurjc.web.controller.rest;
 
 import java.net.URI;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-/*package es.codeurjc.web.controller;
+/*package es.codeurjc.web.controller.rest;
 
 import java.net.URI;
 import java.util.Collection;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -66,19 +65,17 @@ public class MovieRestController {
         }
     }
 
-    //This method will change in the future due to unknown issues with wrong url location
-    /*@PostMapping("/{movieId}/review/new")
+    @PostMapping("/{movieId}/review/new")
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
         reviewService.save(review);
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
         return ResponseEntity.created(location).body(review);
-    }*/
+    }
 
-    //Unfinished method until we know how to treat it
-    /*@DeleteMapping("{movieId}/review/{id}/delete")
+    @DeleteMapping("{movieId}/review/{id}/delete")
     public Review deleteReview(@PathVariable long id) {
         Review review = reviewService.findById(id).orElseThrow();
         reviewService.deleteById(id);
         return review;
-    }*/
-/* }*/
+    }
+}*/

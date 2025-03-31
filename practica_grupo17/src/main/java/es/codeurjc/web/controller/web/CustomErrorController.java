@@ -1,4 +1,4 @@
-package es.codeurjc.web.controller;
+package es.codeurjc.web.controller.web;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
