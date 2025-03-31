@@ -1,0 +1,24 @@
+{{>header_template}}
+
+<body>
+    {{>banner_form_template}}
+
+    <h2>Rellene con los datos del usuario</h2>
+    <form action="{{#user}}/user/modify{{/user}} {{^user}}/user/new{{/user}}" method="post">
+        <label id="fieldName">Nombre de usuario:</label>
+        <input type='text' name='username' value="{{#user}}{{username}}{{/user}}" required><br>
+        <label id="fieldName">Contraseña:</label>
+        <input type='password' name="password" required><br>
+        {{^user}}
+            <label for="fieldName">Tipo de usuario:</label>
+            <select id="select" name='role'>
+            <option value="ADMIN">Administrador</option>
+            <option value="USER">Usuario registrado</option>
+            </select>
+        {{/user}}
+        <input type="hidden" name="_csrf" value="{{token}}"/>
+        <input type="submit" value="{{#user}}Modificar{{/user}}{{^user}}Crear{{/user}} usuario" />
+    </form>
+
+    {{>backToHome_template}}
+</body>

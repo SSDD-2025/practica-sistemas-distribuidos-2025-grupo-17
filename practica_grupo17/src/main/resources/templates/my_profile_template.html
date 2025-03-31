@@ -10,9 +10,9 @@
             <input type="hidden" name="_csrf" value="{{token}}"/>
             <input type='submit' value='Cerrar sesión' />
         </form><br>
-        <button onclick="window.location.href='/?';">Modificar datos</button>
+        <button onclick="window.location.href='/user/modify';">Modificar datos</button>
         <button onclick="window.location.href='/?';">Borrar usuario</button>
         {{#admin}}
-            <button onclick="window.location.href='/?';">Añadir usuario</button>
+            <button onclick="window.location.href='/user/new';">Añadir usuario</button>
         {{/admin}}
     {{/user}}
