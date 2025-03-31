@@ -11,7 +11,10 @@
             <input type='submit' value='Cerrar sesión' />
         </form><br>
         <button onclick="window.location.href='/user/modify';">Modificar datos</button>
-        <button onclick="window.location.href='/?';">Borrar usuario</button>
+        <form action="/user/delete" method="post">
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+            <input type='submit' value='Borrar usuario' />
+        </form><br>
         {{#admin}}
             <button onclick="window.location.href='/user/new';">Añadir usuario</button>
         {{/admin}}

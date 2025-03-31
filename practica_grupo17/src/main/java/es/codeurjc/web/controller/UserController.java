@@ -55,6 +55,19 @@ public class UserController {
         return "user_created_template";
     }
 
+    @PostMapping("/user/delete")
+    public String deleteUser(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<User> optionalUser = userService.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            userService.deleteReviews(user);
+            userService.deleteById(user.getId());
+        }
+        return "user_deleted_template";
+    }
+
     @GetMapping("/user/modify")
     public String modifyUserForm(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
