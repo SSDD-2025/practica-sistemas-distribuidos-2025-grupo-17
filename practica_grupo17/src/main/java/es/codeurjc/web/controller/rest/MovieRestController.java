@@ -1,4 +1,4 @@
-/*package es.codeurjc.web.controller.rest;
+package es.codeurjc.web.controller.rest;
 
 import java.net.URI;
 import java.util.Collection;
@@ -65,17 +65,17 @@ public class MovieRestController {
         }
     }
 
-    @PostMapping("/{movieId}/review/new")
+    @PostMapping("/{movieId}/reviews/")
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
         reviewService.save(review);
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
         return ResponseEntity.created(location).body(review);
     }
 
-    @DeleteMapping("{movieId}/review/{id}/delete")
+    @DeleteMapping("{movieId}/reviews/{reviewId}")
     public Review deleteReview(@PathVariable long id) {
         Review review = reviewService.findById(id).orElseThrow();
         reviewService.deleteById(id);
         return review;
     }
-}*/
+}
