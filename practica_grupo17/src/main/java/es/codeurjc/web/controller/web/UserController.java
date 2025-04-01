@@ -1,4 +1,4 @@
-package es.codeurjc.web.controller;
+package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
 import java.util.Optional;

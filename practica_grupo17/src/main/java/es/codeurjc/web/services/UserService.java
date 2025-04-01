@@ -21,7 +21,7 @@ public class UserService {
 	private ReviewService reviewService;
 
 	public UserService() {
-		
+
 	}
 
 	public Collection<User> findAll() {
@@ -32,8 +32,12 @@ public class UserService {
 		return userRepository.findById(id);
 	}
 
-	public Optional<User> findByUsername(String username){
+	public Optional<User> findByUsername(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	public boolean exist(long id) {
+		return userRepository.existsById(id);
 	}
 
 	public void save(User user) {
@@ -44,9 +48,9 @@ public class UserService {
 		userRepository.deleteById(id);
 	}
 
-	public void deleteReviews(User user){
-		List<Review> reviews=user.getReviews();
-		for (Review review:reviews){
+	public void deleteReviews(User user) {
+		List<Review> reviews = user.getReviews();
+		for (Review review : reviews) {
 			reviewService.deleteById(review.getId());
 		}
 	}

@@ -1,4 +1,4 @@
-/*package es.codeurjc.web.controller;
+package es.codeurjc.web.controller.rest;
 
 import java.net.URI;
 import java.util.Collection;
@@ -19,7 +19,6 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.entities.*;
-
 
 @RestController
 @RequestMapping("/api/cast")
@@ -61,4 +60,4 @@ public class CastRestController {
             throw new NoSuchElementException();
         }
     }
-}*/
+}
