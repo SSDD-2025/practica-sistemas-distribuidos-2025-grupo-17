@@ -8,14 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.web.dto.cast.CastDTO;
+import es.codeurjc.web.dto.cast.CreateCastDTO;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;
+import es.codeurjc.web.mapper.CastMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
 
@@ -90,4 +94,27 @@ public class CastService {
 		cast.setMovies(null);
 	}
 
+
+	public List<CastDTO> findAllDTO() {
+		return castRepository.findAll().stream()
+				.map(CastMapper::toDTO)
+				.collect(Collectors.toList());
+	}
+
+	public Optional<CastDTO> findDTOById(long id) {
+		return castRepository.findById(id)
+				.map(CastMapper::toDTO);
+	}
+
+	public CastDTO createFromDTO(CreateCastDTO dto) {
+		List<Movie> movies = dto.getMovieIds().stream()
+				.map(moviesRepository::findById)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toList());
+
+		Cast cast = CastMapper.fromCreateDTO(dto, movies);
+		castRepository.save(cast);
+		return CastMapper.toDTO(cast);
+	}
 }

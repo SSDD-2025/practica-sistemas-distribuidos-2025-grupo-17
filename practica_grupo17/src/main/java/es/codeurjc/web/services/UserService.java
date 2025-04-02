@@ -3,12 +3,16 @@ package es.codeurjc.web.services;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
+import es.codeurjc.web.dto.user.UserDTO;
+import es.codeurjc.web.dto.user.CreateUserDTO;
+import es.codeurjc.web.mapper.UserMapper;
 import es.codeurjc.web.repository.UserRepository;
 
 @Service
@@ -55,4 +59,20 @@ public class UserService {
 		}
 	}
 
+	public List<UserDTO> findAllDTO() {
+		return userRepository.findAll().stream()
+			.map(UserMapper::toDTO)
+			.collect(Collectors.toList());
+	}
+
+	public Optional<UserDTO> findDTOById(long id) {
+		return userRepository.findById(id)
+			.map(UserMapper::toDTO);
+	}
+
+	public UserDTO createFromDTO(CreateUserDTO dto) {
+		User user = UserMapper.fromCreateDTO(dto);
+		userRepository.save(user);
+		return UserMapper.toDTO(user);
+	}
 }
