@@ -1,10 +1,11 @@
 package es.codeurjc.web.controller.rest;
 
-import java.net.URI;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-
 import es.codeurjc.web.services.*;
-import es.codeurjc.web.entities.*;
+import es.codeurjc.web.dto.movie.CreateMovieDTO;
+import es.codeurjc.web.dto.movie.MovieBasicDTO;
+import es.codeurjc.web.dto.movie.MovieDTO;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -27,55 +29,35 @@ public class MovieRestController {
     @Autowired
     private MoviesService moviesService;
 
-    @Autowired
-    private ReviewService reviewService;
-
     @GetMapping("/")
-    public Collection<Movie> getMovies() {
+    public Collection<MovieDTO> getMovies() {
         return moviesService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Movie getMovie(@PathVariable long id) {
-        return moviesService.findById(id).orElseThrow();
+    public MovieDTO getMovie(@PathVariable long id) {
+        return moviesService.findById(id);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
-        moviesService.save(movie);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(movie.getId()).toUri();
-        return ResponseEntity.created(location).body(movie);
+    @ResponseStatus(HttpStatus.CREATED)
+    public MovieDTO createMovie(@RequestBody CreateMovieDTO movie) throws IOException, SQLException {
+        return moviesService.save(movie);
     }
 
     @DeleteMapping("/{id}")
-    public Movie deleteMovie(@PathVariable long id) {
-        Movie movie = moviesService.findById(id).orElseThrow();
-        moviesService.deleteById(id);
-        return movie;
+    public MovieDTO deleteMovie(@PathVariable long id) {
+        return moviesService.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Movie replaceMovie(@PathVariable long id, @RequestBody Movie updatedMovie) {
+    public ResponseEntity<MovieDTO> replaceMovie(@PathVariable long id, @RequestBody MovieBasicDTO updatedMovieDTO)
+            throws IOException {
         if (moviesService.exist(id)) {
-            updatedMovie.setId(id);
-            moviesService.save(updatedMovie);
-            return updatedMovie;
+            MovieDTO movie = moviesService.update(id, updatedMovieDTO);
+            return new ResponseEntity<>(movie, HttpStatus.OK);
         } else {
-            throw new NoSuchElementException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @PostMapping("/{movieId}/reviews/")
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        reviewService.save(review);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
-        return ResponseEntity.created(location).body(review);
-    }
-
-    @DeleteMapping("{movieId}/reviews/{reviewId}")
-    public Review deleteReview(@PathVariable long id) {
-        Review review = reviewService.findById(id).orElseThrow();
-        reviewService.deleteById(id);
-        return review;
     }
 }

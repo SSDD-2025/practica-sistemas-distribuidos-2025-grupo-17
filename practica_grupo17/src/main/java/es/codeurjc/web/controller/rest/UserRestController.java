@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+import es.codeurjc.web.services.ReviewService;
 import es.codeurjc.web.services.UserService;
-import es.codeurjc.web.entities.*;;
+import es.codeurjc.web.entities.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,6 +27,9 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/")
     public Collection<User> getAllUsers() {
@@ -61,4 +65,19 @@ public class UserRestController {
             throw new NoSuchElementException();
         }
     }
+
+    @PostMapping("/{movieId}/reviews/")
+    public ResponseEntity<Review> createReview(@RequestBody Review review) {
+        reviewService.save(review);
+        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
+        return ResponseEntity.created(location).body(review);
+    }
+
+    @DeleteMapping("{movieId}/reviews/{reviewId}")
+    public Review deleteReview(@PathVariable long id) {
+        Review review = reviewService.findById(id).orElseThrow();
+        reviewService.deleteById(id);
+        return review;
+    }
+
 }
