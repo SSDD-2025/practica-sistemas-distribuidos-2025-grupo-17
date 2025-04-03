@@ -3,9 +3,9 @@ package es.codeurjc.web.controller.web;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import es.codeurjc.web.services.*;
+import es.codeurjc.web.dto.movie.MovieDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.*;
+import es.codeurjc.web.mapper.CastMapper;
+import es.codeurjc.web.mapper.MovieMapper;
 
 @Controller
 public class MoviesController {
@@ -32,34 +37,34 @@ public class MoviesController {
 	@Autowired
 	private CastService castService;
 
+	@Autowired
+	private MovieMapper movieMapper;
+
+	@Autowired
+	private CastMapper castMapper;
+
 	@GetMapping("/movies/{id}")
 	public String showMovie(Model model, @PathVariable long id) {
-		Optional<Movie> movie = moviesService.findById(id);
-		if (!movie.isPresent()) {
-			return "movieNotFound_template";
-		} else {
-			Movie mov = movie.get();
-			model.addAttribute("movie", mov);
+		try {
+			MovieDTO movieDTO = moviesService.findById(id);
+			model.addAttribute("book", movieDTO);
 			return "movie_template";
+		} catch (NoSuchElementException e) {
+			return "movieNotFound_template";
 		}
 	}
 
 	@GetMapping("/movie/{id}/image")
-	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws SQLException {
-
-		Optional<Movie> op = moviesService.findById(id);
-
-		if (op.isPresent() && op.get().getMovieImage() != null) {
-
-			Blob image = op.get().getMovieImage();
-			Resource file = new InputStreamResource(image.getBinaryStream());
-
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-					.contentLength(image.length()).body(file);
-
-		} else {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws SQLException, IOException {
+		Resource movieImage;
+		try {
+			movieImage = new InputStreamResource(moviesService.getMovieImage(id));
+		} catch (Exception e) {
+			ClassPathResource resource = new ClassPathResource("static/logo.png");
+			byte[] imageBytes = resource.getInputStream().readAllBytes();
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(imageBytes);
 		}
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(movieImage);
 	}
 
 	@GetMapping("/movie/new")
@@ -78,7 +83,9 @@ public class MoviesController {
 			model.addAttribute("cast", castService.findAll());
 			return "new_or_modify_movie_template";
 		}
-		moviesService.save(moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer),
+		moviesService.save(
+				movieMapper.toCreateMovieRequest(
+						moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer)),
 				movieImage);
 
 		return "movie_created_template";
@@ -86,72 +93,72 @@ public class MoviesController {
 
 	@PostMapping("/movie/{id}/delete")
 	public String deleteMovie(Model model, @PathVariable long id) throws IOException {
-		Optional<Movie> movie = moviesService.findById(id);
-		if (movie.isPresent()) {
-			Movie mov = movie.get();
-			moviesService.removeCast(mov);
-			moviesService.deleteById(id);
+
+		try {
+			MovieDTO movieDTO = moviesService.deleteById(id);
+			model.addAttribute("movie", movieDTO);
+
 			return "movie_deleted_template";
-		} else {
+
+		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";
 		}
 	}
 
 	@GetMapping("/movie/{id}/modify")
 	public String modifyMovieForm(Model model, @PathVariable long id) {
-		Optional<Movie> movie = moviesService.findById(id);
-		if (movie.isPresent()) {
-			Movie mov = movie.get();
-			model.addAttribute("movie", mov);
+		try {
+
+			MovieDTO movieDTO = moviesService.findById(id);
+			model.addAttribute("movie", movieDTO);
+
 			model.addAttribute("allCast", castService.findAll());
-	
-			if (mov.getMovieImage() != null) {
+			if (movieMapper.toDomain(movieDTO).getMovieImage() != null) {
 				model.addAttribute("currentImageUrl", "/movie/" + id + "/image");
 			}
-	
 			return "new_or_modify_movie_template";
-		} else {
+
+		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";
 		}
 	}
 
 	@PostMapping("/movie/{id}/modify")
 	public String modifyMovie(Model model, @PathVariable long id,
-							  @RequestParam String movieName,
-							  @RequestParam String movieArgument,
-							  @RequestParam int movieYear,
-							  @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
-							  @RequestParam String movieTrailer,
-							  @RequestParam(required = false) MultipartFile movieImage)
+			@RequestParam String movieName,
+			@RequestParam String movieArgument,
+			@RequestParam int movieYear,
+			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
+			@RequestParam String movieTrailer,
+			@RequestParam(required = false) MultipartFile movieImage)
 			throws IOException, SQLException {
-	
-		Optional<Movie> op = moviesService.findById(id);
-		if (op.isPresent()) {
-			Movie oldMovie = op.get();
-			Blob oldMovieImage = oldMovie.getMovieImage();
-	
-			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer);
+		try {
+			MovieDTO oldMovie = moviesService.findById(id);
+			Blob oldMovieImage = movieMapper.toDomain(oldMovie).getMovieImage();
+			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
+					movieTrailer);
 			updatedMovie.setId(id);
-			oldMovie.getReviews().forEach(updatedMovie::addReview);
-	
-			
-			if (movieCast == null || movieCast.isEmpty()) {
-				
-				updatedMovie.setCast(oldMovie.getCast());
+			for(ReviewDTO review : oldMovie.getReviews()){
+				//Cuando el mapper de review esté descomentar updatedMovie.addReview(review);
 			}
-	
-			
+
+			if (movieCast == null || movieCast.isEmpty()) {
+
+				// modificar setCast o hacer un bucle para transformar de List CastDTO a List Cast 
+				//updatedMovie.setCast(oldMovie.getCast());
+			}
+
 			if (movieImage == null || movieImage.isEmpty()) {
 				updatedMovie.setMovieImage(oldMovieImage);
-				moviesService.save(updatedMovie); 
+				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie));
 			} else {
-				moviesService.save(updatedMovie, movieImage);
+				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie), movieImage);
 			}
-	
+
 			return "movie_modified_template";
-		} else {
+		} catch (Exception e) {
 			return "movieNotFound_template";
 		}
 	}
-	
+
 }

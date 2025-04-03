@@ -5,13 +5,16 @@ public class MovieBasicDTO {
     private Long id;
     private String name;
     private int year;
+    private String argument;
 
-    public MovieBasicDTO() {}
+    public MovieBasicDTO() {
+    }
 
-    public MovieBasicDTO(Long id, String name, int year) {
+    public MovieBasicDTO(Long id, String name, int year, String argument) {
         this.id = id;
         this.name = name;
         this.year = year;
+        this.argument = argument;
     }
 
     public Long getId() {
@@ -36,5 +39,13 @@ public class MovieBasicDTO {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public void setArgument(String argument) {
+        this.argument = argument;
+    }
+
+    public String getArgument() {
+        return argument;
     }
 }

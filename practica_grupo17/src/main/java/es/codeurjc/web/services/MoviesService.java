@@ -1,8 +1,10 @@
 package es.codeurjc.web.services;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -12,10 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.web.dto.movie.CreateMovieDTO;
+import es.codeurjc.web.dto.movie.MovieBasicDTO;
+import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;
+import es.codeurjc.web.entities.Review;
+import es.codeurjc.web.entities.User;
+import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
+import es.codeurjc.web.repository.UserRepository;
 
 @Service
 public class MoviesService {
@@ -26,41 +35,70 @@ public class MoviesService {
 	@Autowired
 	private MoviesRepository moviesRepository;
 
+	@Autowired
+	private MovieMapper movieMapper;
+
+	@Autowired
+	private UserRepository userRepository;
+
 	public MoviesService() {
 	}
 
-	public Collection<Movie> findAll() {
-		return moviesRepository.findAll();
+	public Collection<MovieDTO> findAll() {
+		return movieMapper.toDTOs(moviesRepository.findAll());
 	}
 
-	public Optional<Movie> findById(long id) {
-		return moviesRepository.findById(id);
+	public MovieDTO findById(long id) {
+		return movieMapper.toDTO(moviesRepository.findById(id).orElseThrow());
 	}
 
 	public boolean exist(long id) {
 		return moviesRepository.existsById(id);
 	}
 
-	public void save(Movie movie) {
+	public MovieDTO save(MovieDTO movieDTO) {
+		if (movieDTO.getId() != null)
+			throw new IllegalArgumentException();
+		Movie movie = movieMapper.toDomain(movieDTO);
 		moviesRepository.save(movie);
+		return movieMapper.toDTO(movie);
 	}
 
-	public void save(Movie movie, MultipartFile movieImage) throws IOException {
-		if (!movieImage.isEmpty()) {
-			movie.setMovieImage(BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize()));
+	public MovieDTO save(CreateMovieDTO movie, Blob imageField) {
+		if (movie.getName() == null || movie.getName().isEmpty()) {
+			throw new IllegalArgumentException("The title is empty");
 		}
-		this.save(movie);
+		Movie newMovie = movieMapper.toDomain(movie);
+		newMovie.setMovieImage(imageField);
+		return movieMapper.toDTO(moviesRepository.save(newMovie));
 	}
 
-	public void save(Movie movie, Blob movieImage) throws IOException, SQLException {
-		if (movieImage != null) {
-			movie.setMovieImage(movieImage);
+	public MovieDTO save(CreateMovieDTO movie, MultipartFile movieImage) throws IOException {
+		if (movieImage != null && movieImage.getSize() > 0) {
+			return this.save(movie, BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize()));
 		}
-		this.save(movie);
+		return this.save(movie, (Blob) null);
 	}
 
-	public void deleteById(long id) {
+	public MovieDTO save(CreateMovieDTO movie) throws IOException, SQLException {
+		return this.save(movie, (Blob) null);
+	}
+
+	public MovieDTO deleteById(long id) {
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+		removeReviews(movie);
+		removeCast(movie);
+		MovieDTO movieDTO = movieMapper.toDTO(movie);
 		moviesRepository.deleteById(id);
+		return movieDTO;
+	}
+
+	private void removeReviews(Movie movie) {
+		for (Review review : movie.getReviews()) {
+			User user = review.getAuthor();
+			user.getReviews().remove(review);
+			userRepository.save(user);
+		}
 	}
 
 	public Movie createMovie(String movieName, String movieArgument, int movieYear, List<Long> movieCast,
@@ -78,6 +116,22 @@ public class MoviesService {
 		return movie;
 	}
 
+	public MovieDTO update(long movieId, MovieBasicDTO movie) throws IOException {
+		return this.update(movieId, movie, null);
+	}
+
+	public MovieDTO update(long movieId, MovieBasicDTO movie, MultipartFile movieImage) throws IOException {
+		Movie toUpdateMovie = moviesRepository.findById(movieId).orElseThrow();
+		toUpdateMovie.setName(movie.getName());
+		toUpdateMovie.setArgument(movie.getArgument());
+		toUpdateMovie.setYear(movie.getYear());
+		if (movieImage != null && movieImage.getSize() > 0) {
+			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());
+			toUpdateMovie.setMovieImage(blobImage);
+		}
+		return movieMapper.toDTO(moviesRepository.save(toUpdateMovie));
+	}
+
 	public void removeCast(Movie movie) {
 		List<Cast> castList = movie.getCast();
 		for (Cast cast : castList) {
@@ -86,4 +140,48 @@ public class MoviesService {
 		movie.setCast(null);
 	}
 
+	public InputStream getMovieImage(long id) throws SQLException {
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+		Blob blob = movie.getMovieImage();
+		try {
+			return blob.getBinaryStream();
+		} catch (SQLException e) {
+			throw new SQLException("Error getting image from database", e);
+		}
+	}
+
+	public void createMovieImage(long id, InputStream inputStream, long size) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		movie.setMovieImage(BlobProxy.generateProxy(inputStream, size));
+
+		moviesRepository.save(movie);
+	}
+
+	public void replaceMovieImage(long id, InputStream inputStream, long size) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		if (movie.getMovieImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		movie.setMovieImage(BlobProxy.generateProxy(inputStream, size));
+
+		moviesRepository.save(movie);
+	}
+
+	public void deleteMovieImage(long id) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		if (movie.getMovieImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		movie.setMovieImage(null);
+
+		moviesRepository.save(movie);
+	}
 }

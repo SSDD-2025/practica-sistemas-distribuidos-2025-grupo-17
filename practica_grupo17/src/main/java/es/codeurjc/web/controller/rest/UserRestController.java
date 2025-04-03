@@ -61,4 +61,5 @@ public class UserRestController {
         userService.save(updatedUser);
         return updatedUser;
     }
+
 }
