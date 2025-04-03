@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
+import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.entities.*;
+import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.ReviewRepository;
 
 @Controller
@@ -31,6 +33,9 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
+
+	@Autowired
+	private MovieMapper movieMapper;
 
 	@GetMapping("/myReviews")
 	public String showMyReviews(Model model) {
@@ -54,11 +59,11 @@ public class ReviewController {
 	public String newReview(Model model, @PathVariable int id, @RequestParam String reviewTitle,
 			@RequestParam String reviewText) throws IOException {
 
-		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
+		MovieDTO movieDTO = moviesService.findById(id);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		User user = userService.findByUsername(username).get();
-		Review review = new Review(reviewTitle, reviewText, movie, user);
+		Review review = new Review(reviewTitle, reviewText, movieMapper.toDomain(movieDTO), user);
 		reviewService.save(review);
 
 		return "review_created_template";
@@ -70,14 +75,14 @@ public class ReviewController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		User user = userService.findByUsername(username).get();
-		Movie movie = moviesService.findById(id).orElseThrow(() -> new IOException());
+		MovieDTO movieDTO = moviesService.findById(id);
 		Review review = reviewRepository.findById(idReview).orElseThrow(() -> new IOException());
 		if (review.getAuthor().equals(user) || user.getRoles().contains("ADMIN")) {
-			movie.removeReview(review);
+			movieMapper.toDomain(movieDTO).removeReview(review);
 			user.removeReview(review);
 			reviewRepository.deleteById(idReview);
 
-			model.addAttribute("movie", movie);
+			model.addAttribute("movie", movieDTO);
 
 			return "review_deleted_template";
 		}

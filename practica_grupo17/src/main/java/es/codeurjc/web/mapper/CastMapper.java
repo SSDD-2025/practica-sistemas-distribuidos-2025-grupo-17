@@ -20,7 +20,7 @@ public class CastMapper {
                 cast.getBirthDate(),
                 cast.getOriginCountry(),
                 cast.getMovies().stream()
-                        .map(movie -> new MovieBasicDTO(movie.getId(), movie.getName(), movie.getYear()))
+                        .map(movie -> new MovieBasicDTO(movie.getId(), movie.getName(), movie.getYear(), movie.getArgument()))
                         .collect(Collectors.toList())
         );
     }

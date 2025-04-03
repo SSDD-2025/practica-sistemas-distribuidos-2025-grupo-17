@@ -66,18 +66,4 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/{movieId}/reviews/")
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        reviewService.save(review);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
-        return ResponseEntity.created(location).body(review);
-    }
-
-    @DeleteMapping("{movieId}/reviews/{reviewId}")
-    public Review deleteReview(@PathVariable long id) {
-        Review review = reviewService.findById(id).orElseThrow();
-        reviewService.deleteById(id);
-        return review;
-    }
-
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.sql.rowset.serial.SerialBlob;
 
 import es.codeurjc.web.entities.*;
+import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.UserRepository;
 
 import java.io.File;
@@ -40,6 +41,9 @@ public class SampleDataService {
 
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private MovieMapper movieMapper;
 
 	private Cast c[] = new Cast[4];
 	private Movie m[] = new Movie[3];
@@ -79,9 +83,9 @@ public class SampleDataService {
 			// Add cast list to movies entities
 			addCastToMovies(cast1, cast2, cast3);
 			// Save movies entities in moviesService (no images)
-			moviesService.save(m[0]);
-			moviesService.save(m[1]);
-			moviesService.save(m[2]);
+			moviesService.save(movieMapper.toDTO(m[0]));
+			moviesService.save(movieMapper.toDTO(m[1]));
+			moviesService.save(movieMapper.toDTO(m[2]));
 			// Save cast entities in castService (no images)
 			castService.save(c[0]);
 			castService.save(c[1]);
@@ -122,9 +126,9 @@ public class SampleDataService {
 			castService.save(c[1]);
 			castService.save(c[2]);
 			castService.save(c[3]);
-			moviesService.save(m[0]);
-			moviesService.save(m[1]);
-			moviesService.save(m[2]);
+			moviesService.save(movieMapper.toDTO(m[0]));
+			moviesService.save(movieMapper.toDTO(m[1]));
+			moviesService.save(movieMapper.toDTO(m[2]));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,9 +181,9 @@ public class SampleDataService {
 		mInit[0] = new Movie(movieName1, movieArg1, movieYear1, movieTrailer1);
 		mInit[1] = new Movie(movieName2, movieArg2, movieYear2, movieTrailer2);
 		mInit[2] = new Movie(movieName3, movieArg3, movieYear3, movieTrailer3);
-		moviesService.save(mInit[0]);
-		moviesService.save(mInit[1]);
-		moviesService.save(mInit[2]);
+		moviesService.save(movieMapper.toDTO(mInit[0]));
+		moviesService.save(movieMapper.toDTO(mInit[1]));
+		moviesService.save(movieMapper.toDTO(mInit[2]));
 		return mInit;
 	}
 

@@ -1,8 +1,10 @@
 package es.codeurjc.web.services;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -15,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
 import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
-import es.codeurjc.web.dto.movie.MovieMapper;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
+import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.UserRepository;
@@ -82,14 +84,21 @@ public class MoviesService {
 		return this.save(movie, (Blob) null);
 	}
 
-	public void deleteById(long id) {
+	public MovieDTO deleteById(long id) {
 		Movie movie = moviesRepository.findById(id).orElseThrow();
+		removeReviews(movie);
+		removeCast(movie);
+		MovieDTO movieDTO = movieMapper.toDTO(movie);
+		moviesRepository.deleteById(id);
+		return movieDTO;
+	}
+
+	private void removeReviews(Movie movie) {
 		for (Review review : movie.getReviews()) {
 			User user = review.getAuthor();
 			user.getReviews().remove(review);
 			userRepository.save(user);
 		}
-		moviesRepository.deleteById(id);
 	}
 
 	public Movie createMovie(String movieName, String movieArgument, int movieYear, List<Long> movieCast,
@@ -129,5 +138,50 @@ public class MoviesService {
 			cast.removeMovie(movie);
 		}
 		movie.setCast(null);
+	}
+
+	public InputStream getMovieImage(long id) throws SQLException {
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+		Blob blob = movie.getMovieImage();
+		try {
+			return blob.getBinaryStream();
+		} catch (SQLException e) {
+			throw new SQLException("Error getting image from database", e);
+		}
+	}
+
+	public void createMovieImage(long id, InputStream inputStream, long size) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		movie.setMovieImage(BlobProxy.generateProxy(inputStream, size));
+
+		moviesRepository.save(movie);
+	}
+
+	public void replaceMovieImage(long id, InputStream inputStream, long size) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		if (movie.getMovieImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		movie.setMovieImage(BlobProxy.generateProxy(inputStream, size));
+
+		moviesRepository.save(movie);
+	}
+
+	public void deleteMovieImage(long id) {
+
+		Movie movie = moviesRepository.findById(id).orElseThrow();
+
+		if (movie.getMovieImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		movie.setMovieImage(null);
+
+		moviesRepository.save(movie);
 	}
 }

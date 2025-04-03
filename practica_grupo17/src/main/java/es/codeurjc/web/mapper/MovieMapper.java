@@ -1,10 +1,13 @@
-package es.codeurjc.web.dto.movie;
+package es.codeurjc.web.mapper;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.mapstruct.Mapper;
 
+import es.codeurjc.web.dto.movie.CreateMovieDTO;
+import es.codeurjc.web.dto.movie.MovieBasicDTO;
+import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.entities.Movie;
 
 @Mapper(componentModel = "spring")
