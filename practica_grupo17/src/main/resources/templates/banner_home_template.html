@@ -1,6 +1,6 @@
 <div id="topBanner">
     <img id="bannerImage" onclick="location.href='/'" src="/logo.png">
-    <x id="bannerText">Página de inicio</x>
+    <span id="bannerText">Página de inicio</span>
     {{#logged}}
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="{{token}}"/>

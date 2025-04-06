@@ -22,6 +22,7 @@ import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
 import es.codeurjc.web.mapper.MovieMapper;
+import es.codeurjc.web.mapper.CastMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.UserRepository;
@@ -34,6 +35,9 @@ public class MoviesService {
 
 	@Autowired
 	private MoviesRepository moviesRepository;
+
+	@Autowired
+	private CastMapper castMapper;
 
 	@Autowired
 	private MovieMapper movieMapper;
