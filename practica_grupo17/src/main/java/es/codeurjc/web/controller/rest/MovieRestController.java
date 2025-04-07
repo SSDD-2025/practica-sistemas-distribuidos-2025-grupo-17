@@ -53,7 +53,8 @@ public class MovieRestController {
 
     @DeleteMapping("/{id}")
     public MovieDTO deleteMovie(@PathVariable long id) {
-        return moviesService.findById(id);
+        MovieDTO movieDTO = moviesService.deleteById(id);
+        return movieDTO;
     }
 
     @PutMapping("/{id}")

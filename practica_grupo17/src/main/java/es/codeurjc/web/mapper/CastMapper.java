@@ -6,10 +6,12 @@ import es.codeurjc.web.dto.cast.CreateCastDTO;
 import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class CastMapper {
 
     public static CastDTO toDTO(Cast cast) {

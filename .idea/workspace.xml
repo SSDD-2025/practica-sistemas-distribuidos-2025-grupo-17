@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c52520db-f2d8-4b5d-a022-254811c197a8" name="Changes" comment="Changes&#10;Edited: Cast and Movie entities&#10;Added: Review and User entieties&#10;&#10;Details:&#10;I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters.&#10;&#10;I have also added the completed entities Review and User.&#10;&#10;All entities have their" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;carlosivorrasalinas&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17.git&quot;,
+    &quot;accountId&quot;: &quot;9005c30f-89a6-4ba0-b5d9-c56edbadbd77&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2tHeSpH9hAu5KJWcav9CEerB4kE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Propietario/Desktop/UNIVERSIDAD/Sistemas distribuidos&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="practica-sistemas-distribuidos-2025-grupo-17" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="practica-sistemas-distribuidos-2025-grupo-17" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c52520db-f2d8-4b5d-a022-254811c197a8" name="Changes" comment="" />
+      <created>1740013431701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740013431701</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Changes&#10;Edited: Cast and Movie entities&#10;Added: Review and User entieties&#10;&#10;Details:&#10;I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters.&#10;&#10;I have also added the completed entities Review and User.&#10;&#10;All entities have their">
+      <option name="closed" value="true" />
+      <created>1740016550691</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740016550691</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Changes&#10;Edited: Cast and Movie entities&#10;Added: Review and User entieties&#10;&#10;Details:&#10;I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters.&#10;&#10;I have also added the completed entities Review and User.&#10;&#10;All entities have their">
+      <option name="closed" value="true" />
+      <created>1740016717418</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1740016717418</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes&#10;Edited: Cast and Movie entities&#10;Added: Review and User entieties&#10;&#10;Details:&#10;I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters.&#10;&#10;I have also added the completed entities Review and User.&#10;&#10;All entities have their" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes&#10;Edited: Cast and Movie entities&#10;Added: Review and User entieties&#10;&#10;Details:&#10;I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters.&#10;&#10;I have also added the completed entities Review and User.&#10;&#10;All entities have their" />
+  </component>
+</project>

@@ -393,3 +393,109 @@ ul{
     background-color: #c5c8f7;
     max-width: 95%;
 }
+
+
+#topBanner {
+    animation: fadeInTopBanner 1s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInTopBanner {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+#bannerText {
+    animation: slideInText 1.2s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes slideInText {
+    0% {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+#bannerImage:hover {
+    transform: scale(1.1) rotate(-2deg);
+    transition: transform 0.3s ease;
+}
+
+
+#topBanner button,
+#topBanner form {
+    opacity: 0;
+    animation: fadeButtons 1.5s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeButtons {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+	from { opacity: 0; transform: translateY(20px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+	from { opacity: 0; transform: translateX(-100px); }
+	to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInBottom {
+	from { opacity: 0; transform: translateY(100px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+
+.fade-in {
+	animation: fadeIn 0.6s ease-out;
+}
+
+.fade-in-up {
+	animation: fadeInUp 0.6s ease-out;
+}
+
+.slide-in-left {
+	animation: slideInLeft 0.6s ease-out;
+}
+
+.slide-in-bottom {
+	animation: slideInBottom 0.6s ease-out;
+}
+
+
+.card-hover {
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+	transform: scale(1.05);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
