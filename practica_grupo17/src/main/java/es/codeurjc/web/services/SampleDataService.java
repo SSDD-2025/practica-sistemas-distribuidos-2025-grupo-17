@@ -1,9 +1,12 @@
 package es.codeurjc.web.services;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.Resource;
 
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -11,10 +14,11 @@ import java.util.ArrayList;
 import javax.sql.rowset.serial.SerialBlob;
 
 import es.codeurjc.web.entities.*;
-import es.codeurjc.web.mapper.MovieMapper;
+import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.UserRepository;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Blob;
 
@@ -32,28 +36,24 @@ public class SampleDataService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-	//Others
 	@Autowired
-	private MoviesService moviesService;
+	private MoviesRepository moviesRepository;
 
+	//Others
 	@Autowired
 	private CastService castService;
 
 	@Autowired
 	private ReviewService reviewService;
 
-	@Autowired
-	private MovieMapper movieMapper;
-
 	private Cast c[] = new Cast[4];
 	private Movie m[] = new Movie[3];
 	@SuppressWarnings("unused")
 	private Review r[] = new Review[7];
 
-	private final String IMAGE_PATH = "images\\"; 
 
 	@PostConstruct
-	public void init() {
+	public void init() throws IOException{
 
 		User admin=new User(username,password, "ADMIN");
 		userRepository.save(admin);
@@ -64,71 +64,59 @@ public class SampleDataService {
 
 		try {
 			// Cast
-			c = initCast();
+			//c = initCast();
 			// Movies
 			m = initMovies();
 			// Reviews
-			r = initReviews(admin,user,otherUser);
+			//r = initReviews(admin,user,otherUser);
 			// Movie list
 			ArrayList<Movie> movies1 = new ArrayList<Movie>(),
 					movies2 = new ArrayList<Movie>(),
 					movies3 = new ArrayList<Movie>(),
 					movies4 = new ArrayList<Movie>();
 			// Add movies list to cast entities
-			addMoviesToCast(movies1, movies2, movies3, movies4);
+			//addMoviesToCast(movies1, movies2, movies3, movies4);
 			// Cast list
 			ArrayList<Cast> cast1 = new ArrayList<>(),
 					cast2 = new ArrayList<>(),
 					cast3 = new ArrayList<>();
 			// Add cast list to movies entities
-			addCastToMovies(cast1, cast2, cast3);
-			// Save movies entities in moviesService (no images)
-			moviesService.save(movieMapper.toDTO(m[0]));
-			moviesService.save(movieMapper.toDTO(m[1]));
-			moviesService.save(movieMapper.toDTO(m[2]));
+			//addCastToMovies(cast1, cast2, cast3);
+			// Save movies entities in moviesRepository (no images)
 			// Save cast entities in castService (no images)
-			castService.save(c[0]);
-			castService.save(c[1]);
-			castService.save(c[2]);
-			castService.save(c[3]);
+			//castService.save(c[0]);
+			//castService.save(c[1]);
+			//castService.save(c[2]);
+			//castService.save(c[3]);
 			//Add images to cast and movies and save them with File and Blob
-			File imageFile1 = new File(IMAGE_PATH +"cast_images\\image_1.jpg"),
-					imageFile2 = new File(IMAGE_PATH +"cast_images\\image_0.jpg"),
-					imageFile3 = new File(IMAGE_PATH +"cast_images\\image_3.jpg"),
-					imageFile4 = new File(IMAGE_PATH +"cast_images\\image_2.jpg"),
-					imageFile5 = new File(IMAGE_PATH +"movies_images\\image_0.jpg"),
-					imageFile6 = new File(IMAGE_PATH +"movies_images\\image_1.jpg"),
-					imageFile7 = new File(IMAGE_PATH +"movies_images\\image_2.jpg");
+			File imageFile1 = new File("/cast_images/image_1.jpg"),
+					imageFile2 = new File("/cast_images/image_0.jpg"),
+					imageFile3 = new File("/cast_images/image_3.jpg"),
+					imageFile4 = new File("/cast_images/image_2.jpg");
 			byte[] imageBytes1 = Files.readAllBytes(imageFile1.toPath()),
 					imageBytes2 = Files.readAllBytes(imageFile2.toPath()),
 					imageBytes3 = Files.readAllBytes(imageFile3.toPath()),
-					imageBytes4 = Files.readAllBytes(imageFile4.toPath()),
-					imageBytes5 = Files.readAllBytes(imageFile5.toPath()),
-					imageBytes6 = Files.readAllBytes(imageFile6.toPath()),
-					imageBytes7 = Files.readAllBytes(imageFile7.toPath());
+					imageBytes4 = Files.readAllBytes(imageFile4.toPath());
 			Blob imageBlob1 = new SerialBlob(imageBytes1),
 					imageBlob2 = new SerialBlob(imageBytes2),
 					imageBlob3 = new SerialBlob(imageBytes3),
-					imageBlob4 = new SerialBlob(imageBytes4),
-					imageBlob5 = new SerialBlob(imageBytes5),
-					imageBlob6 = new SerialBlob(imageBytes6),
-					imageBlob7 = new SerialBlob(imageBytes7);
+					imageBlob4 = new SerialBlob(imageBytes4);
 
-			c[0].setCastImage(imageBlob1);
-			c[1].setCastImage(imageBlob2);
-			c[2].setCastImage(imageBlob3);
-			c[3].setCastImage(imageBlob4);
-			m[0].setMovieImage(imageBlob5);
-			m[1].setMovieImage(imageBlob6);
-			m[2].setMovieImage(imageBlob7);
+			//c[0].setCastImage(imageBlob1);
+			//c[1].setCastImage(imageBlob2);
+			//c[2].setCastImage(imageBlob3);
+			//c[3].setCastImage(imageBlob4);
 
-			castService.save(c[0]);
-			castService.save(c[1]);
-			castService.save(c[2]);
-			castService.save(c[3]);
-			moviesService.save(movieMapper.toDTO(m[0]));
-			moviesService.save(movieMapper.toDTO(m[1]));
-			moviesService.save(movieMapper.toDTO(m[2]));
+			//castService.save(c[0]);
+			//castService.save(c[1]);
+			//castService.save(c[2]);
+			//castService.save(c[3]);
+			moviesRepository.save(m[0]);
+			moviesRepository.save(m[1]);
+			moviesRepository.save(m[2]);
+
+			System.out.println("Películas guardadas: " + moviesRepository.findAll());
+			System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -164,7 +152,7 @@ public class SampleDataService {
 		return cInit;
 	}
 
-	private Movie[] initMovies() {
+	private Movie[] initMovies() throws IOException {
 		String movieName1 = "Mortadelo y Filemon Contra Jimmy El Cachondo",
 				movieName2 = "Torrente 10",
 				movieName3 = "Vengadores: Guardianes de las patatas";
@@ -181,9 +169,12 @@ public class SampleDataService {
 		mInit[0] = new Movie(movieName1, movieArg1, movieYear1, movieTrailer1);
 		mInit[1] = new Movie(movieName2, movieArg2, movieYear2, movieTrailer2);
 		mInit[2] = new Movie(movieName3, movieArg3, movieYear3, movieTrailer3);
-		moviesService.save(movieMapper.toDTO(mInit[0]));
-		moviesService.save(movieMapper.toDTO(mInit[1]));
-		moviesService.save(movieMapper.toDTO(mInit[2]));
+		Resource image1 = new ClassPathResource("/static/movies_images/image_0.jpg");
+		Resource image2 = new ClassPathResource("/static/movies_images/image_1.jpg");
+		Resource image3 = new ClassPathResource("/static/movies_images/image_2.jpg");
+		mInit[0].setMovieImage(BlobProxy.generateProxy(image1.getInputStream(), image1.contentLength()));
+		mInit[1].setMovieImage(BlobProxy.generateProxy(image2.getInputStream(), image2.contentLength()));
+		mInit[2].setMovieImage(BlobProxy.generateProxy(image3.getInputStream(), image3.contentLength()));
 		return mInit;
 	}
 

@@ -20,9 +20,9 @@ public class CastMapper {
                 cast.getBirthDate(),
                 cast.getOriginCountry(),
                 cast.getMovies().stream()
-                        .map(movie -> new MovieBasicDTO(movie.getId(), movie.getName(), movie.getYear(), movie.getArgument()))
-                        .collect(Collectors.toList())
-        );
+                        .map(movie -> new MovieBasicDTO(movie.getId(), movie.getName(), movie.getYear(),
+                                movie.getArgument()))
+                        .collect(Collectors.toList()));
     }
 
     public static CastBasicDTO toBasicDTO(Cast cast) {
@@ -30,8 +30,7 @@ public class CastMapper {
                 cast.getId(),
                 cast.getName(),
                 cast.getBirthDate(),
-                cast.getOriginCountry()
-        );
+                cast.getOriginCountry());
     }
 
     public static Cast fromCreateDTO(CreateCastDTO dto, List<Movie> movies) {

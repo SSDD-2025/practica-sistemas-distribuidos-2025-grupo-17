@@ -27,7 +27,6 @@ import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
 import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
-import es.codeurjc.web.entities.Review;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -35,9 +34,6 @@ public class MovieRestController {
 
     @Autowired
     private MoviesService moviesService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     @GetMapping("/")
     public Collection<MovieDTO> getMovies() {
@@ -111,17 +107,4 @@ public class MovieRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{movieId}/reviews/")
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
-        reviewService.save(review);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
-        return ResponseEntity.created(location).body(review);
-    }
-
-    @DeleteMapping("{movieId}/reviews/{id}")
-    public Review deleteReview(@PathVariable long id) {
-        Review review = reviewService.findById(id).orElseThrow();
-        reviewService.deleteById(id);
-        return review;
-    }
 }

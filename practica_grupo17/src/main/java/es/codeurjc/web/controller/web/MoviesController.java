@@ -40,21 +40,21 @@ public class MoviesController {
 	@Autowired
 	private MovieMapper movieMapper;
 
-	@Autowired
-	private CastMapper castMapper;
+	/*@Autowired
+	private CastMapper castMapper;*/
 
 	@GetMapping("/movies/{id}")
 	public String showMovie(Model model, @PathVariable long id) {
 		try {
 			MovieDTO movieDTO = moviesService.findById(id);
-			model.addAttribute("book", movieDTO);
+			model.addAttribute("movie", movieDTO);
 			return "movie_template";
 		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";
 		}
 	}
 
-	@GetMapping("/movie/{id}/image")
+	@GetMapping("/movies/{id}/image")
 	public ResponseEntity<Object> downloadMovieImage(@PathVariable int id) throws SQLException, IOException {
 		Resource movieImage;
 		try {
@@ -138,7 +138,7 @@ public class MoviesController {
 			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
 					movieTrailer);
 			updatedMovie.setId(id);
-			for(ReviewDTO review : oldMovie.getReviews()){
+			for(ReviewDTO review : oldMovie.reviews()) {
 				//Cuando el mapper de review esté descomentar updatedMovie.addReview(review);
 			}
 

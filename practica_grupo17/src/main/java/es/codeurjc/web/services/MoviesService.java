@@ -45,11 +45,11 @@ public class MoviesService {
 	}
 
 	public Collection<MovieDTO> findAll() {
-		return movieMapper.toDTOs(moviesRepository.findAll());
+		return toDTOs(moviesRepository.findAll());
 	}
 
 	public MovieDTO findById(long id) {
-		return movieMapper.toDTO(moviesRepository.findById(id).orElseThrow());
+		return toDTO(moviesRepository.findById(id).orElseThrow());
 	}
 
 	public boolean exist(long id) {
@@ -57,11 +57,11 @@ public class MoviesService {
 	}
 
 	public MovieDTO save(MovieDTO movieDTO) {
-		if (movieDTO.getId() != null)
+		if (movieDTO.id() != null)
 			throw new IllegalArgumentException();
-		Movie movie = movieMapper.toDomain(movieDTO);
+		Movie movie = toDomain(movieDTO);
 		moviesRepository.save(movie);
-		return movieMapper.toDTO(movie);
+		return toDTO(movie);
 	}
 
 	public MovieDTO save(CreateMovieDTO movie, Blob imageField) {
@@ -70,7 +70,7 @@ public class MoviesService {
 		}
 		Movie newMovie = movieMapper.toDomain(movie);
 		newMovie.setMovieImage(imageField);
-		return movieMapper.toDTO(moviesRepository.save(newMovie));
+		return toDTO(moviesRepository.save(newMovie));
 	}
 
 	public MovieDTO save(CreateMovieDTO movie, MultipartFile movieImage) throws IOException {
@@ -88,7 +88,7 @@ public class MoviesService {
 		Movie movie = moviesRepository.findById(id).orElseThrow();
 		removeReviews(movie);
 		removeCast(movie);
-		MovieDTO movieDTO = movieMapper.toDTO(movie);
+		MovieDTO movieDTO = toDTO(movie);
 		moviesRepository.deleteById(id);
 		return movieDTO;
 	}
@@ -129,7 +129,7 @@ public class MoviesService {
 			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());
 			toUpdateMovie.setMovieImage(blobImage);
 		}
-		return movieMapper.toDTO(moviesRepository.save(toUpdateMovie));
+		return toDTO(moviesRepository.save(toUpdateMovie));
 	}
 
 	public void removeCast(Movie movie) {
@@ -183,5 +183,17 @@ public class MoviesService {
 		movie.setMovieImage(null);
 
 		moviesRepository.save(movie);
+	}
+
+	private MovieDTO toDTO(Movie Movie) {
+		return movieMapper.toDTO(Movie);
+	}
+
+	private Movie toDomain(MovieDTO MovieDTO) {
+		return movieMapper.toDomain(MovieDTO);
+	}
+
+	private Collection<MovieDTO> toDTOs(Collection<Movie> Movies) {
+		return movieMapper.toDTOs(Movies);
 	}
 }

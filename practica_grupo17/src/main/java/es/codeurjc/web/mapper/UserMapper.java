@@ -7,15 +7,11 @@ import es.codeurjc.web.entities.User;
 public class UserMapper {
 
     public static UserDTO toDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setRoles(user.getRoles());
-        return dto;
+        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(),user.getReviews());
+        return userDTO;
     }
 
     public static User fromCreateDTO(CreateUserDTO dto) {
-        // Asignamos rol por defecto: "USER"
-        return new User(dto.getUsername(), dto.getPassword(), "USER");
+        return new User(dto.username(), dto.password(), "USER");
     }
 }

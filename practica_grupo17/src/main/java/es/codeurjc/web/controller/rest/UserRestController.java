@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-import es.codeurjc.web.services.ReviewService;
 import es.codeurjc.web.services.UserService;
 import es.codeurjc.web.entities.*;
 
@@ -27,9 +26,6 @@ public class UserRestController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     @GetMapping("/")
     public Collection<User> getAllUsers() {
