@@ -4,7 +4,7 @@
     {{>banner_show_info_template}}
     {{#movie}}
     <h1>{{name}}</h1>
-    <img src="/movie/{{id}}/image" id="imageSize"></img>
+    <img src="/movies/{{id}}/image" id="imageSize"></img>
     <p>Año de lanzamiento: {{year}}</p>
     <h3>Sinopsis</h3>
     <p>{{argument}}</p>
@@ -27,13 +27,13 @@
     {{^trailer}}
     <p id="infoText">No hay trailer disponible</p><br>
     {{/trailer}}
-    <form action="/movie/{{id}}/delete" method="post">
+    <form action="/movies/{{id}}/delete" method="post">
         <input type="hidden" name="_csrf" value="{{token}}"/>
         <input type='submit' value='Borrar película' />
     </form><br>
-    <button onclick="window.location.href='/movie/{{id}}/modify';">Modificar película</button>
+    <button onclick="window.location.href='/movies/{{id}}/modify';">Modificar película</button>
     <h3>Reseñas</h3>
-    <button onclick="window.location.href='/movie/{{id}}/review/new';">Añadir reseña</button>
+    <button onclick="window.location.href='/movies/{{id}}/review/new';">Añadir reseña</button>
     {{#reviews}}
     <ul>
         <li>
@@ -41,7 +41,7 @@
                 <div id="reviewBox">
                     <p>{{text}}</p>
                 </div>
-            <form action="/movie/{{movie.id}}/review/{{idReview}}/delete" method="post">
+            <form action="/movies/{{movie.id}}/review/{{idReview}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 <input type='submit' value='Borrar reseña' />
             </form>

@@ -5,7 +5,7 @@
     <br>
     <div id="form">
         <h2>Rellene con los datos de la película a subir</h2>
-        <form th:action="@{${movie != null} ? '/movie/' + movie.id + '/modify' : '/movie/new'}" method="post"
+        <form th:action="@{${movie != null} ? '/movies/' + movie.id + '/modify' : '/movies/new'}" method="post"
             enctype="multipart/form-data">
 
             <label id="fieldName">Título: {{#error}}({{.}}){{/error}}</label>
@@ -35,7 +35,7 @@
         {{#movie}}
         <label id="fieldName">Imagen actual:</label>
         <br>
-        <img src="/movie/{{id}}/image" alt="Imagen actual" width="150px">
+        <img src="/movies/{{id}}/image" alt="Imagen actual" width="150px">
         <br>
         {{/movie}}
 
