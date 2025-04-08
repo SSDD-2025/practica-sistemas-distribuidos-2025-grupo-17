@@ -50,13 +50,13 @@ public class ReviewController {
 		return "my_reviews_template";
 	}
 
-	@GetMapping("/movie/{id}/review/new")
+	@GetMapping("/movies/{id}/review/new")
 	public String newReviewForm(Model model, @PathVariable int id) {
 		model.addAttribute("movie", moviesService.findById(id));
 		return "new_review_template";
 	}
 
-	@PostMapping("/movie/{id}/review/new")
+	@PostMapping("/movies/{id}/review/new")
 	public String newReview(Model model, @PathVariable int id, @RequestParam String reviewTitle,
 			@RequestParam String reviewText) throws IOException {
 
@@ -71,7 +71,7 @@ public class ReviewController {
 		return "review_created_template";
 	}
 
-	@PostMapping("/movie/{id}/review/{idReview}/delete")
+	@PostMapping("/movies/{id}/review/{idReview}/delete")
 	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview) throws IOException {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
