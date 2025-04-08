@@ -4,7 +4,7 @@
     {{>banner_form_template}}
 	<h2>Rellene con los datos de la reseña a subir</h2>
 	{{#movie}}
-	<form action="/movie/{{id}}/review/new" method="post">
+	<form action="/movies/{{id}}/review/new" method="post">
 		<label id="fieldName">Título:</label>
 		<input type='text' name='reviewTitle' /><br>
 		<div id="textAreaToAlign">

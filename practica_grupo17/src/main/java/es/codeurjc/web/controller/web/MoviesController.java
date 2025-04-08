@@ -55,7 +55,7 @@ public class MoviesController {
 		try {
 			movieImage = new InputStreamResource(moviesService.getMovieImage(id));
 		} catch (Exception e) {
-			ClassPathResource resource = new ClassPathResource("static/logo.png");
+			ClassPathResource resource = new ClassPathResource("static/not_available.png");
 			byte[] imageBytes = resource.getInputStream().readAllBytes();
 			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(imageBytes);
 		}
@@ -104,7 +104,7 @@ public class MoviesController {
 			model.addAttribute("movie", movieDTO);
 			model.addAttribute("allCast", castService.findAll());
 			if (movieMapper.toDomain(movieDTO).getMovieImage() != null) {
-				model.addAttribute("currentImageUrl", "/movie/" + id + "/image");
+				model.addAttribute("currentImageUrl", "/movies/" + id + "/image");
 			}
 			return "new_or_modify_movie_template";
 		} catch (NoSuchElementException e) {
