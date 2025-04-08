@@ -21,7 +21,7 @@ public interface MovieMapper {
 
     List<MovieDTO> toDTO(List<Movie> all);
 
-    Movie toDomain(CreateMovieDTO film);
+    Movie toDomain(CreateMovieDTO movie);
 
     CreateMovieDTO toCreateMovieRequest(Movie movie);
 

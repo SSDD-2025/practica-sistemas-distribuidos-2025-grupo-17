@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.core.io.Resource;
 
 import jakarta.annotation.PostConstruct;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
-import javax.sql.rowset.serial.SerialBlob;
+//import javax.sql.rowset.serial.SerialBlob;
 
 import es.codeurjc.web.entities.*;
 import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.UserRepository;
 
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.sql.Blob;
+//import java.nio.file.Files;
+//import java.sql.Blob;
 
 @Service
 public class SampleDataService {
@@ -40,16 +40,16 @@ public class SampleDataService {
 	private MoviesRepository moviesRepository;
 
 	//Others
-	@Autowired
-	private CastService castService;
+	//@Autowired
+	//private CastService castService;
 
-	@Autowired
-	private ReviewService reviewService;
+	//@Autowired
+	//private ReviewService reviewService;
 
-	private Cast c[] = new Cast[4];
+	//private Cast c[] = new Cast[4];
 	private Movie m[] = new Movie[3];
-	@SuppressWarnings("unused")
-	private Review r[] = new Review[7];
+	//@SuppressWarnings("unused")
+	//private Review r[] = new Review[7];
 
 
 	@PostConstruct
@@ -70,6 +70,7 @@ public class SampleDataService {
 			// Reviews
 			//r = initReviews(admin,user,otherUser);
 			// Movie list
+			/*
 			ArrayList<Movie> movies1 = new ArrayList<Movie>(),
 					movies2 = new ArrayList<Movie>(),
 					movies3 = new ArrayList<Movie>(),
@@ -79,7 +80,7 @@ public class SampleDataService {
 			// Cast list
 			ArrayList<Cast> cast1 = new ArrayList<>(),
 					cast2 = new ArrayList<>(),
-					cast3 = new ArrayList<>();
+					cast3 = new ArrayList<>();*/
 			// Add cast list to movies entities
 			//addCastToMovies(cast1, cast2, cast3);
 			// Save movies entities in moviesRepository (no images)
@@ -89,7 +90,7 @@ public class SampleDataService {
 			//castService.save(c[2]);
 			//castService.save(c[3]);
 			//Add images to cast and movies and save them with File and Blob
-			File imageFile1 = new File("/cast_images/image_1.jpg"),
+			/*File imageFile1 = new File("/cast_images/image_1.jpg"),
 					imageFile2 = new File("/cast_images/image_0.jpg"),
 					imageFile3 = new File("/cast_images/image_3.jpg"),
 					imageFile4 = new File("/cast_images/image_2.jpg");
@@ -101,7 +102,7 @@ public class SampleDataService {
 					imageBlob2 = new SerialBlob(imageBytes2),
 					imageBlob3 = new SerialBlob(imageBytes3),
 					imageBlob4 = new SerialBlob(imageBytes4);
-
+*/
 			//c[0].setCastImage(imageBlob1);
 			//c[1].setCastImage(imageBlob2);
 			//c[2].setCastImage(imageBlob3);
@@ -122,7 +123,7 @@ public class SampleDataService {
 		}
 	}
 
-	private Cast[] initCast() {
+	/*private Cast[] initCast() {
 		String castName1 = "Robert Downey Jr",
 				castName2 = "Maximiliano Cloritix",
 				castName3 = "Santiago Segura",
@@ -151,7 +152,7 @@ public class SampleDataService {
 		castService.save(cInit[3]);
 		return cInit;
 	}
-
+*/
 	private Movie[] initMovies() throws IOException {
 		String movieName1 = "Mortadelo y Filemon Contra Jimmy El Cachondo",
 				movieName2 = "Torrente 10",
@@ -177,7 +178,7 @@ public class SampleDataService {
 		mInit[2].setMovieImage(BlobProxy.generateProxy(image3.getInputStream(), image3.contentLength()));
 		return mInit;
 	}
-
+/*
 	private Review[] initReviews(User admin,User user,User otherUser) {
 		String reviewTitle1 = "Muy buena",
 				reviewTitle2 = "Salí llorando",
@@ -238,4 +239,5 @@ public class SampleDataService {
 		m[1].setCast(cast2);
 		m[2].setCast(cast3);
 	}
-}
+*/
+	}

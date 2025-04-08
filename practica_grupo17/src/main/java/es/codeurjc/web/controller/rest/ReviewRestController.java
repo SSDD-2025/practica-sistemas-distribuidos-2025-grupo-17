@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+import es.codeurjc.web.dto.review.CreateReviewDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.services.ReviewService;
 
@@ -24,29 +26,25 @@ public class ReviewRestController {
     private ReviewService reviewService;
     
     @PostMapping("/movies/{movieId}/reviews/")
-    public ResponseEntity<Review> createReviewByMovie(@RequestBody Review review) {
-        reviewService.save(review);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
-        return ResponseEntity.created(location).body(review);
+    public ReviewDTO createReviewByMovie(@RequestBody CreateReviewDTO review) {
+        return reviewService.save(review);
     }
 
-    @DeleteMapping("/movies/{movieId}/reviews/{id}")
+    /*@DeleteMapping("/movies/{movieId}/reviews/{id}")
     public Review deleteReviewByMovie(@PathVariable long id) {
         Review review = reviewService.findById(id).orElseThrow();
         reviewService.deleteById(id);
         return review;
-    }
+    }*/
     @PostMapping("/users/{userId}/reviews/")
-    public ResponseEntity<Review> createReviewByUser(@RequestBody Review review) {
-        reviewService.save(review);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(review.getId()).toUri();
-        return ResponseEntity.created(location).body(review);
+    public ReviewDTO createReviewByUser(@RequestBody CreateReviewDTO review) {
+        return reviewService.save(review);
     }
-
+/*
     @DeleteMapping("/users/{userId}/reviews/{id}")
     public Review deleteReviewByUser(@PathVariable long id) {
         Review review = reviewService.findById(id).orElseThrow();
         reviewService.deleteById(id);
         return review;
-    }
+    }*/
 }

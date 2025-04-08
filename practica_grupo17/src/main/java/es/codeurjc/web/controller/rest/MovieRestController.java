@@ -36,7 +36,7 @@ public class MovieRestController {
     private MoviesService moviesService;
 
     @GetMapping("/")
-    public Collection<MovieDTO> getMovies() {
+    public Collection<MovieDTO> getAllMovies() {
         return moviesService.findAll();
     }
 
@@ -53,8 +53,7 @@ public class MovieRestController {
 
     @DeleteMapping("/{id}")
     public MovieDTO deleteMovie(@PathVariable long id) {
-        MovieDTO movieDTO = moviesService.deleteById(id);
-        return movieDTO;
+        return moviesService.deleteById(id);
     }
 
     @PutMapping("/{id}")
@@ -80,7 +79,7 @@ public class MovieRestController {
     }
 
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getBookImage(@PathVariable long id) throws SQLException, IOException {
+    public ResponseEntity<Object> getMovieImage(@PathVariable long id) throws SQLException, IOException {
 
         Resource postImage = (Resource) moviesService.getMovieImage(id);
 
@@ -92,7 +91,7 @@ public class MovieRestController {
     }
 
     @PutMapping("/{id}/image")
-    public ResponseEntity<Object> replaceBookImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+    public ResponseEntity<Object> replaceMovieImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
             throws IOException {
 
         moviesService.replaceMovieImage(id, imageFile.getInputStream(), imageFile.getSize());
@@ -101,7 +100,7 @@ public class MovieRestController {
     }
 
     @DeleteMapping("/{id}/image")
-    public ResponseEntity<Object> deleteBookImage(@PathVariable long id) throws IOException {
+    public ResponseEntity<Object> deleteMovieImage(@PathVariable long id) throws IOException {
 
         moviesService.deleteMovieImage(id);
 

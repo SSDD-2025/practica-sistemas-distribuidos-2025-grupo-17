@@ -22,7 +22,6 @@ import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
 import es.codeurjc.web.mapper.MovieMapper;
-import es.codeurjc.web.mapper.CastMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.UserRepository;
@@ -35,9 +34,6 @@ public class MoviesService {
 
 	@Autowired
 	private MoviesRepository moviesRepository;
-
-	@Autowired
-	private CastMapper castMapper;
 
 	@Autowired
 	private MovieMapper movieMapper;
@@ -68,12 +64,14 @@ public class MoviesService {
 		return toDTO(movie);
 	}
 
-	public MovieDTO save(CreateMovieDTO movie, Blob imageField) {
+	public MovieDTO save(CreateMovieDTO movie, Blob movieImage) {
 		if (movie.getName() == null || movie.getName().isEmpty()) {
 			throw new IllegalArgumentException("The title is empty");
 		}
 		Movie newMovie = movieMapper.toDomain(movie);
-		newMovie.setMovieImage(imageField);
+		if(movieImage != null) {
+			newMovie.setMovieImage(movieImage);
+		}
 		return toDTO(moviesRepository.save(newMovie));
 	}
 

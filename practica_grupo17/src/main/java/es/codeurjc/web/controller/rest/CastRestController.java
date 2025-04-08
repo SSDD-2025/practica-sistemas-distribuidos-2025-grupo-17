@@ -1,10 +1,17 @@
 package es.codeurjc.web.controller.rest;
 
-import java.net.URI;
 import java.util.Collection;
-import java.util.NoSuchElementException;
+
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+
+import java.io.IOException;
+import java.net.URI;
+import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.web.services.*;
-import es.codeurjc.web.entities.*;
+import es.codeurjc.web.dto.cast.CastBasicDTO;
+import es.codeurjc.web.dto.cast.CastDTO;
+import es.codeurjc.web.dto.cast.CreateCastDTO;
 
 @RestController
 @RequestMapping("/api/cast")
@@ -27,37 +36,71 @@ public class CastRestController {
     private CastService castService;
 
     @GetMapping("/")
-    public Collection<Cast> getAllCast() {
+    public Collection<CastDTO> getAllCast() {
         return castService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Cast getCast(@PathVariable long id) {
-        return castService.findById(id).orElseThrow();
+    public CastDTO getCast(@PathVariable long id) {
+        return castService.findById(id);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Cast> createCast(@RequestBody Cast cast) {
-        castService.save(cast);
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(cast.getId()).toUri();
-        return ResponseEntity.created(location).body(cast);
+    public CastDTO createCast(@RequestBody CreateCastDTO cast) throws IOException, SQLException {
+        return castService.save(cast);
     }
 
     @DeleteMapping("/{id}")
-    public Cast deleteCast(@PathVariable long id) {
-        Cast cast = castService.findById(id).orElseThrow();
-        castService.deleteById(id);
-        return cast;
+    public CastDTO deleteCast(@PathVariable long id) {
+        return castService.deleteById(id);
     }
 
     @PutMapping("/{id}")
-    public Cast replaceCast(@PathVariable long id, @RequestBody Cast updatedCast) {
+    public ResponseEntity<CastDTO> replaceCast(@PathVariable long id, @RequestBody CastBasicDTO updatedCastDTO)
+            throws IOException {
         if (castService.exist(id)) {
-            updatedCast.setId(id);
-            castService.save(updatedCast);
-            return updatedCast;
+            CastDTO cast = castService.update(id, updatedCastDTO);
+            return new ResponseEntity<>(cast, HttpStatus.OK);
         } else {
-            throw new NoSuchElementException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<Object> createCastImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+            throws IOException {
+        URI location = fromCurrentRequest().build().toUri();
+        castService.createCastImage(id, imageFile.getInputStream(), imageFile.getSize());
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Object> getCastImage(@PathVariable long id) throws SQLException, IOException {
+
+        Resource postImage = (Resource) castService.getCastImage(id);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .body(postImage);
+
+    }
+
+    @PutMapping("/{id}/image")
+    public ResponseEntity<Object> replaceCastImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
+            throws IOException {
+
+        castService.replaceCastImage(id, imageFile.getInputStream(), imageFile.getSize());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/image")
+    public ResponseEntity<Object> deleteCastImage(@PathVariable long id) throws IOException {
+
+        castService.deleteCastImage(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

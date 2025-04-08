@@ -2,19 +2,21 @@ package es.codeurjc.web.services;
 
 import java.util.Optional;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.codeurjc.web.dto.cast.CastBasicDTO;
 import es.codeurjc.web.dto.cast.CastDTO;
 import es.codeurjc.web.dto.cast.CreateCastDTO;
 import es.codeurjc.web.entities.Cast;
@@ -32,41 +34,74 @@ public class CastService {
 	@Autowired
 	private CastRepository castRepository;
 
+	@Autowired
+	private CastMapper castMapper;
+
 	public CastService() {
 	}
 
-	public Collection<Cast> findAll() {
-		return castRepository.findAll();
+	public Collection<CastDTO> findAll() {
+		return toDTOs(castRepository.findAll());
 	}
 
-	public Optional<Cast> findById(long id) {
-		return castRepository.findById(id);
+	public CastDTO findById(long id) {
+		return toDTO(castRepository.findById(id).orElseThrow());
 	}
 
 	public boolean exist(long id) {
 		return castRepository.existsById(id);
 	}
 
-	public void save(Cast cast) {
+	public CastDTO save(CastDTO castDTO) {
+		if (castDTO.id() != null)
+			throw new IllegalArgumentException();
+		Cast cast = toDomain(castDTO);
 		castRepository.save(cast);
+		return toDTO(cast);
 	}
 
-	public void save(Cast cast, MultipartFile castImage) throws IOException {
-		if (!castImage.isEmpty()) {
-			cast.setCastImage(BlobProxy.generateProxy(castImage.getInputStream(), castImage.getSize()));
+	public CastDTO save(CreateCastDTO cast, MultipartFile castImage) throws IOException, SQLException {
+		if (castImage != null && castImage.getSize() > 0) {
+			return this.save(cast, BlobProxy.generateProxy(castImage.getInputStream(), castImage.getSize()));
 		}
-		this.save(cast);
+		return this.save(cast, (Blob) null);
 	}
 
-	public void save(Cast cast, Blob castImage) throws IOException, SQLException {
+	public CastDTO save(CreateCastDTO cast, Blob castImage) throws IOException, SQLException {
+		Cast newCast = castMapper.toDomain(cast);
 		if (castImage != null) {
-			cast.setCastImage(castImage);
+			newCast.setCastImage(castImage);
 		}
-		this.save(cast);
+		return toDTO(castRepository.save(newCast));
 	}
 
-	public void deleteById(long id) {
+	public CastDTO save(CreateCastDTO cast) throws IOException, SQLException {
+		return this.save(cast, (Blob) null);
+	}
+
+	public CastDTO update(long castId, CastBasicDTO cast) throws IOException {
+		return this.update(castId, cast, null);
+	}
+
+	public CastDTO update(long movieId, CastBasicDTO cast, MultipartFile castImage) throws IOException {
+		Cast toUpdateMovie = castRepository.findById(movieId).orElseThrow();
+		toUpdateMovie.setName(cast.name());
+		toUpdateMovie.setBirthDate(cast.birthDate());
+		toUpdateMovie.setOriginCountry(cast.originCountry());
+		if (castImage != null && castImage.getSize() > 0) {
+			Blob blobImage = BlobProxy.generateProxy(castImage.getInputStream(), castImage.getSize());
+			toUpdateMovie.setCastImage(blobImage);
+		}
+		return toDTO(castRepository.save(toUpdateMovie));
+	}
+
+	public CastDTO deleteById(long id) {
 		castRepository.deleteById(id);
+		Cast cast = castRepository.findById(id).orElseThrow();
+		removeMovies(cast);
+		CastDTO castDTO = toDTO(cast);
+		castRepository.deleteById(id);
+		return castDTO;
 	}
 
 	public Cast createCast(String castName, String castBiography, Date castBirthDate, String castOriginCountry,
@@ -86,6 +121,51 @@ public class CastService {
 		return cast;
 	}
 
+	public InputStream getCastImage(long id) throws SQLException {
+		Cast cast = castRepository.findById(id).orElseThrow();
+		Blob blob = cast.getCastImage();
+		try {
+			return blob.getBinaryStream();
+		} catch (SQLException e) {
+			throw new SQLException("Error getting image from database", e);
+		}
+	}
+
+	public void createCastImage(long id, InputStream inputStream, long size) {
+
+		Cast cast = castRepository.findById(id).orElseThrow();
+
+		cast.setCastImage(BlobProxy.generateProxy(inputStream, size));
+
+		castRepository.save(cast);
+	}
+
+	public void replaceCastImage(long id, InputStream inputStream, long size) {
+
+		Cast cast = castRepository.findById(id).orElseThrow();
+
+		if (cast.getCastImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		cast.setCastImage(BlobProxy.generateProxy(inputStream, size));
+
+		castRepository.save(cast);
+	}
+
+	public void deleteCastImage(long id) {
+
+		Cast cast = castRepository.findById(id).orElseThrow();
+
+		if (cast.getCastImage() == null) {
+			throw new NoSuchElementException();
+		}
+
+		cast.setCastImage(null);
+
+		castRepository.save(cast);
+	}
+
 	public void removeMovies(Cast cast) {
 		List<Movie> movies = cast.getMovies();
 		for (Movie movie : movies) {
@@ -94,27 +174,15 @@ public class CastService {
 		cast.setMovies(null);
 	}
 
-
-	public List<CastDTO> findAllDTO() {
-		return castRepository.findAll().stream()
-				.map(CastMapper::toDTO)
-				.collect(Collectors.toList());
+	private CastDTO toDTO(Cast cast) {
+		return castMapper.toDTO(cast);
 	}
 
-	public Optional<CastDTO> findDTOById(long id) {
-		return castRepository.findById(id)
-				.map(CastMapper::toDTO);
+	private Cast toDomain(CastDTO castDTO) {
+		return castMapper.toDomain(castDTO);
 	}
 
-	public CastDTO createFromDTO(CreateCastDTO dto) {
-		List<Movie> movies = dto.getMovieIds().stream()
-				.map(moviesRepository::findById)
-				.filter(Optional::isPresent)
-				.map(Optional::get)
-				.collect(Collectors.toList());
-
-		Cast cast = CastMapper.fromCreateDTO(dto, movies);
-		castRepository.save(cast);
-		return CastMapper.toDTO(cast);
+	private Collection<CastDTO> toDTOs(Collection<Cast> Cast) {
+		return castMapper.toDTOs(Cast);
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.MovieDTO;
+import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.entities.*;
 import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.ReviewRepository;
@@ -61,10 +62,11 @@ public class ReviewController {
 
 		MovieDTO movieDTO = moviesService.findById(id);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//Aquí siento que falta algo con el user. Pendiente de revisar y descomentar
 		String username = auth.getName();
 		User user = userService.findByUsername(username).get();
-		Review review = new Review(reviewTitle, reviewText, movieMapper.toDomain(movieDTO), user);
-		reviewService.save(review);
+		CreateReviewDTO createReviewDTO = new CreateReviewDTO(reviewTitle, reviewText, movieDTO.id());
+		reviewService.save(createReviewDTO);
 
 		return "review_created_template";
 	}

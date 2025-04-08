@@ -6,7 +6,7 @@ import es.codeurjc.web.dto.movie.MovieBasicDTO;
 
 public record CastDTO (
 
-    long id,
+    Long id,
     String name,
     String biography,
     String birthDate,

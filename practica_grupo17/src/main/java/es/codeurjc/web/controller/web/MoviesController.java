@@ -23,9 +23,7 @@ import java.util.NoSuchElementException;
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.MovieDTO;
-import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.*;
-import es.codeurjc.web.mapper.CastMapper;
 import es.codeurjc.web.mapper.MovieMapper;
 
 @Controller
@@ -39,9 +37,6 @@ public class MoviesController {
 
 	@Autowired
 	private MovieMapper movieMapper;
-
-	/*@Autowired
-	private CastMapper castMapper;*/
 
 	@GetMapping("/movies/{id}")
 	public String showMovie(Model model, @PathVariable long id) {
@@ -67,13 +62,13 @@ public class MoviesController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(movieImage);
 	}
 
-	@GetMapping("/movie/new")
+	@GetMapping("/movies/new")
 	public String newMovieForm(Model model) {
 		model.addAttribute("cast", castService.findAll());
 		return "new_or_modify_movie_template";
 	}
 
-	@PostMapping("/movie/new")
+	@PostMapping("/movies/new")
 	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,
 			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
 			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
@@ -91,39 +86,33 @@ public class MoviesController {
 		return "movie_created_template";
 	}
 
-	@PostMapping("/movie/{id}/delete")
+	@PostMapping("/movies/{id}/delete")
 	public String deleteMovie(Model model, @PathVariable long id) throws IOException {
-
 		try {
 			MovieDTO movieDTO = moviesService.deleteById(id);
 			model.addAttribute("movie", movieDTO);
-
 			return "movie_deleted_template";
-
 		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";
 		}
 	}
 
-	@GetMapping("/movie/{id}/modify")
+	@GetMapping("/movies/{id}/modify")
 	public String modifyMovieForm(Model model, @PathVariable long id) {
 		try {
-
 			MovieDTO movieDTO = moviesService.findById(id);
 			model.addAttribute("movie", movieDTO);
-
 			model.addAttribute("allCast", castService.findAll());
 			if (movieMapper.toDomain(movieDTO).getMovieImage() != null) {
 				model.addAttribute("currentImageUrl", "/movie/" + id + "/image");
 			}
 			return "new_or_modify_movie_template";
-
 		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";
 		}
 	}
 
-	@PostMapping("/movie/{id}/modify")
+	@PostMapping("/movies/{id}/modify")
 	public String modifyMovie(Model model, @PathVariable long id,
 			@RequestParam String movieName,
 			@RequestParam String movieArgument,
@@ -138,23 +127,15 @@ public class MoviesController {
 			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
 					movieTrailer);
 			updatedMovie.setId(id);
-			for(ReviewDTO review : oldMovie.reviews()) {
-				//Cuando el mapper de review esté descomentar updatedMovie.addReview(review);
-			}
-
-			if (movieCast == null || movieCast.isEmpty()) {
-
-				// modificar setCast o hacer un bucle para transformar de List CastDTO a List Cast 
-				//updatedMovie.setCast(oldMovie.getCast());
-			}
-
+			updatedMovie.setReviews(movieMapper.toDomain(oldMovie).getReviews());
+			if (movieCast == null || movieCast.isEmpty()) 
+				updatedMovie.setCast(movieMapper.toDomain(oldMovie).getCast());
 			if (movieImage == null || movieImage.isEmpty()) {
 				updatedMovie.setMovieImage(oldMovieImage);
 				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie));
 			} else {
 				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie), movieImage);
 			}
-
 			return "movie_modified_template";
 		} catch (Exception e) {
 			return "movieNotFound_template";

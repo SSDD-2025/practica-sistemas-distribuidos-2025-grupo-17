@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,10 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
+import es.codeurjc.web.dto.cast.CastDTO;
 import es.codeurjc.web.entities.*;
+import es.codeurjc.web.mapper.CastMapper;
 
 @Controller
 public class CastController {
@@ -36,8 +39,11 @@ public class CastController {
 	@Autowired
 	private MoviesService moviesService;
 
+	@Autowired
+	private CastMapper castMapper;
+
 	@GetMapping("/castList")
-	public String showCastList(Model model,HttpServletRequest request) {
+	public String showCastList(Model model, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null) {
 			model.addAttribute("logged", true);
@@ -48,32 +54,26 @@ public class CastController {
 
 	@GetMapping("/cast/{id}")
 	public String showCast(Model model, @PathVariable long id) {
-
-		Optional<Cast> op = castService.findById(id);
-		if (op.isPresent()) {
-			Cast cast = op.get();
-			model.addAttribute("cast", cast);
+		try {
+			CastDTO castDTO = castService.findById(id);
+			model.addAttribute("cast", castDTO);
 			return "cast_template";
-		} else {
+		} catch (NoSuchElementException e) {
 			return "castNotFound_template";
 		}
 	}
 
 	@GetMapping("/cast/{id}/image")
-	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws SQLException {
-		Optional<Cast> op = castService.findById(id);
-
-		if (op.isPresent() && op.get().getCastImage() != null) {
-
-			Blob image = op.get().getCastImage();
-			Resource file = new InputStreamResource(image.getBinaryStream());
-
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-					.contentLength(image.length()).body(file);
-
-		} else {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<Object> downloadCastImage(@PathVariable int id) throws SQLException, IOException {
+		Resource castImage;
+		try {
+			castImage = new InputStreamResource(castService.getCastImage(id));
+		} catch (Exception e) {
+			ClassPathResource resource = new ClassPathResource("static/logo.png");
+			byte[] imageBytes = resource.getInputStream().readAllBytes();
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(imageBytes);
 		}
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(castImage);
 	}
 
 	@GetMapping("/cast/new")
@@ -86,9 +86,11 @@ public class CastController {
 	public String newCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
 			@RequestParam String castName, @RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
-			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException {
+			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException, SQLException {
 
-		castService.save(castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies),
+		castService.save(
+				castMapper.toCreateCastRequest(
+						castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies)),
 				castImage);
 
 		return "cast_created_template";
@@ -96,62 +98,58 @@ public class CastController {
 
 	@PostMapping("/cast/{id}/delete")
 	public String deleteCast(Model model, @PathVariable long id) throws IOException {
-		Optional<Cast> op = castService.findById(id);
-		if (op.isPresent()) {
-			Cast cast = op.get();
-			castService.removeMovies(cast);
-			castService.deleteById(id);
+		try {
+			CastDTO movieDTO = castService.deleteById(id);
+			model.addAttribute("cast", movieDTO);
 			return "cast_deleted_template";
-		} else {
+		} catch (NoSuchElementException e) {
 			return "castNotFound_template";
 		}
 	}
 
 	@GetMapping("/cast/{id}/modify")
 	public String modifyCastForm(Model model, @PathVariable long id) {
-		Optional<Cast> op = castService.findById(id);
-		if (op.isPresent()) {
-			Cast cast = op.get();
-			model.addAttribute("cast", cast);
+		try {
+			CastDTO castDTO = castService.findById(id);
+			model.addAttribute("cast", castDTO);
 			model.addAttribute("allMovies", moviesService.findAll());
-	
-			if (cast.getCastImage() != null) {
+			if (castMapper.toDomain(castDTO).getCastImage() != null) {
 				model.addAttribute("currentImageUrl", "/cast/" + id + "/image");
 			}
-	
 			return "new_or_modify_cast_template";
-		} else {
+		} catch (NoSuchElementException e) {
 			return "castNotFound_template";
 		}
 	}
-	
 
 	@PostMapping("/cast/{id}/modify")
 	public String modifyCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
-			@PathVariable long id, @RequestParam String castName, @RequestParam String castBiography,
+			@PathVariable long id,
+			@RequestParam String castName,
+			@RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
-			@RequestParam String castOriginCountry, @RequestParam(required = false) MultipartFile castImage) 
+			@RequestParam String castOriginCountry,
+			@RequestParam(required = false) MultipartFile castImage)
 			throws IOException, SQLException {
-	
-		Optional<Cast> op = castService.findById(id);
-		if (op.isPresent()) {
-			Cast oldCast = op.get();
-			Blob oldCastImage = oldCast.getCastImage();
-	
-			castService.removeMovies(oldCast);
-			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies);
+		try {
+			CastDTO oldCast = castService.findById(id);
+			Blob oldCastImage = castMapper.toDomain(oldCast).getCastImage();
+
+			castService.removeMovies(castMapper.toDomain(oldCast));
+			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry,
+					castMovies);
 			updatedCast.setId(id);
-	
+
 			if (castImage == null || castImage.isEmpty()) {
 				updatedCast.setCastImage(oldCastImage);
 			} else {
-				castService.save(updatedCast, castImage);
+				castService.save(castMapper.toCreateCastRequest(updatedCast), castImage);
 			}
-	
+
 			return "cast_modified_template";
-		} else {
+		} catch (Exception e) {
 			return "castNotFound_template";
 		}
 	}
-	
+
 }

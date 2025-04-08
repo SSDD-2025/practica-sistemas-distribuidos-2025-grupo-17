@@ -6,7 +6,7 @@ import es.codeurjc.web.entities.Review;
 
 public record UserDTO (
 
-        long id,
+        Long id,
         String username,
         String password,
         List<String> roles,
