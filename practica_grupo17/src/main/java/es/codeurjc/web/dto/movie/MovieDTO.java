@@ -12,7 +12,6 @@ public record MovieDTO(
         int year,
         String trailer,
         List<CastBasicDTO> cast,
-        List<ReviewDTO> reviews,
-        String image
+        List<ReviewDTO> reviews
 
 ) {}

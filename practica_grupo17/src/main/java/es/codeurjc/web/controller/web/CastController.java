@@ -69,7 +69,7 @@ public class CastController {
 		try {
 			castImage = new InputStreamResource(castService.getCastImage(id));
 		} catch (Exception e) {
-			ClassPathResource resource = new ClassPathResource("static/logo.png");
+			ClassPathResource resource = new ClassPathResource("static/not_available.png");
 			byte[] imageBytes = resource.getInputStream().readAllBytes();
 			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(imageBytes);
 		}
@@ -99,8 +99,8 @@ public class CastController {
 	@PostMapping("/cast/{id}/delete")
 	public String deleteCast(Model model, @PathVariable long id) throws IOException {
 		try {
-			CastDTO movieDTO = castService.deleteById(id);
-			model.addAttribute("cast", movieDTO);
+			CastDTO castDTO = castService.deleteById(id);
+			model.addAttribute("cast", castDTO);
 			return "cast_deleted_template";
 		} catch (NoSuchElementException e) {
 			return "castNotFound_template";
@@ -142,8 +142,9 @@ public class CastController {
 
 			if (castImage == null || castImage.isEmpty()) {
 				updatedCast.setCastImage(oldCastImage);
+				castService.update(id,castMapper.toCastBasicDTO(updatedCast));
 			} else {
-				castService.save(castMapper.toCreateCastRequest(updatedCast), castImage);
+				castService.update(id,castMapper.toCastBasicDTO(updatedCast), castImage);
 			}
 
 			return "cast_modified_template";

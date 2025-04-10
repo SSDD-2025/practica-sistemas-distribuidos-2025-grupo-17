@@ -1,10 +1,10 @@
 package es.codeurjc.web.dto.review;
 
-public record ReviewDTO (
+public record ReviewDTO(
 
-    Long id,
-    String title,
-    String text,
-    String authorUsername,
-    Long movieId)
-{}
+        Long id,
+        String title,
+        String text,
+        String authorUsername,
+        Long movieId) {
+}
