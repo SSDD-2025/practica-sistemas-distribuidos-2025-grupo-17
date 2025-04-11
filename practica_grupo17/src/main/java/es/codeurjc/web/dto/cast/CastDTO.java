@@ -11,5 +11,6 @@ public record CastDTO (
     String biography,
     String birthDate,
     String originCountry,
-    List<MovieBasicDTO> movies)
+    List<MovieBasicDTO> movies,
+    String image)
 {}

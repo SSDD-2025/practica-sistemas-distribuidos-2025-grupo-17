@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
+import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;

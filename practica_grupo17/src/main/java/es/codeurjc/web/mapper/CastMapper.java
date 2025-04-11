@@ -12,6 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CastMapper {
+
     CastDTO toDTO(Cast cast);
 
     List<CastDTO> toDTOs(Collection<Cast> casts);

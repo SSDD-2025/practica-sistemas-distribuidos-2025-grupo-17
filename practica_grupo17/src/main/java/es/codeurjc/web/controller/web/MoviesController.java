@@ -125,7 +125,7 @@ public class MoviesController {
 			@RequestParam(required = false) MultipartFile movieImage)
 			throws IOException, SQLException {
 		try {
-			MovieBasicDTO updatedMovie = new MovieBasicDTO(id, movieName, movieYear, movieArgument);
+			MovieBasicDTO updatedMovie = new MovieBasicDTO(id, movieName, movieArgument, movieYear, movieTrailer);
 			moviesService.updateWeb(id, updatedMovie, movieImage, movieCast, movieTrailer);
 			return "movie_modified_template";
 		} catch (Exception e) {
