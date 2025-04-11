@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.dto.movie.MovieDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.*;
 import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.mapper.ReviewMapper;
-import es.codeurjc.web.repository.ReviewRepository;
 
 @Controller
 public class ReviewController {
@@ -33,9 +33,6 @@ public class ReviewController {
 
 	@Autowired
 	private ReviewService reviewService;
-
-	@Autowired
-	private ReviewRepository reviewRepository;
 
 	@Autowired
 	private MovieMapper movieMapper;
@@ -69,26 +66,18 @@ public class ReviewController {
 		Principal principal = request.getUserPrincipal();
 		User user=userService.findByUsername(principal.getName()).orElseThrow();
 		Review review = new Review(reviewTitle, reviewText, movieMapper.toDomain(movieDTO),user);
-		reviewService.save(reviewMapper.toDTO(review));
+		reviewService.save(reviewMapper.toDTO(review), user);
 
 		return "review_created_template";
 	}
 
 	@PostMapping("/movies/{id}/review/{idReview}/delete")
-	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview) throws IOException {
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		User user = userService.findByUsername(username).get();
-		MovieDTO movieDTO = moviesService.findById(id);
-		Review review = reviewRepository.findById(idReview).orElseThrow(() -> new IOException());
-		if (review.getAuthor().equals(user) || user.getRoles().contains("ADMIN")) {
-			movieMapper.toDomain(movieDTO).removeReview(review);
-			user.removeReview(review);
-			reviewRepository.deleteById(idReview);
-
-			model.addAttribute("movie", movieDTO);
-
+	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview, HttpServletRequest request) throws IOException {
+		Principal principal = request.getUserPrincipal();
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+		ReviewDTO review = reviewService.deleteById(idReview,user);
+		if (review!=null){
+			model.addAttribute("movie", moviesService.findById(id));
 			return "review_deleted_template";
 		}
 

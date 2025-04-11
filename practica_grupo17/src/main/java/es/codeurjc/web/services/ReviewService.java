@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.Review;
+import es.codeurjc.web.entities.User;
 import es.codeurjc.web.mapper.ReviewMapper;
 import es.codeurjc.web.repository.ReviewRepository;
 
@@ -27,15 +28,18 @@ public class ReviewService {
 		return toDTO(reviewRepository.findById(id).orElseThrow());
 	}
 
-	public ReviewDTO save(ReviewDTO review) {
+	public ReviewDTO save(ReviewDTO review, User user) {
 		Review newReview = reviewMapper.toDomain(review);
+		newReview.setAuthor(user);
 		return toDTO(reviewRepository.save(newReview));
 	}
 
-	public ReviewDTO deleteById(long id) {
+	public ReviewDTO deleteById(long id, User author) {
 		Review review = reviewRepository.findById(id).orElseThrow();
 		ReviewDTO reviewDTO = toDTO(review);
-		reviewRepository.deleteById(id);
+		if (review.getAuthor().equals(author) || author.getRoles().contains("ADMIN")) {
+			reviewRepository.deleteById(id);
+		}
 		return reviewDTO;
 	}
 

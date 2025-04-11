@@ -3,7 +3,6 @@ package es.codeurjc.web.services;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +62,7 @@ public class UserService {
 	public void deleteReviews(User user) {
 		List<Review> reviews = user.getReviews();
 		for (Review review : reviews) {
-			reviewService.deleteById(review.getId());
+			reviewService.deleteById(review.getId(),user);
 		}
 	}
 

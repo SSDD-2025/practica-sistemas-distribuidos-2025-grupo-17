@@ -36,16 +36,18 @@ public class ReviewRestController {
     }
 
     @PostMapping("/myReviews")
-    public ReviewDTO createReview(@RequestBody ReviewDTO review) {
-        reviewService.save(review);
+    public ReviewDTO createReview(@RequestBody ReviewDTO review, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+        reviewService.save(review,user);
         return review;
     }
 
     @DeleteMapping("/myReviews/{reviewId}")
-    public ReviewDTO deleteReview(@PathVariable long id) {
-        ReviewDTO review = reviewService.findById(id);
-        reviewService.deleteById(id);
-        return review;
+    public ReviewDTO deleteReview(@PathVariable long reviewId, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+        return reviewService.deleteById(reviewId, user);
     }
 
 }
