@@ -96,7 +96,6 @@ public class CastService {
 	}
 
 	public CastDTO deleteById(long id) {
-		castRepository.deleteById(id);
 		Cast cast = castRepository.findById(id).orElseThrow();
 		removeMovies(cast);
 		CastDTO castDTO = toDTO(cast);
