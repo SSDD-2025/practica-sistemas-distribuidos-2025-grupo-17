@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -64,11 +63,11 @@ public class MoviesService {
 	}
 
 	public MovieDTO save(CreateMovieDTO movie, Blob movieImage) {
-		if (movie.getName() == null || movie.getName().isEmpty()) {
+		if (movie.name() == null || movie.name().isEmpty()) {
 			throw new IllegalArgumentException("The title is empty");
 		}
-		Movie newMovie = movieMapper.toDomain(movie);
-		if(movieImage != null) {
+		Movie newMovie = toDomain(movie);
+		if (movieImage != null) {
 			newMovie.setMovieImage(movieImage);
 		}
 		return toDTO(moviesRepository.save(newMovie));
@@ -107,11 +106,9 @@ public class MoviesService {
 		Movie movie = new Movie(movieName, movieArgument, movieYear, movieTrailer);
 		if (movieCast != null) {
 			for (int i = 0; i < movieCast.size(); i++) {
-				Optional<Cast> op = castRepository.findById(movieCast.get(i));
-				if (op.isPresent()) {
-					Cast cast = op.get();
-					movie.addCast(cast);
-				}
+				Cast cast = castRepository.findById(movieCast.get(i)).orElseThrow();
+				movie.addCast(cast);
+				cast.addMovie(movie);
 			}
 		}
 		return movie;
@@ -132,6 +129,25 @@ public class MoviesService {
 			toUpdateMovie.setMovieImage(blobImage);
 		}
 		return toDTO(moviesRepository.save(toUpdateMovie));
+	}
+
+	public MovieDTO updateWeb(long movieId, MovieBasicDTO movie, MultipartFile movieImage, List<Long> castIds,
+			String movieTrailer) throws IOException {
+
+		Movie oldMovie = moviesRepository.findById(movieId).orElseThrow();
+		Blob oldMovieImage = oldMovie.getMovieImage();
+		removeCast(oldMovie);
+		Movie toUpdateMovie = createMovie(movie.name(), movie.argument(), movie.year(), castIds, movieTrailer);
+		toUpdateMovie.setId(movieId);
+		if (movieImage != null && !movieImage.isEmpty()) {
+			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());
+			toUpdateMovie.setMovieImage(blobImage);
+			return toDTO(moviesRepository.save(toUpdateMovie));
+		} else {
+			toUpdateMovie.setMovieImage(oldMovieImage);
+			return toDTO(moviesRepository.save(toUpdateMovie));
+		}
+
 	}
 
 	public void removeCast(Movie movie) {
@@ -187,15 +203,33 @@ public class MoviesService {
 		moviesRepository.save(movie);
 	}
 
-	private MovieDTO toDTO(Movie Movie) {
-		return movieMapper.toDTO(Movie);
+	private MovieDTO toDTO(Movie movie) {
+		return movieMapper.toDTO(movie);
 	}
 
-	private Movie toDomain(MovieDTO MovieDTO) {
-		return movieMapper.toDomain(MovieDTO);
+	private Movie toDomain(CreateMovieDTO movieDTO) {
+		Movie newMovie = new Movie(movieDTO.name(), movieDTO.argument(), movieDTO.year(), movieDTO.trailer());
+		List<Long> castIds = movieDTO.castIds();
+		addCast(newMovie, castIds);
+		return newMovie;
 	}
 
-	private Collection<MovieDTO> toDTOs(Collection<Movie> Movies) {
-		return movieMapper.toDTOs(Movies);
+	private void addCast(Movie newMovie, List<Long> castIds) {
+		for (Long singId : castIds) {
+			Cast cast = castRepository.findById(singId).orElseThrow();
+			newMovie.addCast(cast);
+		}
+	}
+
+	private Movie toDomain(MovieDTO movieDTO) {
+		return movieMapper.toDomain(movieDTO);
+	}
+
+	private Collection<MovieDTO> toDTOs(Collection<Movie> movies) {
+		return movieMapper.toDTOs(movies);
+	}
+
+	public CreateMovieDTO createMovieDTO(String name, String argument, int year, List<Long> castIds, String trailer) {
+		return new CreateMovieDTO(name, argument, year, trailer, castIds);
 	}
 }

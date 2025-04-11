@@ -1,7 +1,6 @@
 package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import es.codeurjc.web.services.*;
+import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
-import es.codeurjc.web.entities.*;
 import es.codeurjc.web.mapper.MovieMapper;
 
 @Controller
@@ -69,9 +68,14 @@ public class MoviesController {
 	}
 
 	@PostMapping("/movies/new")
-	public String newMovie(Model model, @RequestParam String movieName, @RequestParam String movieArgument,
-			@RequestParam int movieYear, @RequestParam(value = "movieCast", required = false) List<Long> movieCast,
-			@RequestParam String movieTrailer, MultipartFile movieImage) throws IOException {
+	public String newMovie(Model model,
+			@RequestParam String movieName,
+			@RequestParam String movieArgument,
+			@RequestParam int movieYear,
+			@RequestParam(value = "movieCast", required = false) List<Long> movieCast,
+			@RequestParam String movieTrailer,
+			MultipartFile movieImage)
+			throws IOException {
 
 		if (movieName == null || movieName.trim().isEmpty()) {
 			model.addAttribute("error", "El título de la película es obligatorio");
@@ -79,8 +83,7 @@ public class MoviesController {
 			return "new_or_modify_movie_template";
 		}
 		moviesService.save(
-				movieMapper.toCreateMovieRequest(
-						moviesService.createMovie(movieName, movieArgument, movieYear, movieCast, movieTrailer)),
+				moviesService.createMovieDTO(movieName, movieArgument, movieYear, movieCast, movieTrailer),
 				movieImage);
 
 		return "movie_created_template";
@@ -122,20 +125,8 @@ public class MoviesController {
 			@RequestParam(required = false) MultipartFile movieImage)
 			throws IOException, SQLException {
 		try {
-			MovieDTO oldMovie = moviesService.findById(id);
-			Blob oldMovieImage = movieMapper.toDomain(oldMovie).getMovieImage();
-			Movie updatedMovie = moviesService.createMovie(movieName, movieArgument, movieYear, movieCast,
-					movieTrailer);
-			updatedMovie.setId(id);
-			updatedMovie.setReviews(movieMapper.toDomain(oldMovie).getReviews());
-			if (movieCast == null || movieCast.isEmpty()) 
-				updatedMovie.setCast(movieMapper.toDomain(oldMovie).getCast());
-			if (movieImage == null || movieImage.isEmpty()) {
-				updatedMovie.setMovieImage(oldMovieImage);
-				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie));
-			} else {
-				moviesService.save(movieMapper.toCreateMovieRequest(updatedMovie), movieImage);
-			}
+			MovieBasicDTO updatedMovie = new MovieBasicDTO(id, movieName, movieYear, movieArgument);
+			moviesService.updateWeb(id, updatedMovie, movieImage, movieCast, movieTrailer);
 			return "movie_modified_template";
 		} catch (Exception e) {
 			return "movieNotFound_template";
