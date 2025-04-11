@@ -2,7 +2,7 @@ package es.codeurjc.web.dto.movie;
 
 import java.util.List;
 import es.codeurjc.web.dto.cast.CastBasicDTO;
-import es.codeurjc.web.dto.review.ReviewDTO;
+import es.codeurjc.web.dto.review.ReviewBasicDTO;
 
 public record MovieDTO(
 
@@ -12,7 +12,7 @@ public record MovieDTO(
         int year,
         String trailer,
         List<CastBasicDTO> cast,
-        List<ReviewDTO> reviews,
+        List<ReviewBasicDTO> reviews,
         String image
 
 ) {}

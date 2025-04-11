@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
-import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.entities.Cast;
 import es.codeurjc.web.entities.Movie;
@@ -118,15 +117,16 @@ public class MoviesService {
 		return movie;
 	}
 
-	public MovieDTO update(long movieId, MovieBasicDTO movie) throws IOException {
+	public MovieDTO update(long movieId, MovieDTO movie) throws IOException {
 		return this.update(movieId, movie, null);
 	}
 
-	public MovieDTO update(long movieId, MovieBasicDTO movie, MultipartFile movieImage) throws IOException {
+	public MovieDTO update(long movieId, MovieDTO movie, MultipartFile movieImage) throws IOException {
 		Movie toUpdateMovie = moviesRepository.findById(movieId).orElseThrow();
-		toUpdateMovie.setName(movie.getName());
-		toUpdateMovie.setArgument(movie.getArgument());
-		toUpdateMovie.setYear(movie.getYear());
+		Movie updatedMovie = movieMapper.toDomain(movie);
+		toUpdateMovie.setName(updatedMovie.getName());
+		toUpdateMovie.setArgument(updatedMovie.getArgument());
+		toUpdateMovie.setYear(updatedMovie.getYear());
 		if (movieImage != null && movieImage.getSize() > 0) {
 			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());
 			toUpdateMovie.setMovieImage(blobImage);

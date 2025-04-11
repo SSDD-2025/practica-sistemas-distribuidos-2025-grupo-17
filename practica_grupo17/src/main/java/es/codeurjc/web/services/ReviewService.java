@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.mapper.ReviewMapper;
@@ -28,7 +27,7 @@ public class ReviewService {
 		return toDTO(reviewRepository.findById(id).orElseThrow());
 	}
 
-	public ReviewDTO save(CreateReviewDTO review) {
+	public ReviewDTO save(ReviewDTO review) {
 		Review newReview = reviewMapper.toDomain(review);
 		return toDTO(reviewRepository.save(newReview));
 	}

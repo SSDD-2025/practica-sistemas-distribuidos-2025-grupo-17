@@ -25,7 +25,6 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
-import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
 
 @RestController
@@ -57,7 +56,7 @@ public class MovieRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDTO> replaceMovie(@PathVariable long id, @RequestBody MovieBasicDTO updatedMovieDTO)
+    public ResponseEntity<MovieDTO> replaceMovie(@PathVariable long id, @RequestBody MovieDTO updatedMovieDTO)
             throws IOException {
         if (moviesService.exist(id)) {
             MovieDTO movie = moviesService.update(id, updatedMovieDTO);

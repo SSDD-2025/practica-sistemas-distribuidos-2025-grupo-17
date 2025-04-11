@@ -1,50 +1,51 @@
 package es.codeurjc.web.controller.rest;
 
-import java.net.URI;
+import java.security.Principal;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-
-import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
-import es.codeurjc.web.entities.Review;
+import es.codeurjc.web.entities.User;
 import es.codeurjc.web.services.ReviewService;
+import es.codeurjc.web.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
 public class ReviewRestController {
 
-    @Autowired
+     @Autowired
     private ReviewService reviewService;
-    
-    @PostMapping("/movies/{movieId}/reviews/")
-    public ReviewDTO createReviewByMovie(@RequestBody CreateReviewDTO review) {
-        return reviewService.save(review);
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/myReviews")
+    public Collection<ReviewDTO> getMyReviews(HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+        return userService.getReviews(user);
     }
 
-    /*@DeleteMapping("/movies/{movieId}/reviews/{id}")
-    public Review deleteReviewByMovie(@PathVariable long id) {
-        Review review = reviewService.findById(id).orElseThrow();
-        reviewService.deleteById(id);
+    @PostMapping("/myReviews")
+    public ReviewDTO createReview(@RequestBody ReviewDTO review) {
+        reviewService.save(review);
         return review;
-    }*/
-    @PostMapping("/users/{userId}/reviews/")
-    public ReviewDTO createReviewByUser(@RequestBody CreateReviewDTO review) {
-        return reviewService.save(review);
     }
-/*
-    @DeleteMapping("/users/{userId}/reviews/{id}")
-    public Review deleteReviewByUser(@PathVariable long id) {
-        Review review = reviewService.findById(id).orElseThrow();
+
+    @DeleteMapping("/myReviews/{reviewId}")
+    public ReviewDTO deleteReview(@PathVariable long id) {
+        ReviewDTO review = reviewService.findById(id);
         reviewService.deleteById(id);
         return review;
-    }*/
+    }
+
 }

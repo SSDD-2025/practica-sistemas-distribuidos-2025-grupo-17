@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
 import es.codeurjc.web.dto.user.UserDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.dto.user.CreateUserDTO;
+import es.codeurjc.web.mapper.ReviewMapper;
 import es.codeurjc.web.mapper.UserMapper;
 import es.codeurjc.web.repository.UserRepository;
 
@@ -23,6 +25,12 @@ public class UserService {
 
 	@Autowired
 	private ReviewService reviewService;
+
+	@Autowired
+	private ReviewMapper reviewMapper;
+
+	@Autowired
+	private UserMapper userMapper;
 
 	public UserService() {
 
@@ -59,20 +67,21 @@ public class UserService {
 		}
 	}
 
-	public List<UserDTO> findAllDTO() {
-		return userRepository.findAll().stream()
-			.map(UserMapper::toDTO)
-			.collect(Collectors.toList());
+	public Collection<ReviewDTO> getReviews(User user){
+		return reviewMapper.toDTOs(user.getReviews());
 	}
 
-	public Optional<UserDTO> findDTOById(long id) {
-		return userRepository.findById(id)
-			.map(UserMapper::toDTO);
+	public List<UserDTO> findAllDTO() {
+		return userMapper.toDTOs(userRepository.findAll());
+	}
+
+	public UserDTO findDTOById(long id) {
+		return userMapper.toDTO(userRepository.findById(id).orElseThrow());
 	}
 
 	public UserDTO createFromDTO(CreateUserDTO dto) {
-		User user = UserMapper.fromCreateDTO(dto);
+		User user = userMapper.toDomain(dto);
 		userRepository.save(user);
-		return UserMapper.toDTO(user);
+		return userMapper.toDTO(user);
 	}
 }

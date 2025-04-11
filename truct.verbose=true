@@ -1,0 +1,444 @@
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/MovieRestController.java b/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/MovieRestController.java[m
+[1mindex f5827f0..d6385c4 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/MovieRestController.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/MovieRestController.java[m
+[36m@@ -25,7 +25,6 @@[m [mimport static org.springframework.web.servlet.support.ServletUriComponentsBuilde[m
+ [m
+ import es.codeurjc.web.services.*;[m
+ import es.codeurjc.web.dto.movie.CreateMovieDTO;[m
+[31m-import es.codeurjc.web.dto.movie.MovieBasicDTO;[m
+ import es.codeurjc.web.dto.movie.MovieDTO;[m
+ [m
+ @RestController[m
+[36m@@ -57,7 +56,7 @@[m [mpublic class MovieRestController {[m
+     }[m
+ [m
+     @PutMapping("/{id}")[m
+[31m-    public ResponseEntity<MovieDTO> replaceMovie(@PathVariable long id, @RequestBody MovieBasicDTO updatedMovieDTO)[m
+[32m+[m[32m    public ResponseEntity<MovieDTO> replaceMovie(@PathVariable long id, @RequestBody MovieDTO updatedMovieDTO)[m
+             throws IOException {[m
+         if (moviesService.exist(id)) {[m
+             MovieDTO movie = moviesService.update(id, updatedMovieDTO);[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/ReviewRestController.java b/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/ReviewRestController.java[m
+[1mindex 518e638..c09b442 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/ReviewRestController.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/ReviewRestController.java[m
+[36m@@ -1,50 +1,51 @@[m
+ package es.codeurjc.web.controller.rest;[m
+ [m
+[31m-import java.net.URI;[m
+[32m+[m[32mimport java.security.Principal;[m
+[32m+[m[32mimport java.util.Collection;[m
+ [m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+[31m-import org.springframework.http.ResponseEntity;[m
+ import org.springframework.web.bind.annotation.DeleteMapping;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.GetMapping;[m
+ import org.springframework.web.bind.annotation.PathVariable;[m
+ import org.springframework.web.bind.annotation.PostMapping;[m
+ import org.springframework.web.bind.annotation.RequestBody;[m
+ import org.springframework.web.bind.annotation.RequestMapping;[m
+ import org.springframework.web.bind.annotation.RestController;[m
+ [m
+[31m-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;[m
+[31m-[m
+[31m-import es.codeurjc.web.dto.review.CreateReviewDTO;[m
+ import es.codeurjc.web.dto.review.ReviewDTO;[m
+[31m-import es.codeurjc.web.entities.Review;[m
+[32m+[m[32mimport es.codeurjc.web.entities.User;[m
+ import es.codeurjc.web.services.ReviewService;[m
+[32m+[m[32mimport es.codeurjc.web.services.UserService;[m
+[32m+[m[32mimport jakarta.servlet.http.HttpServletRequest;[m
+ [m
+ @RestController[m
+ @RequestMapping("/api")[m
+ public class ReviewRestController {[m
+ [m
+[31m-    @Autowired[m
+[32m+[m[32m     @Autowired[m
+     private ReviewService reviewService;[m
+[31m-    [m
+[31m-    @PostMapping("/movies/{movieId}/reviews/")[m
+[31m-    public ReviewDTO createReviewByMovie(@RequestBody CreateReviewDTO review) {[m
+[31m-        return reviewService.save(review);[m
+[32m+[m
+[32m+[m[32m    @Autowired[m
+[32m+[m[32m    private UserService userService;[m
+[32m+[m
+[32m+[m[32m    @GetMapping("/myReviews")[m
+[32m+[m[32m    public Collection<ReviewDTO> getMyReviews(HttpServletRequest request) {[m
+[32m+[m[32m        Principal principal = request.getUserPrincipal();[m
+[32m+[m		[32mUser user=userService.findByUsername(principal.getName()).orElseThrow();[m
+[32m+[m[32m        return userService.getReviews(user);[m
+     }[m
+ [m
+[31m-    /*@DeleteMapping("/movies/{movieId}/reviews/{id}")[m
+[31m-    public Review deleteReviewByMovie(@PathVariable long id) {[m
+[31m-        Review review = reviewService.findById(id).orElseThrow();[m
+[31m-        reviewService.deleteById(id);[m
+[32m+[m[32m    @PostMapping("/myReviews")[m
+[32m+[m[32m    public ReviewDTO createReview(@RequestBody ReviewDTO review) {[m
+[32m+[m[32m        reviewService.save(review);[m
+         return review;[m
+[31m-    }*/[m
+[31m-    @PostMapping("/users/{userId}/reviews/")[m
+[31m-    public ReviewDTO createReviewByUser(@RequestBody CreateReviewDTO review) {[m
+[31m-        return reviewService.save(review);[m
+     }[m
+[31m-/*[m
+[31m-    @DeleteMapping("/users/{userId}/reviews/{id}")[m
+[31m-    public Review deleteReviewByUser(@PathVariable long id) {[m
+[31m-        Review review = reviewService.findById(id).orElseThrow();[m
+[32m+[m
+[32m+[m[32m    @DeleteMapping("/myReviews/{reviewId}")[m
+[32m+[m[32m    public ReviewDTO deleteReview(@PathVariable long id) {[m
+[32m+[m[32m        ReviewDTO review = reviewService.findById(id);[m
+         reviewService.deleteById(id);[m
+         return review;[m
+[31m-    }*/[m
+[32m+[m[32m    }[m
+[32m+[m
+ }[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/ReviewController.java b/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/ReviewController.java[m
+[1mindex 9b0cb52..98b8c7d 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/ReviewController.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/ReviewController.java[m
+[36m@@ -1,6 +1,7 @@[m
+ package es.codeurjc.web.controller.web;[m
+ [m
+ import java.io.IOException;[m
+[32m+[m[32mimport java.security.Principal;[m
+ import java.util.Optional;[m
+ [m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+[36m@@ -14,10 +15,11 @@[m [mimport org.springframework.web.bind.annotation.PostMapping;[m
+ import org.springframework.web.bind.annotation.RequestParam;[m
+ [m
+ import es.codeurjc.web.services.*;[m
+[32m+[m[32mimport jakarta.servlet.http.HttpServletRequest;[m
+ import es.codeurjc.web.dto.movie.MovieDTO;[m
+[31m-import es.codeurjc.web.dto.review.CreateReviewDTO;[m
+ import es.codeurjc.web.entities.*;[m
+ import es.codeurjc.web.mapper.MovieMapper;[m
+[32m+[m[32mimport es.codeurjc.web.mapper.ReviewMapper;[m
+ import es.codeurjc.web.repository.ReviewRepository;[m
+ [m
+ @Controller[m
+[36m@@ -38,6 +40,9 @@[m [mpublic class ReviewController {[m
+ 	@Autowired[m
+ 	private MovieMapper movieMapper;[m
+ [m
+[32m+[m	[32m@Autowired[m
+[32m+[m	[32mprivate ReviewMapper reviewMapper;[m
+[32m+[m
+ 	@GetMapping("/myReviews")[m
+ 	public String showMyReviews(Model model) {[m
+ 		model.addAttribute("logged", true);[m
+[36m@@ -57,16 +62,14 @@[m [mpublic class ReviewController {[m
+ 	}[m
+ [m
+ 	@PostMapping("/movies/{id}/review/new")[m
+[31m-	public String newReview(Model model, @PathVariable int id, @RequestParam String reviewTitle,[m
+[32m+[m	[32mpublic String newReview(Model model, HttpServletRequest request, @PathVariable int id, @RequestParam String reviewTitle,[m
+ 			@RequestParam String reviewText) throws IOException {[m
+ [m
+ 		MovieDTO movieDTO = moviesService.findById(id);[m
+[31m-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();[m
+[31m-		//Aquí siento que falta algo con el user. Pendiente de revisar y descomentar[m
+[31m-		String username = auth.getName();[m
+[31m-		User user = userService.findByUsername(username).get();[m
+[31m-		CreateReviewDTO createReviewDTO = new CreateReviewDTO(reviewTitle, reviewText, movieDTO.id());[m
+[31m-		reviewService.save(createReviewDTO);[m
+[32m+[m		[32mPrincipal principal = request.getUserPrincipal();[m
+[32m+[m		[32mUser user=userService.findByUsername(principal.getName()).orElseThrow();[m
+[32m+[m		[32mReview review = new Review(reviewTitle, reviewText, movieMapper.toDomain(movieDTO),user);[m
+[32m+[m		[32mreviewService.save(reviewMapper.toDTO(review));[m
+ [m
+ 		return "review_created_template";[m
+ 	}[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/dto/cast/CastBasicDTO.java b/practica_grupo17/src/main/java/es/codeurjc/web/dto/cast/CastBasicDTO.java[m
+[1mindex 16d2a87..a0849a5 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/dto/cast/CastBasicDTO.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/dto/cast/CastBasicDTO.java[m
+[36m@@ -4,6 +4,7 @@[m [mpublic record CastBasicDTO([m
+ [m
+         Long id,[m
+         String name,[m
+[32m+[m[32m        String biography,[m
+         String birthDate,[m
+         String originCountry) {[m
+ }[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieBasicDTO.java b/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieBasicDTO.java[m
+[1mindex ab8d851..a0df0b2 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieBasicDTO.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieBasicDTO.java[m
+[36m@@ -1,51 +1,11 @@[m
+ package es.codeurjc.web.dto.movie;[m
+ [m
+[31m-public class MovieBasicDTO {[m
+[32m+[m[32mpublic record MovieBasicDTO([m
+ [m
+[31m-    private Long id;[m
+[31m-    private String name;[m
+[31m-    private int year;[m
+[31m-    private String argument;[m
+[32m+[m[32m        Long id,[m
+[32m+[m[32m        String name,[m
+[32m+[m[32m        String argument,[m
+[32m+[m[32m        int year,[m
+[32m+[m[32m        String trailer[m
+ [m
+[31m-    public MovieBasicDTO() {[m
+[31m-    }[m
+[31m-[m
+[31m-    public MovieBasicDTO(Long id, String name, int year, String argument) {[m
+[31m-        this.id = id;[m
+[31m-        this.name = name;[m
+[31m-        this.year = year;[m
+[31m-        this.argument = argument;[m
+[31m-    }[m
+[31m-[m
+[31m-    public Long getId() {[m
+[31m-        return id;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setId(Long id) {[m
+[31m-        this.id = id;[m
+[31m-    }[m
+[31m-[m
+[31m-    public String getName() {[m
+[31m-        return name;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setName(String name) {[m
+[31m-        this.name = name;[m
+[31m-    }[m
+[31m-[m
+[31m-    public int getYear() {[m
+[31m-        return year;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setYear(int year) {[m
+[31m-        this.year = year;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setArgument(String argument) {[m
+[31m-        this.argument = argument;[m
+[31m-    }[m
+[31m-[m
+[31m-    public String getArgument() {[m
+[31m-        return argument;[m
+[31m-    }[m
+[31m-}[m
+[32m+[m[32m) {}[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieDTO.java b/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieDTO.java[m
+[1mindex 33cb096..b9f79f5 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieDTO.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieDTO.java[m
+[36m@@ -2,7 +2,7 @@[m [mpackage es.codeurjc.web.dto.movie;[m
+ [m
+ import java.util.List;[m
+ import es.codeurjc.web.dto.cast.CastBasicDTO;[m
+[31m-import es.codeurjc.web.dto.review.ReviewDTO;[m
+[32m+[m[32mimport es.codeurjc.web.dto.review.ReviewBasicDTO;[m
+ [m
+ public record MovieDTO([m
+ [m
+[36m@@ -12,7 +12,7 @@[m [mpublic record MovieDTO([m
+         int year,[m
+         String trailer,[m
+         List<CastBasicDTO> cast,[m
+[31m-        List<ReviewDTO> reviews,[m
+[32m+[m[32m        List<ReviewBasicDTO> reviews,[m
+         String image[m
+ [m
+ ) {}[m
+\ No newline at end of file[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/dto/review/ReviewDTO.java b/practica_grupo17/src/main/java/es/codeurjc/web/dto/review/ReviewDTO.java[m
+[1mindex c1537ad..a5ae5e3 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/dto/review/ReviewDTO.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/dto/review/ReviewDTO.java[m
+[36m@@ -1,10 +1,13 @@[m
+ package es.codeurjc.web.dto.review;[m
+ [m
+[32m+[m[32mimport es.codeurjc.web.dto.movie.MovieBasicDTO;[m
+[32m+[m[32mimport es.codeurjc.web.dto.user.UserBasicDTO;[m
+[32m+[m
+ public record ReviewDTO ([m
+ [m
+     Long id,[m
+     String title,[m
+     String text,[m
+[31m-    String authorUsername,[m
+[31m-    Long movieId)[m
+[32m+[m[32m    UserBasicDTO author,[m
+[32m+[m[32m    MovieBasicDTO movie)[m
+ {}[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/mapper/CastMapper.java b/practica_grupo17/src/main/java/es/codeurjc/web/mapper/CastMapper.java[m
+[1mindex 95ccffe..4028b72 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/mapper/CastMapper.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/mapper/CastMapper.java[m
+[36m@@ -12,7 +12,7 @@[m [mimport java.util.List;[m
+ [m
+ @Mapper(componentModel = "spring")[m
+ public interface CastMapper {[m
+[31m-CastDTO toDTO(Cast cast);[m
+[32m+[m[32m    CastDTO toDTO(Cast cast);[m
+ [m
+     List<CastDTO> toDTOs(Collection<Cast> casts);[m
+ [m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/mapper/UserMapper.java b/practica_grupo17/src/main/java/es/codeurjc/web/mapper/UserMapper.java[m
+[1mindex 1d39424..ab69f22 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/mapper/UserMapper.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/mapper/UserMapper.java[m
+[36m@@ -1,17 +1,30 @@[m
+ package es.codeurjc.web.mapper;[m
+ [m
+ import es.codeurjc.web.dto.user.UserDTO;[m
+[32m+[m
+[32m+[m[32mimport java.util.Collection;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m[32mimport org.mapstruct.Mapper;[m
+[32m+[m
+ import es.codeurjc.web.dto.user.CreateUserDTO;[m
+[32m+[m[32mimport es.codeurjc.web.dto.user.UserBasicDTO;[m
+ import es.codeurjc.web.entities.User;[m
+ [m
+[31m-public class UserMapper {[m
+[32m+[m[32m@Mapper(componentModel = "spring")[m
+[32m+[m[32mpublic interface UserMapper {[m
+[32m+[m
+[32m+[m[32m    UserDTO toDTO(User user);[m
+[32m+[m
+[32m+[m[32m    List<UserDTO> toDTOs(Collection<User> users);[m
+[32m+[m
+[32m+[m[32m    User toDomain(UserDTO userDTO);[m
+[32m+[m
+[32m+[m[32m    List<UserDTO> toDTO(List<User> all);[m
+[32m+[m
+[32m+[m[32m    User toDomain(CreateUserDTO user);[m
+ [m
+[31m-    public static UserDTO toDTO(User user) {[m
+[31m-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(),user.getReviews());[m
+[31m-        return userDTO;[m
+[31m-    }[m
+[32m+[m[32m    CreateUserDTO toCreateUserRequest(User user);[m
+ [m
+[31m-    public static User fromCreateDTO(CreateUserDTO dto) {[m
+[31m-        return new User(dto.username(), dto.password(), "USER");[m
+[31m-    }[m
+[32m+[m[32m    UserBasicDTO toUserBasicDTO(User updatedUser);[m
+ }[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/services/MoviesService.java b/practica_grupo17/src/main/java/es/codeurjc/web/services/MoviesService.java[m
+[1mindex 29b4ff2..5f35cde 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/services/MoviesService.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/services/MoviesService.java[m
+[36m@@ -15,7 +15,6 @@[m [mimport org.springframework.stereotype.Service;[m
+ import org.springframework.web.multipart.MultipartFile;[m
+ [m
+ import es.codeurjc.web.dto.movie.CreateMovieDTO;[m
+[31m-import es.codeurjc.web.dto.movie.MovieBasicDTO;[m
+ import es.codeurjc.web.dto.movie.MovieDTO;[m
+ import es.codeurjc.web.entities.Cast;[m
+ import es.codeurjc.web.entities.Movie;[m
+[36m@@ -118,15 +117,16 @@[m [mpublic class MoviesService {[m
+ 		return movie;[m
+ 	}[m
+ [m
+[31m-	public MovieDTO update(long movieId, MovieBasicDTO movie) throws IOException {[m
+[32m+[m	[32mpublic MovieDTO update(long movieId, MovieDTO movie) throws IOException {[m
+ 		return this.update(movieId, movie, null);[m
+ 	}[m
+ [m
+[31m-	public MovieDTO update(long movieId, MovieBasicDTO movie, MultipartFile movieImage) throws IOException {[m
+[32m+[m	[32mpublic MovieDTO update(long movieId, MovieDTO movie, MultipartFile movieImage) throws IOException {[m
+ 		Movie toUpdateMovie = moviesRepository.findById(movieId).orElseThrow();[m
+[31m-		toUpdateMovie.setName(movie.getName());[m
+[31m-		toUpdateMovie.setArgument(movie.getArgument());[m
+[31m-		toUpdateMovie.setYear(movie.getYear());[m
+[32m+[m		[32mMovie updatedMovie = movieMapper.toDomain(movie);[m
+[32m+[m		[32mtoUpdateMovie.setName(updatedMovie.getName());[m
+[32m+[m		[32mtoUpdateMovie.setArgument(updatedMovie.getArgument());[m
+[32m+[m		[32mtoUpdateMovie.setYear(updatedMovie.getYear());[m
+ 		if (movieImage != null && movieImage.getSize() > 0) {[m
+ 			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());[m
+ 			toUpdateMovie.setMovieImage(blobImage);[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/services/ReviewService.java b/practica_grupo17/src/main/java/es/codeurjc/web/services/ReviewService.java[m
+[1mindex 8b56039..52d7f54 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/services/ReviewService.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/services/ReviewService.java[m
+[36m@@ -5,7 +5,6 @@[m [mimport java.util.Collection;[m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+ import org.springframework.stereotype.Service;[m
+ [m
+[31m-import es.codeurjc.web.dto.review.CreateReviewDTO;[m
+ import es.codeurjc.web.dto.review.ReviewDTO;[m
+ import es.codeurjc.web.entities.Review;[m
+ import es.codeurjc.web.mapper.ReviewMapper;[m
+[36m@@ -28,7 +27,7 @@[m [mpublic class ReviewService {[m
+ 		return toDTO(reviewRepository.findById(id).orElseThrow());[m
+ 	}[m
+ [m
+[31m-	public ReviewDTO save(CreateReviewDTO review) {[m
+[32m+[m	[32mpublic ReviewDTO save(ReviewDTO review) {[m
+ 		Review newReview = reviewMapper.toDomain(review);[m
+ 		return toDTO(reviewRepository.save(newReview));[m
+ 	}[m
+[1mdiff --git a/practica_grupo17/src/main/java/es/codeurjc/web/services/UserService.java b/practica_grupo17/src/main/java/es/codeurjc/web/services/UserService.java[m
+[1mindex ecb1bea..ab710d3 100644[m
+[1m--- a/practica_grupo17/src/main/java/es/codeurjc/web/services/UserService.java[m
+[1m+++ b/practica_grupo17/src/main/java/es/codeurjc/web/services/UserService.java[m
+[36m@@ -11,7 +11,9 @@[m [mimport org.springframework.stereotype.Service;[m
+ import es.codeurjc.web.entities.Review;[m
+ import es.codeurjc.web.entities.User;[m
+ import es.codeurjc.web.dto.user.UserDTO;[m
+[32m+[m[32mimport es.codeurjc.web.dto.review.ReviewDTO;[m
+ import es.codeurjc.web.dto.user.CreateUserDTO;[m
+[32m+[m[32mimport es.codeurjc.web.mapper.ReviewMapper;[m
+ import es.codeurjc.web.mapper.UserMapper;[m
+ import es.codeurjc.web.repository.UserRepository;[m
+ [m
+[36m@@ -24,6 +26,12 @@[m [mpublic class UserService {[m
+ 	@Autowired[m
+ 	private ReviewService reviewService;[m
+ [m
+[32m+[m	[32m@Autowired[m
+[32m+[m	[32mprivate ReviewMapper reviewMapper;[m
+[32m+[m
+[32m+[m	[32m@Autowired[m
+[32m+[m	[32mprivate UserMapper userMapper;[m
+[32m+[m
+ 	public UserService() {[m
+ [m
+ 	}[m
+[36m@@ -59,20 +67,21 @@[m [mpublic class UserService {[m
+ 		}[m
+ 	}[m
+ [m
+[32m+[m	[32mpublic Collection<ReviewDTO> getReviews(User user){[m
+[32m+[m		[32mreturn reviewMapper.toDTOs(user.getReviews());[m
+[32m+[m	[32m}[m
+[32m+[m
+ 	public List<UserDTO> findAllDTO() {[m
+[31m-		return userRepository.findAll().stream()[m
+[31m-			.map(UserMapper::toDTO)[m
+[31m-			.collect(Collectors.toList());[m
+[32m+[m		[32mreturn userMapper.toDTOs(userRepository.findAll());[m
+ 	}[m
+ [m
+[31m-	public Optional<UserDTO> findDTOById(long id) {[m
+[31m-		return userRepository.findById(id)[m
+[31m-			.map(UserMapper::toDTO);[m
+[32m+[m	[32mpublic UserDTO findDTOById(long id) {[m
+[32m+[m		[32mreturn userMapper.toDTO(userRepository.findById(id).orElseThrow());[m
+ 	}[m
+ [m
+ 	public UserDTO createFromDTO(CreateUserDTO dto) {[m
+[31m-		User user = UserMapper.fromCreateDTO(dto);[m
+[32m+[m		[32mUser user = userMapper.toDomain(dto);[m
+ 		userRepository.save(user);[m
+[31m-		return UserMapper.toDTO(user);[m
+[32m+[m		[32mreturn userMapper.toDTO(user);[m
+ 	}[m
+ }[m

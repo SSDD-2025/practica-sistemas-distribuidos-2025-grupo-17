@@ -1,17 +1,30 @@
 package es.codeurjc.web.mapper;
 
 import es.codeurjc.web.dto.user.UserDTO;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.mapstruct.Mapper;
+
 import es.codeurjc.web.dto.user.CreateUserDTO;
+import es.codeurjc.web.dto.user.UserBasicDTO;
 import es.codeurjc.web.entities.User;
 
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    public static UserDTO toDTO(User user) {
-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getRoles(),user.getReviews());
-        return userDTO;
-    }
+    UserDTO toDTO(User user);
 
-    public static User fromCreateDTO(CreateUserDTO dto) {
-        return new User(dto.username(), dto.password(), "USER");
-    }
+    List<UserDTO> toDTOs(Collection<User> users);
+
+    User toDomain(UserDTO userDTO);
+
+    List<UserDTO> toDTO(List<User> all);
+
+    User toDomain(CreateUserDTO user);
+
+    CreateUserDTO toCreateUserRequest(User user);
+
+    UserBasicDTO toUserBasicDTO(User updatedUser);
 }
