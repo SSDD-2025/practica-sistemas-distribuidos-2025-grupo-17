@@ -4,6 +4,7 @@ public record CreateReviewDTO(
 
         String title,
         String text,
-        Long movieId
+        Long movieId,
+        Long authorId
 ) {
 }
