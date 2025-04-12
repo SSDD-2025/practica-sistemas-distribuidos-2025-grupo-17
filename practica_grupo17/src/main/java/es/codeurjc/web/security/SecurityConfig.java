@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -51,6 +52,15 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    //Redirect to error page when an unauthenticated user tries to access to a restricted page
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return (request, response, authException) -> {
+            response.sendRedirect("/error?status=403");
+        };
+    }
+
+    //API REST security
     @Bean
 	@Order(1)
 	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
@@ -101,6 +111,7 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+    //Web security
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
@@ -136,7 +147,11 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll())
-                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/error?status=403"));
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        //User authenticated but without access permission
+                        .accessDeniedPage("/error?status=403")
+                        //Unauthenticated user
+                        .authenticationEntryPoint(authenticationEntryPoint()));
 
         return http.build();
     }
