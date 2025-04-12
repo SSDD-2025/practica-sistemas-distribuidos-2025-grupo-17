@@ -6,7 +6,6 @@ public record UserBasicDTO(
 
         Long id,
         String username,
-        String password,
         List<String> roles) {
 
 }

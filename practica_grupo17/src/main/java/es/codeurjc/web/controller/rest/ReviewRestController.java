@@ -39,8 +39,7 @@ public class ReviewRestController {
     public ReviewDTO createReview(@RequestBody ReviewDTO review, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
 		User user=userService.findByUsername(principal.getName()).orElseThrow();
-        reviewService.save(review,user);
-        return review;
+        return reviewService.save(review,user);
     }
 
     @DeleteMapping("/myReviews/{reviewId}")

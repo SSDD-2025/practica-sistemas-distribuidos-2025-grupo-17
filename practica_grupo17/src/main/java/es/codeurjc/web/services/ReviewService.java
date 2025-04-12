@@ -37,7 +37,7 @@ public class ReviewService {
 	public ReviewDTO deleteById(long id, User author) {
 		Review review = reviewRepository.findById(id).orElseThrow();
 		ReviewDTO reviewDTO = toDTO(review);
-		if (review.getAuthor().equals(author) || author.getRoles().contains("ADMIN")) {
+		if (review.getAuthor().equals(author)) {
 			reviewRepository.deleteById(id);
 		}
 		return reviewDTO;

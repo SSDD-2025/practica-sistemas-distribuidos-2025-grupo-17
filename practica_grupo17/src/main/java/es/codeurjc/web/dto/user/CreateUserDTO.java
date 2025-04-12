@@ -1,4 +1,9 @@
 package es.codeurjc.web.dto.user;
 
-public record CreateUserDTO(String username, String password) {
+import java.util.List;
+
+public record CreateUserDTO(
+        String username,
+        String password,
+        List<String> roles) {
 }

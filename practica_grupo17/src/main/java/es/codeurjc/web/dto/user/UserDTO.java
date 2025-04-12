@@ -8,7 +8,6 @@ public record UserDTO (
 
         Long id,
         String username,
-        String password,
         List<String> roles,
         List<Review> reviews)
 {
