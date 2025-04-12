@@ -1,6 +1,5 @@
 package es.codeurjc.web.services;
 
-import java.util.Optional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -68,7 +67,7 @@ public class CastService {
 	}
 
 	public CastDTO save(CreateCastDTO cast, Blob castImage) throws IOException, SQLException {
-		Cast newCast = castMapper.toDomain(cast);
+		Cast newCast = toDomain(cast);
 		if (castImage != null) {
 			newCast.setCastImage(castImage);
 		}
@@ -95,6 +94,23 @@ public class CastService {
 		return toDTO(castRepository.save(toUpdateMovie));
 	}
 
+	public CastDTO updateWeb(long castId, CastBasicDTO cast, MultipartFile castImage, List<Long> movieIds,
+			Date birthDate) throws IOException {
+		Cast oldCast = castRepository.findById(castId).orElseThrow();
+		Blob oldCastImage = oldCast.getCastImage();
+		removeMovies(oldCast);
+		Cast toUpdateCast = createCast(cast.name(), cast.biography(), birthDate, cast.originCountry(), movieIds);
+		toUpdateCast.setId(castId);
+		if (castImage != null && !castImage.isEmpty()) {
+			Blob blobImage = BlobProxy.generateProxy(castImage.getInputStream(), castImage.getSize());
+			toUpdateCast.setCastImage(blobImage);
+			return toDTO(castRepository.save(toUpdateCast));
+		} else {
+			toUpdateCast.setCastImage(oldCastImage);
+			return toDTO(castRepository.save(toUpdateCast));
+		}
+	}
+
 	public CastDTO deleteById(long id) {
 		Cast cast = castRepository.findById(id).orElseThrow();
 		removeMovies(cast);
@@ -110,11 +126,8 @@ public class CastService {
 		Cast cast = new Cast(castName, castBiography, castBirthDateCorrect, castOriginCountry);
 		if (castMovies != null) {
 			for (int i = 0; i < castMovies.size(); i++) {
-				Optional<Movie> op = moviesRepository.findById(castMovies.get(i));
-				if (op.isPresent()) {
-					Movie movie = op.get();
-					cast.addMovie(movie);
-				}
+				Movie movie = moviesRepository.findById(castMovies.get(i)).orElseThrow();
+				cast.addMovie(movie);
 			}
 		}
 		return cast;
@@ -181,7 +194,30 @@ public class CastService {
 		return castMapper.toDomain(castDTO);
 	}
 
+	private Cast toDomain(CreateCastDTO castDTO) {
+		Cast newCast = new Cast(castDTO.name(), castDTO.biography(), castDTO.birthDate(), castDTO.originCountry());
+		if (castDTO.movieIds() != null && castDTO.movieIds().size() > 0) {
+			List<Long> movieIds = castDTO.movieIds();
+			addMovie(newCast, movieIds);
+		}
+		return newCast;
+	}
+
+	private void addMovie(Cast newCast, List<Long> movieIds) {
+		for (Long singId : movieIds) {
+			Movie movie = moviesRepository.findById(singId).orElseThrow();
+			newCast.addMovie(movie);
+		}
+	}
+
 	private Collection<CastDTO> toDTOs(Collection<Cast> Cast) {
 		return castMapper.toDTOs(Cast);
+	}
+
+	public CreateCastDTO createCastDTO(String name, String biography, Date birthDate, String originCountry,
+			List<Long> moviesIds) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String castBirthDateCorrect = sdf.format(birthDate);
+		return new CreateCastDTO(name, biography, castBirthDateCorrect, originCountry, moviesIds);
 	}
 }

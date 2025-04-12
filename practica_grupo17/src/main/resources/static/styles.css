@@ -1,5 +1,5 @@
 body {
-    margin:0;
+    margin: 0;
 }
 
 
@@ -25,6 +25,24 @@ body {
     height: auto;
 }
 
+#posterSize {
+    max-width: 400px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    padding-left: 40%;
+}
+
+#infoCard {
+    align-items: center;
+}
+
+#infoShow {
+    border: 15px solid #b7bce5;
+    border-radius: 4px;
+    background-color: #b7bce5;
+}
+
 #topBanner {
     background-size: cover;
     background-color: rgb(39, 32, 59);
@@ -33,13 +51,19 @@ body {
     align-items: center;
     text-shadow: 3px 3px 4px #c9c619;
     margin-left: 0;
-    padding:0;
+    padding: 0;
     margin-top: 0px;
 }
 
-h1, h2, h3, p, a, button, input {
-     margin-left: 20px;
-     margin-top: 10px;
+h1,
+h2,
+h3,
+p,
+a,
+button,
+input {
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 #bannerImage {
@@ -86,6 +110,7 @@ h1 {
     font-weight: bold;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 h2 {
     font-family: 'Arial', sans-serif;
     font-size: 1.8em;
@@ -297,7 +322,7 @@ input:active {
     color: #264097;
     font-weight: bold;
     text-decoration: none;
-    margin: 10% 5% 10% 25%; /*Top Right Bottom Left*/
+    margin: 10% 5% 10% 25%;
 }
 
 .catalogueSingleCard a:hover {
@@ -305,18 +330,18 @@ input:active {
     text-decoration: underline;
 }
 
-.catalogueTitle{
+.catalogueTitle {
     align-items: center;
     text-align: center;
     width: 100%;
 }
 
-.catalogueTitle h2{
+.catalogueTitle h2 {
     padding-left: 33%;
     color: white;
 }
 
-#errorBox{
+#errorBox {
     border: 2px solid #ccc;
     border-radius: 10px;
     width: 100%;
@@ -349,19 +374,20 @@ input:active {
 }
 
 .footer a {
-    color:#424242;
+    color: #424242;
 }
+
 .footer a:hover {
     color: #cb1111;
     text-decoration: underline;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
-#form{
-    
+#form {
+
     margin: auto;
     gap: 20px;
     padding: 20px;
@@ -371,7 +397,7 @@ ul{
     max-width: 95%;
 }
 
-#loginText{
+#loginText {
     text-transform: uppercase;
     color: rgb(14, 0, 145);
     text-decoration: underline;
@@ -383,7 +409,7 @@ ul{
     background-color: rgb(255, 255, 255);
 }
 
-#login{
+#login {
     display: grid;
     margin: auto;
     gap: 20px;
@@ -405,6 +431,7 @@ ul{
         opacity: 0;
         transform: translateY(-20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -422,6 +449,7 @@ ul{
         transform: translateX(-50px);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;
@@ -447,6 +475,7 @@ ul{
         opacity: 0;
         transform: translateY(10px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -454,48 +483,74 @@ ul{
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; }
-	to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInUp {
-	from { opacity: 0; transform: translateY(20px); }
-	to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes slideInLeft {
-	from { opacity: 0; transform: translateX(-100px); }
-	to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes slideInBottom {
-	from { opacity: 0; transform: translateY(100px); }
-	to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
 .fade-in {
-	animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.6s ease-out;
 }
 
 .fade-in-up {
-	animation: fadeInUp 0.6s ease-out;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .slide-in-left {
-	animation: slideInLeft 0.6s ease-out;
+    animation: slideInLeft 0.6s ease-out;
 }
 
 .slide-in-bottom {
-	animation: slideInBottom 0.6s ease-out;
+    animation: slideInBottom 0.6s ease-out;
 }
 
 
 .card-hover {
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-hover:hover {
-	transform: scale(1.05);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

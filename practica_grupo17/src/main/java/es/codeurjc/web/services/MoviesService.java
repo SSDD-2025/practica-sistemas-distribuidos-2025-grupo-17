@@ -109,7 +109,6 @@ public class MoviesService {
 			for (int i = 0; i < movieCast.size(); i++) {
 				Cast cast = castRepository.findById(movieCast.get(i)).orElseThrow();
 				movie.addCast(cast);
-				cast.addMovie(movie);
 			}
 		}
 		return movie;
@@ -148,7 +147,6 @@ public class MoviesService {
 			toUpdateMovie.setMovieImage(oldMovieImage);
 			return toDTO(moviesRepository.save(toUpdateMovie));
 		}
-
 	}
 
 	public void removeCast(Movie movie) {
@@ -210,8 +208,10 @@ public class MoviesService {
 
 	private Movie toDomain(CreateMovieDTO movieDTO) {
 		Movie newMovie = new Movie(movieDTO.name(), movieDTO.argument(), movieDTO.year(), movieDTO.trailer());
-		List<Long> castIds = movieDTO.castIds();
-		addCast(newMovie, castIds);
+		if (movieDTO.castIds() != null && movieDTO.castIds().size() > 0) {
+			List<Long> castIds = movieDTO.castIds();
+			addCast(newMovie, castIds);
+		}
 		return newMovie;
 	}
 

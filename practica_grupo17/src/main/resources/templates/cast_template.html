@@ -3,27 +3,31 @@
 <body>
     {{>banner_show_info_template}}
     {{#cast}}
-    <h1>{{name}}</h1>
-    <img src="/cast/{{id}}/image" id="imageSize"></img>
-    <p id="labelText">País de origen: {{originCountry}}</p><br>
-    <p id="labelText">Fecha de naciminto: {{birthDate}}</p>
-    <p id="labelText">Biografía: {{biography}}</p><br>
-    <p id="labelText">Películas:</p><br>
-    {{#movies}}
-    <ul>
-        <li>
-            <img src="/movies/{{id}}/image" id="imageSize"></img><br>
-            <a href="/movies/{{id}}">{{name}}</a>
-        </li>
-    </ul>
-    {{/movies}}
-    {{^movies}}
-    <p id="infoText">Este actor no ha participado en películas aún.</p>
-    {{/movies}}
     <form action="/cast/{{id}}/delete" method="post">
-        <input type="hidden" name="_csrf" value="{{token}}"/>
+        <input type="hidden" name="_csrf" value="{{token}}" />
         <input type='submit' value='Borrar cast' />
     </form>
     <button onclick="window.location.href='/cast/{{id}}/modify';">Modificar cast</button><br>
+    <h1>{{name}}</h1>
+    <div id="infoCard">
+        <img src="/cast/{{id}}/image" id="posterSize"></img>
+        <div id="infoShow">
+            <p id="labelText">País de origen: {{originCountry}}</p><br>
+            <p id="labelText">Fecha de nacimiento: {{birthDate}}</p>
+            <p id="labelText">Biografía: {{biography}}</p><br>
+            <p id="labelText">Películas:</p><br>
+            {{#movies}}
+            <ul>
+                <li>
+                    <img src="/movies/{{id}}/image" id="imageSize"></img><br>
+                    <a href="/movies/{{id}}">{{name}}</a>
+                </li>
+            </ul>
+            {{/movies}}
+            {{^movies}}
+            <p id="infoText">Este actor no ha participado en películas aún.</p>
+            {{/movies}}
+        </div>
+    </div>
     {{/cast}}
     {{>backToHome_template}}

@@ -2,8 +2,8 @@ package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -26,8 +26,8 @@ import java.util.NoSuchElementException;
 
 import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
+import es.codeurjc.web.dto.cast.CastBasicDTO;
 import es.codeurjc.web.dto.cast.CastDTO;
-import es.codeurjc.web.entities.*;
 import es.codeurjc.web.mapper.CastMapper;
 
 @Controller
@@ -83,14 +83,17 @@ public class CastController {
 	}
 
 	@PostMapping("/cast/new")
-	public String newCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
-			@RequestParam String castName, @RequestParam String castBiography,
+	public String newCast(Model model,
+			@RequestParam(value = "castMovies", required = false) List<Long> castMovies,
+			@RequestParam String castName,
+			@RequestParam String castBiography,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date castBirthDate,
-			@RequestParam String castOriginCountry, MultipartFile castImage) throws IOException, SQLException {
+			@RequestParam String castOriginCountry,
+			MultipartFile castImage)
+			throws IOException, SQLException {
 
 		castService.save(
-				castMapper.toCreateCastRequest(
-						castService.createCast(castName, castBiography, castBirthDate, castOriginCountry, castMovies)),
+				castService.createCastDTO(castName, castBiography, castBirthDate, castOriginCountry, castMovies),
 				castImage);
 
 		return "cast_created_template";
@@ -123,7 +126,8 @@ public class CastController {
 	}
 
 	@PostMapping("/cast/{id}/modify")
-	public String modifyCast(Model model, @RequestParam(value = "castMovies", required = false) List<Long> castMovies,
+	public String modifyCast(Model model,
+			@RequestParam(value = "castMovies", required = false) List<Long> castMovies,
 			@PathVariable long id,
 			@RequestParam String castName,
 			@RequestParam String castBiography,
@@ -132,21 +136,10 @@ public class CastController {
 			@RequestParam(required = false) MultipartFile castImage)
 			throws IOException, SQLException {
 		try {
-			CastDTO oldCast = castService.findById(id);
-			Blob oldCastImage = castMapper.toDomain(oldCast).getCastImage();
-
-			castService.removeMovies(castMapper.toDomain(oldCast));
-			Cast updatedCast = castService.createCast(castName, castBiography, castBirthDate, castOriginCountry,
-					castMovies);
-			updatedCast.setId(id);
-
-			if (castImage == null || castImage.isEmpty()) {
-				updatedCast.setCastImage(oldCastImage);
-				castService.update(id,castMapper.toCastBasicDTO(updatedCast));
-			} else {
-				castService.update(id,castMapper.toCastBasicDTO(updatedCast), castImage);
-			}
-
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String castBirthDateCorrect = sdf.format(castBirthDate);
+			CastBasicDTO updatedCast = new CastBasicDTO(id, castName, castBiography, castBirthDateCorrect, castOriginCountry);
+			castService.updateWeb(id, updatedCast, castImage, castMovies, castBirthDate);
 			return "cast_modified_template";
 		} catch (Exception e) {
 			return "castNotFound_template";

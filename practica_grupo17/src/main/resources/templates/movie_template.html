@@ -3,53 +3,58 @@
 <body>
     {{>banner_show_info_template}}
     {{#movie}}
-    <h1>{{name}}</h1>
-    <img src="/movies/{{id}}/image" id="imageSize"></img>
-    <p>Año de lanzamiento: {{year}}</p>
-    <h3>Sinopsis</h3>
-    <p>{{argument}}</p>
-    <h3>Reparto</h3>
-    {{#cast}}
-    <ul>
-        <li>
-            <img src="/cast/{{id}}/image" id="imageSize"></img>
-            <a href="/cast/{{id}}">{{name}}</a>
-        </li>
-    </ul>
-    {{/cast}}
-    {{^cast}}
-    <p id="infoText">No hay cast disponible.</p>
-    {{/cast}}
-    <h3>Tráiler</h3>
-    {{#trailer}}
-    <a href="{{trailer}}" target="_blank">Ver el tráiler de la película "{{name}}" </a>
-    {{/trailer}}
-    {{^trailer}}
-    <p id="infoText">No hay trailer disponible</p><br>
-    {{/trailer}}
     <form action="/movies/{{id}}/delete" method="post">
-        <input type="hidden" name="_csrf" value="{{token}}"/>
+        <input type="hidden" name="_csrf" value="{{token}}" />
         <input type='submit' value='Borrar película' />
     </form><br>
     <button onclick="window.location.href='/movies/{{id}}/modify';">Modificar película</button>
-    <h3>Reseñas</h3>
-    <button onclick="window.location.href='/movies/{{id}}/review/new';">Añadir reseña</button>
-    {{#reviews}}
-    <ul>
-        <li>
-                <p id="infoText">{{author.username}} : {{title}}</p>
-                <div id="reviewBox">
-                    <p>{{text}}</p>
-                </div>
-            <form action="/movies/{{movie.id}}/review/{{idReview}}/delete" method="post">
-                <input type="hidden" name="_csrf" value="{{token}}"/>
-                <input type='submit' value='Borrar reseña' />
-            </form>
-        </li>
-    </ul>
-    {{/reviews}}
-    {{^reviews}}
-    <p id="infoText">No hay reviews aún.</p>
-    {{/reviews}}
+    <h1>{{name}}</h1>
+    <div id="infoCard">
+        <img src="/movies/{{id}}/image" id="posterSize"></img>
+        <div id="infoShow">
+            <p>Año de lanzamiento: {{year}}</p>
+            <h3>Sinopsis</h3>
+            <p>{{argument}}</p>
+            <h3>Reparto</h3>
+            {{#cast}}
+            <ul>
+                <li>
+                    <img src="/cast/{{id}}/image" id="imageSize"></img>
+                    <a href="/cast/{{id}}">{{name}}</a>
+                </li>
+            </ul>
+            {{/cast}}
+            {{^cast}}
+            <p id="infoText">No hay cast disponible.</p>
+            {{/cast}}
+            <h3>Tráiler</h3>
+            {{#trailer}}
+            <a href="{{trailer}}" target="_blank">Ver el tráiler de la película "{{name}}" </a>
+            {{/trailer}}
+            {{^trailer}}
+            <p id="infoText">No hay trailer disponible</p><br>
+            {{/trailer}}
+
+            <h3>Reseñas</h3>
+            <button onclick="window.location.href='/movies/{{id}}/review/new';">Añadir reseña</button>
+            {{#reviews}}
+            <ul>
+                <li>
+                    <p id="infoText">{{author.username}} : {{title}}</p>
+                    <div id="reviewBox">
+                        <p>{{text}}</p>
+                    </div>
+                    <form action="/movies/{{movie.id}}/review/{{idReview}}/delete" method="post">
+                        <input type="hidden" name="_csrf" value="{{token}}" />
+                        <input type='submit' value='Borrar reseña' />
+                    </form>
+                </li>
+            </ul>
+            {{/reviews}}
+            {{^reviews}}
+            <p id="infoText">No hay reviews aún.</p>
+            {{/reviews}}
+        </div>
+    </div>
     {{/movie}}
     {{>backToHome_template}}
