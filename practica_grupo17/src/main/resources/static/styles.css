@@ -15,7 +15,7 @@ body {
 
 #submitButton {
     font-weight: bold;
-    color: #161064;
+    color: #ffffff
 }
 
 #imageSize {
@@ -238,7 +238,7 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(45deg, rgb(59, 32, 32), rgb(72, 61, 102));
+    background: linear-gradient(45deg, rgb(23, 23, 59), rgb(44, 31, 80));
     transform: scale(1.05);
 }
 
@@ -250,6 +250,7 @@ button:active {
 
 input {
     font-family: 'Arial', sans-serif;
+    
     font-size: 1em;
     font-weight: bold;
     color: #fff;
@@ -269,6 +270,7 @@ input:focus {
 }
 
 input:hover {
+    background: linear-gradient(45deg, rgb(23, 23, 59), rgb(44, 31, 80));
     transform: scale(1.05);
 }
 
@@ -403,6 +405,49 @@ ul {
     border: 2px 4px;
     border-radius: 8px;
     background-color: rgb(255, 255, 255);
+}
+
+#adminText {
+    background: linear-gradient(90deg, #680505, #ff4500, #ff8c00, #ffee00, #ff6347, #680505);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: admin 6s linear infinite;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#regText {
+    background: linear-gradient(120deg, #1eaa7e 0%, #1e7c99 25%, #256491 50%, #2191a5 75%, #1eaa7e 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: registered 8s ease-in-out infinite;
+    text-transform: uppercase;
+}
+
+@keyframes admin {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+@keyframes registered {
+    0% {
+        background-position: -150% 0;
+    }
+
+    50% {
+        background-position: 150% 0;
+    }
+
+    100% {
+        background-position: 350% 0;
+    }
 }
 
 #login {
@@ -549,4 +594,102 @@ ul {
 .card-hover:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#infoPanel {
+    padding: 2%;
+    background-color: rgb(69, 47, 148);
+    align-items: center;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#controlPanel {
+    background-color: rgb(155, 118, 255);
+    align-items: center;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#infoBox {
+    font-family: 'Roboto', sans-serif;
+    font-size: 170%;
+    color: #f9f9f9;
+    width: 70%;
+    height: 80%;
+    margin-left: 5%;
+    align-items: center;
+    font-weight: bolder;
+    text-transform: uppercase;
+    padding-left: 10%;
+    padding-bottom: 3%;
+    padding-top: 2%;
+}
+
+#controlPanelDisplay {
+    display: flex;
+    align-items: center;
+    padding-left: 20%;
+}
+
+#checkName{
+    font-family: 'Roboto', sans-serif;
+    color:white;
+    text-shadow:2px 2px 1px black;
+}
+
+.custom-file-input input[type="file"] {
+    display: none;
+}
+
+.custom-file-input .custom-button {
+    display: inline-block;
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
+    color: white;
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: bold; 
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-file-input .custom-button:hover {
+    background: linear-gradient(45deg, rgb(23, 23, 59), rgb(44, 31, 80));
+    transform: scale(1.05);
+}
+
+.custom-file-input .custom-button:active {
+    transform: scale(0.98); 
+    background: linear-gradient(45deg, rgb(39, 32, 59), rgb(72, 61, 102));
+}
+
+textarea{
+    margin-left: 2%;
+    font-family: 'Arial', sans-serif;
+    font-size: 1em;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:hover {
+    border-color: #888;
+}
+
+textarea:focus {
+    border-color: #5A67D8;
+    box-shadow: 0 0 10px rgba(90, 103, 216, 0.5);
 }

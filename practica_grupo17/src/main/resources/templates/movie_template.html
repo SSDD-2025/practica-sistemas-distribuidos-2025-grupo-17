@@ -3,16 +3,19 @@
 <body>
     {{>banner_show_info_template}}
     {{#movie}}
+    {{#admin}}
     <form action="/movies/{{id}}/delete" method="post">
         <input type="hidden" name="_csrf" value="{{token}}" />
         <input type='submit' value='Borrar película' />
     </form><br>
     <button onclick="window.location.href='/movies/{{id}}/modify';">Modificar película</button>
+    {{/admin}}
     <h1>{{name}}</h1>
     <div id="infoCard">
         <img src="/movies/{{id}}/image" id="posterSize"></img>
         <div id="infoShow">
-            <p>Año de lanzamiento: {{year}}</p>
+            <h3>Año de lanzamiento</h3>
+            <p>{{year}}</p>
             <h3>Sinopsis</h3>
             <p>{{argument}}</p>
             <h3>Reparto</h3>
@@ -25,18 +28,20 @@
             </ul>
             {{/cast}}
             {{^cast}}
-            <p id="infoText">No hay cast disponible.</p>
+            <p id="errorText">No hay actores que hayan participado en esta película.</p>
             {{/cast}}
             <h3>Tráiler</h3>
             {{#trailer}}
             <a href="{{trailer}}" target="_blank">Ver el tráiler de la película "{{name}}" </a>
             {{/trailer}}
             {{^trailer}}
-            <p id="infoText">No hay trailer disponible</p><br>
+            <p id="errorText">No hay trailer disponible</p><br>
             {{/trailer}}
 
             <h3>Reseñas</h3>
-            <button onclick="window.location.href='/movies/{{id}}/review/new';">Añadir reseña</button>
+            {{#user}}
+            <button onclick="window.location.href='/movies/{{movie.id}}/review/new';">Añadir reseña</button>
+            {{/user}}
             {{#reviews}}
             <ul>
                 <li>
@@ -44,10 +49,12 @@
                     <div id="reviewBox">
                         <p>{{text}}</p>
                     </div>
+                    {{#user}}
                     <form action="/movies/{{movie.id}}/review/{{id}}/delete" method="post">
                         <input type="hidden" name="_csrf" value="{{token}}" />
                         <input type='submit' value='Borrar reseña' />
                     </form>
+                    {{/user}}
                 </li>
             </ul>
             {{/reviews}}
