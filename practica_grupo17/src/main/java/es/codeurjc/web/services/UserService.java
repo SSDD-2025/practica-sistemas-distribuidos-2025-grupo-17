@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
+import es.codeurjc.web.dto.user.CreateUserDTO;
 import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.mapper.ReviewMapper;
@@ -29,6 +31,9 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public UserService() {
 
 	}
@@ -49,8 +54,18 @@ public class UserService {
 		return userRepository.existsById(id);
 	}
 
+	public UserDTO save(User user) {
+		return toDTO(userRepository.save(user));
+	}
+
 	public UserDTO save(UserDTO user) {
 		return toDTO(userRepository.save(userMapper.toDomain(user)));
+	}
+
+	public UserDTO save(CreateUserDTO createUser) {
+		User user=userMapper.toDomain(createUser);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		return toDTO(userRepository.save(user));
 	}
 
 	public UserDTO save(String username, String password, String role) {
@@ -64,7 +79,7 @@ public class UserService {
 	}
 
 	public void deleteReviews(UserDTO userDTO) {
-		List<Review> reviews = userDTO.reviews();
+		List<Review> reviews = userMapper.toDomain(userDTO).getReviews();
 		User user = userRepository.findByUsername(userDTO.username()).orElseThrow();
 		for (Review review : reviews) {
 			reviewService.deleteById(review.getId(), toDTO(user));
@@ -79,7 +94,7 @@ public class UserService {
 	}
 
 	public Collection<ReviewDTO> getReviews(UserDTO user) {
-		return reviewMapper.toDTOs(user.reviews());
+		return reviewMapper.toDTOs(userMapper.toDomain(user).getReviews());
 	}
 
 	private UserDTO toDTO(User user) {

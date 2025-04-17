@@ -19,6 +19,8 @@ public interface ReviewMapper {
 
     Review toDomain(ReviewDTO reviewDTO);
 
+    List<Review> toDomain(List<ReviewBasicDTO> reviewDTO);
+
     List<ReviewDTO> toDTO(List<Review> all);
 
     Review toDomain(CreateReviewDTO review);
