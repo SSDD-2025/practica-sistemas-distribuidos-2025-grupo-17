@@ -2,66 +2,51 @@
 
 <body>
     {{>banner_form_template}}
-    <br>
-    <div id="titleForm">
-        <h2>Rellene con los datos del actor a añadir</h2>
-    </div>
-    <div id="form">
 
-        <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post"
-            enctype="multipart/form-data">
+    <h2>Rellene con los datos del actor a añadir</h2>
+    <form action="{{#cast}}/cast/{{id}}/modify{{/cast}}{{^cast}}/cast/new{{/cast}}" method="post"
+        enctype="multipart/form-data">
+        
+        <label id="fieldName">Nombre:</label>
+        <input type='text' name='castName' value="{{#cast}}{{name}}{{/cast}}" required><br>
+        
+        <div id="textAreaToAlign">
+            <label id="fieldName">Biografía:</label>
+            <textarea name='castBiography' rows=5 cols=40 required>{{#cast}}{{biography}}{{/cast}}</textarea><br>
+        </div>
+        
+        <label id="fieldName">Fecha nacimiento:</label>
+        <input type='date' name='castBirthDate' value="{{#cast}}{{birthDate}}{{/cast}}" required><br>
+        
+        <label id="fieldName">País de origen:</label>
+        <input type='text' name='castOriginCountry' value="{{#cast}}{{originCountry}}{{/cast}}" required /> <br>
+        
+        <label id="fieldName">Películas: </label>
+        <div class="checkbox-group">
+            {{#movies}}
+            <label><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
+            {{/movies}}
+            {{^movies}}
+            {{#allMovies}}
+            <label><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
+            {{/allMovies}}
+            {{/movies}}
+        </div> <br>
 
-            <label id="fieldName">Nombre:</label>
-            <input type='text' name='castName' placeholder="Ingrese el nombre" value="{{#cast}}{{name}}{{/cast}}"
-                required><br>
+        {{#currentImageUrl}}
+        <label id="fieldName">Imagen actual:</label>
+        <br>
+        <img src="{{currentImageUrl}}" alt="Imagen actual" width="150px">
+        <br>
+        {{/currentImageUrl}}
 
-            <div id="textAreaToAlign">
-                <label id="fieldName">Biografía:</label>
-                <textarea name='castBiography' rows=5 cols=40 placeholder="Ingrese la biografía"
-                    required>{{#cast}}{{biography}}{{/cast}}</textarea><br>
-            </div>
+        <label id="fieldName">Seleccionar nueva imagen: </label>
+        <input type='file' name='castImage' accept=".png, .jpg, .jpeg" /> <br>
 
-            <label id="fieldName">Fecha nacimiento:</label>
-            <input type='date' name='castBirthDate' value="{{#cast}}{{birthDate}}{{/cast}}" required><br>
+        <input type="hidden" name="_csrf" value="{{token}}"/>
 
-            <label id="fieldName">País de origen:</label>
-            <input type='text' name='castOriginCountry' placeholder="Ingrese el país de origen"
-                value="{{#cast}}{{originCountry}}{{/cast}}" required /> <br>
+        <input type='submit' name='Subir actor' id="submitButton"><br>
+    </form>
 
-            <label id="fieldName">Películas actuales: </label> <br>
-            {{#cast.movies}}
-            <label name="castMovie" value="{{ id }}" id="checkName"
-                {{#cast.movies}}{{#id==movies.id}}checked{{/id==movies.id}}{{/cast.movies}}> {{name}}</label><br>
-            {{/cast.movies}}
-            {{^cast.movies}}
-            <p id="errorText">Este actor no tiene películas todavía.</p>
-            {{/cast.movies}}
-            <label id="fieldName">Seleccione las nuevas películas:</label>
-            <div class="checkbox-group">
-                {{#movies}}
-                <label id="checkName"><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
-                {{/movies}}
-                {{^movies}}
-                {{#allMovies}}
-                <label id="checkName"><input type="checkbox" name="castMovies" value="{{ id }}"> {{ name }}</label><br>
-                {{/allMovies}}
-                {{/movies}}
-            </div> <br>
-
-            {{#cast}}
-            <label id="fieldName">Imagen actual:</label>
-            <br>
-            <img src="/cast/{{id}}/image" id="imageSize">
-            <br>
-            {{/cast}}
-
-            <label id="fieldName">Seleccionar nueva imagen (opcional): </label>
-            <input type='file' name='movieImage' accept=".png, .jpg, .jpeg" /><br>
-
-
-            <input type="hidden" name="_csrf" value="{{token}}" />
-
-            <input type='submit' name='Guardar actor' id="submitButton"><br>
-        </form>
-
-        {{>backToHome_template}}
+    {{>backToHome_template}}
+</body>

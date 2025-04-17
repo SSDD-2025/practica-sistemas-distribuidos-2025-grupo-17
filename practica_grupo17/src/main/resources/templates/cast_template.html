@@ -3,29 +3,24 @@
 <body>
     {{>banner_show_info_template}}
     {{#cast}}
-    {{#admin}}
     <form action="/cast/{{id}}/delete" method="post">
         <input type="hidden" name="_csrf" value="{{token}}" />
         <input type='submit' value='Borrar cast' />
-    </form><br>
+    </form>
     <button onclick="window.location.href='/cast/{{id}}/modify';">Modificar cast</button><br>
-    {{/admin}}
     <h1>{{name}}</h1>
     <div id="infoCard">
         <img src="/cast/{{id}}/image" id="posterSize"></img>
         <div id="infoShow">
-            <h3>País de origen</h3>
-            <p>{{originCountry}}</p>
-            <h3>Fecha de nacimiento</h3>
-            <p>{{birthDate}}</p>
-            <h3>Biografía</h3>
-            <p id="labelText">{{biography}}</p>
-            <h3>Películas:</h3>
+            <p id="labelText">País de origen: {{originCountry}}</p><br>
+            <p id="labelText">Fecha de nacimiento: {{birthDate}}</p>
+            <p id="labelText">Biografía: {{biography}}</p><br>
+            <p id="labelText">Películas:</p><br>
             {{#movies}}
             <ul>
                 <li>
-                    <button onclick="window.location.href='/movies/{{id}}';">{{name}}</button><br>
-                    <img src="/movies/{{id}}/image" id="imageSize"></img>
+                    <img src="/movies/{{id}}/image" id="imageSize"></img><br>
+                    <a href="/movies/{{id}}">{{name}}</a>
                 </li>
             </ul>
             {{/movies}}

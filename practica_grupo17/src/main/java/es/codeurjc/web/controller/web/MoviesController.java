@@ -1,7 +1,6 @@
 package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import java.util.NoSuchElementException;
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.MovieBasicDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
-import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.mapper.MovieMapper;
 
 @Controller
@@ -39,20 +37,11 @@ public class MoviesController {
 	@Autowired
 	private MovieMapper movieMapper;
 
-	@Autowired
-	private UserService userService;
-
 	@GetMapping("/movies/{id}")
-	public String showMovie(Model model, @PathVariable long id, Principal principal) {
+	public String showMovie(Model model, @PathVariable long id) {
 		try {
 			MovieDTO movieDTO = moviesService.findById(id);
 			model.addAttribute("movie", movieDTO);
-			if (principal != null) {
-				UserDTO userDTO = userService.findByUsername(principal.getName());
-				model.addAttribute("user", userDTO);
-				model.addAttribute("admin", userDTO.roles().contains("ADMIN"));
-				model.addAttribute("registered", userDTO.roles().contains("REGISTERED"));
-			}
 			return "movie_template";
 		} catch (NoSuchElementException e) {
 			return "movieNotFound_template";

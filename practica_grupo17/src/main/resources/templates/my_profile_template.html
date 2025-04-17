@@ -1,50 +1,73 @@
 {{>header_template}}
-{{>banner_profile_template}}
 
-<body>
-    <div class="fade-in">
-        {{#user}}
-        <h1>Mi perfil</h1>
+<body class="bg-gray-100 font-sans">
+<div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl animate-fade-in">
+    {{#user}}
+    <!-- Header -->
+    <header class="flex items-center justify-between border-b pb-4 mb-6">
+        <button onclick="window.location.href='/'"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
+            Volver a la página de inicio
+        </button>
+        <h1 class="text-3xl font-bold text-gray-800 text-center flex-grow text-center -ml-16">Mi perfil</h1>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{token}}" />
+            <input type="submit" value="Cerrar sesión"
+                   class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105" />
+        </form>
+    </header>
 
-        <div id="infoPanel">
-            <div id="infoBox">Panel de información del usuario</div>
-            <p id="labelText"><strong>Nombre de usuario:</strong> {{username}}</p>
-            <p id="labelText"><strong>Rol:</strong>{{#admin}}<span
-                    id="adminText">Administrador</span>{{/admin}}{{#registered}}<span id="regText">Usuario
-                    registrado</span>{{/registered}}</p>
-        </div>
+    <!-- Datos de usuario -->
+    <div class="mb-6">
+        <p class="text-xl text-gray-700"><strong class="text-indigo-600">Nombre de usuario:</strong> {{username}}</p>
+        <p class="text-lg text-gray-600 mt-2">
+            <strong class="text-indigo-600">Rol:</strong>
+            {{#admin}}Administrador{{/admin}}{{#registered}}Usuario registrado{{/registered}}
+        </p>
+    </div>
 
-        <div id="controlPanel">
-            <div id="infoBox">Panel de control del usuario</div>
-            <div id="controlPanelDisplay">
-                <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" value="{{token}}" />
-                    <input type="submit" value="Cerrar sesión" />
-                </form>
+    <!-- Botones en columna -->
+    <div class="flex flex-col items-center space-y-4 mt-8">
+        <button onclick="window.location.href='/myReviews'"
+                class="w-72 bg-indigo-700 hover:bg-indigo-800 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
+            Mis reseñas
+        </button>
 
-                <button onclick="window.location.href='/myReviews'"
-                    class="w-72 bg-indigo-700 hover:bg-indigo-800 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
-                    Mis reseñas
-                </button>
+        <button onclick="window.location.href='/user/modify';"
+                class="w-72 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
+            Modificar datos
+        </button>
 
-                <button onclick="window.location.href='/user/modify'">
-                    Modificar datos
-                </button>
+        <form action="/user/delete" method="post" class="w-full flex justify-center">
+            <input type="hidden" name="_csrf" value="{{token}}" />
+            <input type="submit" value="Borrar usuario"
+                   class="w-72 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105" />
+        </form>
 
-                <form action="/user/delete" method="post" class="w-full flex justify-center">
-                    <input type="hidden" name="_csrf" value="{{token}}" />
-                    <input type="submit" value="Borrar usuario"
-                        class="w-72 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105" />
-                </form>
+        {{#admin}}
+        <button onclick="window.location.href='/user/new';"
+                class="w-72 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
+            Añadir usuario
+        </button>
+        {{/admin}}
+    </div>
+    {{/user}}
+</div>
 
-                {{#admin}}
-                <button onclick="window.location.href='/user/new';"
-                    class="w-72 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow transition-transform duration-300 hover:scale-105">
-                    Añadir usuario
-                </button>
-                {{/admin}}
-            </div>
-        </div>
-        {{/user}}
+<style>
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-        {{>backToHome_template}}
+    .animate-fade-in {
+        animation: fade-in 0.6s ease-out;
+    }
+</style>
+</body>

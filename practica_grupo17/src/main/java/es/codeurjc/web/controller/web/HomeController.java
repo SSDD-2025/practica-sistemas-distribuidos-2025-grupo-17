@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -20,19 +19,12 @@ public class HomeController {
 	@Autowired
 	private CastService castService;
 
-	@Autowired
-	private UserService userService;
-
 	@GetMapping("/")
 	public String showMoviesList(Model model, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
-			if (principal != null) {
-				UserDTO userDTO = userService.findByUsername(principal.getName());
-				model.addAttribute("user", userDTO);
-				model.addAttribute("admin", userDTO.roles().contains("ADMIN"));
-				model.addAttribute("registered", userDTO.roles().contains("REGISTERED"));
-				model.addAttribute("logged", true);
-			}
+		if (principal != null) {
+			model.addAttribute("logged", true);
+		}
 		model.addAttribute("movies", moviesService.findAll());
 		model.addAttribute("cast", castService.findAll());
 

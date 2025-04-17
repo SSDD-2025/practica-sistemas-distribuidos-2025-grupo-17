@@ -28,7 +28,6 @@ import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.web.dto.cast.CastBasicDTO;
 import es.codeurjc.web.dto.cast.CastDTO;
-import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.mapper.CastMapper;
 
 @Controller
@@ -43,17 +42,10 @@ public class CastController {
 	@Autowired
 	private CastMapper castMapper;
 
-	@Autowired
-	private UserService userService;
-
 	@GetMapping("/castList")
 	public String showCastList(Model model, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		if (principal != null) {
-			UserDTO userDTO = userService.findByUsername(principal.getName());
-			model.addAttribute("user", userDTO);
-			model.addAttribute("admin", userDTO.roles().contains("ADMIN"));
-			model.addAttribute("registered", userDTO.roles().contains("REGISTERED"));
 			model.addAttribute("logged", true);
 		}
 		model.addAttribute("cast", castService.findAll());
@@ -61,16 +53,10 @@ public class CastController {
 	}
 
 	@GetMapping("/cast/{id}")
-	public String showCast(Model model, @PathVariable long id, Principal principal) {
+	public String showCast(Model model, @PathVariable long id) {
 		try {
 			CastDTO castDTO = castService.findById(id);
 			model.addAttribute("cast", castDTO);
-			if (principal != null) {
-				UserDTO userDTO = userService.findByUsername(principal.getName());
-				model.addAttribute("user", userDTO);
-				model.addAttribute("admin", userDTO.roles().contains("ADMIN"));
-				model.addAttribute("registered", userDTO.roles().contains("REGISTERED"));
-			}
 			return "cast_template";
 		} catch (NoSuchElementException e) {
 			return "castNotFound_template";
@@ -152,8 +138,7 @@ public class CastController {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String castBirthDateCorrect = sdf.format(castBirthDate);
-			CastBasicDTO updatedCast = new CastBasicDTO(id, castName, castBiography, castBirthDateCorrect,
-					castOriginCountry);
+			CastBasicDTO updatedCast = new CastBasicDTO(id, castName, castBiography, castBirthDateCorrect, castOriginCountry);
 			castService.updateWeb(id, updatedCast, castImage, castMovies, castBirthDate);
 			return "cast_modified_template";
 		} catch (Exception e) {
