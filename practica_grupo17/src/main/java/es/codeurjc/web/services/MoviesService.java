@@ -91,7 +91,8 @@ public class MoviesService {
 	}
 
 	private void removeReviews(Movie movie) {
-		for (Review review : movie.getReviews()) {
+		List<Review> reviews = movie.getReviews();
+		for (Review review : reviews) {
 			User user = review.getAuthor();
 			user.removeReview(review);
 		}
