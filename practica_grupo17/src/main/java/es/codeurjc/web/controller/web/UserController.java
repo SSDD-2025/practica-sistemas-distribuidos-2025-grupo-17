@@ -1,7 +1,6 @@
 package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import es.codeurjc.web.entities.User;
+import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.services.UserService;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,17 +28,15 @@ public class UserController {
     public String showMyProfile(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Optional<User> optionalUser = userService.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            model.addAttribute("user", user);
-            if (user.getRoles().contains("ADMIN")) {
-                model.addAttribute("admin", true);
-            }
-            if (user.getRoles().contains("USER")) {
-                model.addAttribute("registered", true);
-            }
+        UserDTO userDTO = userService.findByUsername(username);
+        model.addAttribute("user", userDTO);
+        if (userDTO.roles().contains("ADMIN")) {
+            model.addAttribute("admin", true);
         }
+        if (userDTO.roles().contains("USER")) {
+            model.addAttribute("registered", true);
+        }
+
         return "my_profile_template";
     }
 
@@ -51,20 +48,17 @@ public class UserController {
     @PostMapping("/user/new")
     public String newUser(Model model, @RequestParam String username, @RequestParam String password,
             @RequestParam String role) throws IOException {
-        userService.save(new User(username, passwordEncoder.encode(password), role));
+        userService.save(username, passwordEncoder.encode(password), role);
         return "user_created_template";
     }
 
     @PostMapping("/user/delete")
-    public String deleteUser(Model model){
+    public String deleteUser(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Optional<User> optionalUser = userService.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            userService.deleteReviews(user);
-            userService.deleteById(user.getId());
-        }
+        UserDTO userDTO = userService.findByUsername(username);
+        userService.deleteReviews(userDTO);
+        userService.deleteById(userDTO.id());
         return "user_deleted_template";
     }
 
@@ -72,11 +66,8 @@ public class UserController {
     public String modifyUserForm(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        Optional<User> optionalUser = userService.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            model.addAttribute("user", user);
-        }
+        UserDTO userDTO = userService.findByUsername(username);
+        model.addAttribute("user", userDTO);
         return "new_or_modify_user_template";
     }
 
@@ -85,14 +76,9 @@ public class UserController {
             @RequestParam String password) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String usernameAuth = auth.getName();
-        Optional<User> optionalUser = userService.findByUsername(usernameAuth);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setUsername(username);
-            user.setPassword(passwordEncoder.encode(password));
-            userService.save(user);
-        }
+        String oldUsername = auth.getName();
+        String encodedPassword = passwordEncoder.encode(password);
+        userService.update(oldUsername, encodedPassword, username);
         return "user_modified_template";
     }
 

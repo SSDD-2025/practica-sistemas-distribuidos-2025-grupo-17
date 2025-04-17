@@ -23,7 +23,6 @@ import es.codeurjc.web.entities.User;
 import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
-import es.codeurjc.web.repository.UserRepository;
 
 @Service
 public class MoviesService {
@@ -36,9 +35,6 @@ public class MoviesService {
 
 	@Autowired
 	private MovieMapper movieMapper;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	public MoviesService() {
 	}
@@ -95,11 +91,12 @@ public class MoviesService {
 	}
 
 	private void removeReviews(Movie movie) {
-		for (Review review : movie.getReviews()) {
+		List<Review> reviews = movie.getReviews();
+		for (Review review : reviews) {
 			User user = review.getAuthor();
-			user.getReviews().remove(review);
-			userRepository.save(user);
+			user.removeReview(review);
 		}
+		
 	}
 
 	public Movie createMovie(String movieName, String movieArgument, int movieYear, List<Long> movieCast,
@@ -139,6 +136,7 @@ public class MoviesService {
 		removeCast(oldMovie);
 		Movie toUpdateMovie = createMovie(movie.name(), movie.argument(), movie.year(), castIds, movieTrailer);
 		toUpdateMovie.setId(movieId);
+		toUpdateMovie.setReviews(oldMovie.getReviews());
 		if (movieImage != null && !movieImage.isEmpty()) {
 			Blob blobImage = BlobProxy.generateProxy(movieImage.getInputStream(), movieImage.getSize());
 			toUpdateMovie.setMovieImage(blobImage);

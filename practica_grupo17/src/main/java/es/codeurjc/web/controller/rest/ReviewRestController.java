@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.codeurjc.web.dto.review.ReviewDTO;
-import es.codeurjc.web.entities.User;
+import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.services.ReviewService;
 import es.codeurjc.web.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api")
 public class ReviewRestController {
 
-     @Autowired
+    @Autowired
     private ReviewService reviewService;
 
     @Autowired
@@ -31,21 +31,21 @@ public class ReviewRestController {
     @GetMapping("/myReviews")
     public Collection<ReviewDTO> getMyReviews(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
-		User user=userService.findByUsername(principal.getName()).orElseThrow();
+        UserDTO user = userService.findByUsername(principal.getName());
         return userService.getReviews(user);
     }
 
     @PostMapping("/myReviews")
     public ReviewDTO createReview(@RequestBody ReviewDTO review, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
-		User user=userService.findByUsername(principal.getName()).orElseThrow();
-        return reviewService.save(review,user);
+        UserDTO user = userService.findByUsername(principal.getName());
+        return reviewService.save(review, user);
     }
 
     @DeleteMapping("/myReviews/{reviewId}")
     public ReviewDTO deleteReview(@PathVariable long reviewId, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
-		User user=userService.findByUsername(principal.getName()).orElseThrow();
+        UserDTO user = userService.findByUsername(principal.getName());
         return reviewService.deleteById(reviewId, user);
     }
 
