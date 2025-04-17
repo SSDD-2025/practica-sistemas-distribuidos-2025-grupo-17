@@ -92,6 +92,10 @@ input {
     text-transform: uppercase;
 }
 
+#errorText {
+    color: red;
+}
+
 h1 {
     font-family: 'Roboto', sans-serif;
     font-size: 2.5em;

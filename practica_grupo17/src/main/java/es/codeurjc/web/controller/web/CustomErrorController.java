@@ -30,7 +30,7 @@ public class CustomErrorController implements ErrorController {
                 model.addAttribute("errorMessage",
                         "Lo sentimos, pero no tienes el permiso necesario para realizar la acción o ir a la página");
             }
-            return "access_error_template";
+            return "error_template";
         }
 
         // Other errors

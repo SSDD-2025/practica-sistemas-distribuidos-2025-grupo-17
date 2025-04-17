@@ -1,8 +1,8 @@
 package es.codeurjc.web.controller.web;
 
 import java.io.IOException;
-import org.springframework.security.access.AccessDeniedException;
 import java.security.Principal;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.codeurjc.web.services.*;
 import jakarta.servlet.http.HttpServletRequest;
-import es.codeurjc.web.dto.user.UserDTO;
+import es.codeurjc.web.dto.movie.MovieDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
+import es.codeurjc.web.entities.*;
+import es.codeurjc.web.mapper.MovieMapper;
+import es.codeurjc.web.mapper.ReviewMapper;
 
 @Controller
 public class ReviewController {
@@ -30,13 +34,21 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
+	@Autowired
+	private MovieMapper movieMapper;
+
+	@Autowired
+	private ReviewMapper reviewMapper;
+
 	@GetMapping("/myReviews")
 	public String showMyReviews(Model model) {
 		model.addAttribute("logged", true);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		UserDTO user = userService.findByUsername(username);
-		model.addAttribute("user", user);
+		Optional<User> user = userService.findByUsername(username);
+		if (user.isPresent()) {
+			model.addAttribute("user", user.get());
+		}
 		return "my_reviews_template";
 	}
 
@@ -47,31 +59,28 @@ public class ReviewController {
 	}
 
 	@PostMapping("/movies/{id}/review/new")
-	public String newReview(Model model, HttpServletRequest request, @PathVariable long id,
-			@RequestParam String reviewTitle,
+	public String newReview(Model model, HttpServletRequest request, @PathVariable int id, @RequestParam String reviewTitle,
 			@RequestParam String reviewText) throws IOException {
+
+		MovieDTO movieDTO = moviesService.findById(id);
 		Principal principal = request.getUserPrincipal();
-		reviewService.addReview(id, reviewTitle, reviewText, principal);
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+		Review review = new Review(reviewTitle, reviewText, movieMapper.toDomain(movieDTO),user);
+		reviewService.save(reviewMapper.toDTO(review), user);
+
 		return "review_created_template";
 	}
 
 	@PostMapping("/movies/{id}/review/{idReview}/delete")
-	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview,
-			HttpServletRequest request) throws IOException {
-
-		if (reviewService.exist(idReview)) {
-			Principal principal = request.getUserPrincipal();
-			UserDTO userDTO = userService.findByUsername(principal.getName());
-			try {
-				reviewService.deleteById(idReview, userDTO);
-			} catch (AccessDeniedException e) {
-				System.out.println(e.getMessage());
-				return "redirect:/error?status=403&resource=No%20se%20puede%20borrar%20una%20review%20de%20otro%20usuario";
-			}
+	public String deleteReview(Model model, @PathVariable long id, @PathVariable long idReview, HttpServletRequest request) throws IOException {
+		Principal principal = request.getUserPrincipal();
+		User user=userService.findByUsername(principal.getName()).orElseThrow();
+		ReviewDTO review = reviewService.deleteById(idReview,user);
+		if (review!=null){
 			model.addAttribute("movie", moviesService.findById(id));
 			return "review_deleted_template";
-		} else {
-			return "redirect:/error?status=403&resource=No%20se%20puede%20borrar%20una%20review%20de%20otro%20usuario";
 		}
+
+		return "redirect:/error?status=403&resource=No%20se%20puede%20borrar%20una%20review%20de%20otro%20usuario";
 	}
 }

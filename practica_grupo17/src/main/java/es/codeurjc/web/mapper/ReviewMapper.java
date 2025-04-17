@@ -6,7 +6,6 @@ import java.util.List;
 import org.mapstruct.Mapper;
 
 import es.codeurjc.web.dto.review.CreateReviewDTO;
-import es.codeurjc.web.dto.review.ReviewBasicDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.entities.Review;
 
@@ -24,7 +23,5 @@ public interface ReviewMapper {
     Review toDomain(CreateReviewDTO review);
 
     CreateReviewDTO toCreateReviewRequest(Review review);
-
-    ReviewBasicDTO toReviewBasicDTO(ReviewDTO review);
 
 }
