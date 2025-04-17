@@ -1,27 +1,22 @@
 {{>header_template}}
 
 <body>
-{{>banner_home_template}}
-{{>options_movies_selected_template}}
+	{{>banner_home_template}}
+	{{>options_movies_selected_template}}
 
-<div>
-
+	{{#admin}}
 	<div class="slide-in-bottom">
 		<button onclick="window.location.href='/movies/new';">Añadir película</button>
 	</div>
-
+	{{/admin}}
 
 	<div id="catalogue" class="fade-in">
-
 		<div class="catalogueTitle slide-in-left">
 			<h2>Películas disponibles:</h2>
 		</div>
-
-
 		{{#movies}}
 		<ul class="movie-list">
 			<li>
-
 				<div class="catalogueSingleCard fade-in-up card-hover">
 					<img src="/movies/{{id}}/image" id="imageSize">
 					<a href="/movies/{{id}}">{{name}}</a>
@@ -29,16 +24,10 @@
 			</li>
 		</ul>
 		{{/movies}}
-
-
 		{{^movies}}
 		<div id="errorBox" class="fade-in">
 			<p id="errorText">No hay películas disponibles.</p>
 		</div>
 		{{/movies}}
-
-
+		
 		{{>backToHome_template}}
-	</div>
-</div>
-</body>

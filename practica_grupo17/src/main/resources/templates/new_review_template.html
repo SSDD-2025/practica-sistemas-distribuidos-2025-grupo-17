@@ -1,20 +1,25 @@
 {{>header_template}}
 
 <body>
-    {{>banner_form_template}}
-	<h2>Rellene con los datos de la reseña a subir</h2>
+	{{>banner_form_template}}
+	<br>
+	<div id="titleForm">
+		<h2>Rellene con los datos de la reseña a subir</h2>
+	</div>
 	{{#movie}}
-	<form action="/movies/{{id}}/review/new" method="post">
-		<label id="fieldName">Título:</label>
-		<input type='text' name='reviewTitle' /><br>
-		<div id="textAreaToAlign">
-			<label id="fieldName">Texto:</label>
-			<textarea name='reviewText' rows=5 cols=40></textarea><br>
-		</div>
+	<div id="form">
 
-		<input type="hidden" name="_csrf" value="{{token}}"/>
-		
-		<input type='submit' name='Subir reseña' id="submitButton" /><br>
-	</form>
-	{{/movie}}
-	{{>backToHome_template}}
+		<form action="/movies/{{id}}/review/new" method="post">
+			<label id="fieldName">Título:</label>
+			<input type='text' name='reviewTitle' placeholder="Ingrese título" /><br>
+			<div id="textAreaToAlign">
+				<label id="fieldName">Texto:</label>
+				<textarea name='reviewText' rows=5 cols=40 placeholder="Ingrese mensaje"></textarea><br>
+			</div>
+
+			<input type="hidden" name="_csrf" value="{{token}}" />
+
+			<input type='submit' name='Subir reseña' id="submitButton" /><br>
+		</form>
+		{{/movie}}
+		{{>backToHome_template}}

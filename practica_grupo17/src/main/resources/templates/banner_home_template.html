@@ -3,7 +3,7 @@
     <span id="bannerText">Página de inicio</span>
     {{#logged}}
     <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="{{token}}"/>
+        <input type="hidden" name="_csrf" value="{{token}}" />
         <input type='submit' value='Cerrar sesión' />
     </form><br>
     <button onclick="window.location.href='/myProfile';">Mi perfil</button>
