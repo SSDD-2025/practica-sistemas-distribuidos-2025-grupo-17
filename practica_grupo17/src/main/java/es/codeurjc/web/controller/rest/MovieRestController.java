@@ -28,6 +28,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
 import es.codeurjc.web.dto.movie.MovieDTO;
+import es.codeurjc.web.dto.review.ReviewDTO;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -35,6 +36,9 @@ public class MovieRestController {
 
     @Autowired
     private MoviesService moviesService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/")
     public Collection<MovieDTO> getAllMovies() {
@@ -44,6 +48,11 @@ public class MovieRestController {
     @GetMapping("/{id}")
     public MovieDTO getMovie(@PathVariable long id) {
         return moviesService.findById(id);
+    }
+
+    @GetMapping("/{id}/reviews")
+    public Collection<ReviewDTO> getMovieReviews(@PathVariable long id) {
+        return reviewService.getReviews(moviesService.findById(id));
     }
 
     @PostMapping("/")

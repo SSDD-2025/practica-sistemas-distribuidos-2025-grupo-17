@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.services.ReviewService;
@@ -35,11 +36,11 @@ public class ReviewRestController {
     public Collection<ReviewDTO> getMyReviews(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
-        return userService.getReviews(user);
+        return reviewService.getReviews(user);
     }
 
     @PostMapping("/myReviews")
-    public ReviewDTO createReview(@RequestBody ReviewDTO review, HttpServletRequest request) {
+    public ReviewDTO createReview(@RequestBody CreateReviewDTO review, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
         return reviewService.save(review, user);
