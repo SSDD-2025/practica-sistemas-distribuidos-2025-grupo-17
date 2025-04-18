@@ -125,6 +125,15 @@ public class MovieRestController {
         return moviesService.findAllPaginated(PageRequest.of(page, size));
     }
 
+    @GetMapping("/{id}/reviews/paginated")
+    public Page<ReviewDTO> getPaginatedReviewsByMovie(
+            @PathVariable long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+    
+        PageRequest pageable = PageRequest.of(page, size);
+        return reviewService.findByMovieIdPaginated(id, pageable);
+    }
 
 
 }

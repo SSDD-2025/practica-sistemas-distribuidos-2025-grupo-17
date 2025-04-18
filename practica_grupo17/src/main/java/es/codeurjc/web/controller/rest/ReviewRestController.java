@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
@@ -52,16 +48,6 @@ public class ReviewRestController {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
         return reviewService.deleteById(reviewId, user);
-    }
-
-    @GetMapping("/reviews/movie/{movieId}/paginated")
-    public Page<ReviewDTO> getPaginatedReviewsByMovie(
-            @PathVariable long movieId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-    
-        PageRequest pageable = PageRequest.of(page, size);
-        return reviewService.findByMovieIdPaginated(movieId, pageable);
     }
 
 }

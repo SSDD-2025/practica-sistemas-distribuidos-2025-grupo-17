@@ -15,12 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public class HomeController {
 
 	@Autowired
-	private MoviesService moviesService;
-
-	@Autowired
-	private CastService castService;
-
-	@Autowired
 	private UserService userService;
 
 	@GetMapping("/")
