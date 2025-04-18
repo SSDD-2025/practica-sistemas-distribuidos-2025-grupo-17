@@ -23,7 +23,7 @@ import es.codeurjc.web.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/myReviews")
 public class ReviewRestController {
 
     @Autowired
@@ -32,21 +32,21 @@ public class ReviewRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/myReviews")
+    @GetMapping("/")
     public Collection<ReviewDTO> getMyReviews(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
         return reviewService.getReviews(user);
     }
 
-    @PostMapping("/myReviews")
+    @PostMapping("/")
     public ReviewDTO createReview(@RequestBody CreateReviewDTO review, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
         return reviewService.save(review, user);
     }
 
-    @DeleteMapping("/myReviews/{reviewId}")
+    @DeleteMapping("/{reviewId}")
     public ReviewDTO deleteReview(@PathVariable long reviewId, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         UserDTO user = userService.findByUsername(principal.getName());
