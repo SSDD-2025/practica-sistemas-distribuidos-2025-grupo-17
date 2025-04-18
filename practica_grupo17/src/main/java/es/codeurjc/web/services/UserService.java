@@ -2,6 +2,7 @@ package es.codeurjc.web.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,11 @@ public class UserService {
 
 	public UserDTO findByUsername(String username) {
 		return toDTO(userRepository.findByUsername(username).orElseThrow());
+	}
+
+	public boolean existsByUsername(String username) {
+		Optional<User> user = userRepository.findByUsername(username);
+		return user.isPresent();
 	}
 
 	public boolean exist(long id) {

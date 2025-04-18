@@ -48,6 +48,10 @@ public class UserController {
     @PostMapping("/user/new")
     public String newUser(Model model, @RequestParam String username, @RequestParam String password,
             @RequestParam String role) throws IOException {
+        if (userService.existsByUsername(username)){
+            model.addAttribute("usernameNotValid", "Nombre de usuario ya existente, elija otro");
+            return "new_or_modify_user_template";
+        }
         userService.save(username, passwordEncoder.encode(password), role);
         return "user_created_template";
     }
@@ -77,6 +81,12 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String oldUsername = auth.getName();
+        if (userService.existsByUsername(username)&&!username.equals(oldUsername)){
+            model.addAttribute("usernameNotValid", "Nombre de usuario ya existente, elija otro");
+            UserDTO userDTO = userService.findByUsername(oldUsername);
+            model.addAttribute("user", userDTO);
+            return "new_or_modify_user_template";
+        }
         String encodedPassword = passwordEncoder.encode(password);
         userService.update(oldUsername, encodedPassword, username);
         return "user_modified_template";

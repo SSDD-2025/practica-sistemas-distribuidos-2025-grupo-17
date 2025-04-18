@@ -10,6 +10,7 @@
 
         <form action="{{#user}}/user/modify{{/user}} {{^user}}/user/new{{/user}}" method="post">
             <label id="fieldName" placeholder="Ingrese el nombre">Nombre de usuario:</label>
+            <label id="fieldName">Título: {{#usernameNotValid}}({{.}}){{/usernameNotValid}}</label>
             <input type='text' name='username' value="{{#user}}{{username}}{{/user}}" required><br>
             <label id="fieldName">Contraseña:</label>
             <input type='password' name="password" placeholder="Ingrese la contraseña" required><br>
