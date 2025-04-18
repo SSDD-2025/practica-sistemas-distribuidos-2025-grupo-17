@@ -7,12 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.web.dto.movie.MovieDTO;
 import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
+import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.mapper.ReviewMapper;
 import es.codeurjc.web.mapper.UserMapper;
 import es.codeurjc.web.repository.MoviesRepository;
@@ -38,6 +40,9 @@ public class ReviewService {
 	@Autowired
 	private UserMapper userMapper;
 
+	@Autowired
+	private MovieMapper movieMapper;
+
 	public Collection<ReviewDTO> findAll() {
 		return toDTOs(reviewRepository.findAll());
 	}
@@ -59,6 +64,11 @@ public class ReviewService {
 
 	public Collection<ReviewDTO> getReviews(UserDTO user) {
 		List<Review> reviews=reviewRepository.findByAuthor(userMapper.toDomain(user));
+		return reviewMapper.toDTO(reviews);
+	}
+
+	public Collection<ReviewDTO> getReviews(MovieDTO movie) {
+		List<Review> reviews=reviewRepository.findByMovie(movieMapper.toDomain(movie));
 		return reviewMapper.toDTO(reviews);
 	}
 
