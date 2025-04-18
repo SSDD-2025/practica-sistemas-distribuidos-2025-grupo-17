@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +24,10 @@ import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.mapper.CastMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+
 
 @Service
 public class CastService {
@@ -220,4 +225,13 @@ public class CastService {
 		String castBirthDateCorrect = sdf.format(birthDate);
 		return new CreateCastDTO(name, biography, castBirthDateCorrect, originCountry, moviesIds);
 	}
+
+	public List<CastDTO> findAllPaginated(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return castRepository.findAll(pageable)
+                         .stream()
+                         .map(castMapper::toDTO)
+                         .toList();
+}
+
 }

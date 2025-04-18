@@ -29,5 +29,14 @@
 			<p id="errorText">No hay películas disponibles.</p>
 		</div>
 		{{/movies}}
+
+		<div id="spinner" style="display:none;">
+			<img src="/spinner.gif" alt="Cargando...">
+		</div>
+		
+		<button id="loadMoreBtn">Más películas</button>
+		
+		<script src="/loadMovies.js"></script>
+		
 		
 		{{>backToHome_template}}

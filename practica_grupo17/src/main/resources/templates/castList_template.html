@@ -10,24 +10,25 @@
 	</div>
 	{{/admin}}
 
-	<div id="catalogue" class="fade-in">
+	<div class="fade-in">
 		<div class="catalogueTitle slide-in-left">
 			<h2>Actores disponibles:</h2>
 		</div>
-		{{#cast}}
-		<ul>
-			<li>
-				<div class="catalogueSingleCard fade-in-up card-hover">
-					<img src="/cast/{{id}}/image" id="imageSize"></img>
-					<a href="/cast/{{id}}">{{name}}</a>
-				</div>
-			</li>
-		</ul>
-		{{/cast}}
-		{{^cast}}
-		<div id="errorBox" class="fade-in">
+
+		<div id="catalogue"></div>
+
+		<div id="errorBox" class="fade-in" style="display:none;">
 			<p id="errorText">No hay actores todavía.</p>
 		</div>
-		{{/cast}}
 
-		{{>backToHome_template}}
+		<div id="spinner" style="display:none;">
+			<img src="/path-to-your-spinner.gif" alt="Cargando..." />
+		</div>
+
+		<button id="loadMoreBtn">Más resultados</button>
+	</div>
+
+	<script src="/loadCast.js"></script>
+
+	{{>backToHome_template}}
+</body>

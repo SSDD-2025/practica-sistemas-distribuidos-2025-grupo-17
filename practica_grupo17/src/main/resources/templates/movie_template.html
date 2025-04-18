@@ -10,14 +10,17 @@
     </form><br>
     <button onclick="window.location.href='/movies/{{id}}/modify';">Modificar película</button>
     {{/admin}}
+
     <h1>{{name}}</h1>
     <div id="infoCard">
         <img src="/movies/{{id}}/image" id="posterSize"></img>
         <div id="infoShow">
             <h3>Año de lanzamiento</h3>
             <p>{{year}}</p>
+
             <h3>Sinopsis</h3>
             <p>{{argument}}</p>
+
             <h3>Reparto</h3>
             {{#cast}}
             <ul>
@@ -30,6 +33,7 @@
             {{^cast}}
             <p id="errorText">No hay actores que hayan participado en esta película.</p>
             {{/cast}}
+
             <h3>Tráiler</h3>
             {{#trailer}}
             <a href="{{trailer}}" target="_blank">Ver el tráiler de la película "{{name}}" </a>
@@ -42,9 +46,10 @@
             {{#user}}
             <button onclick="window.location.href='/movies/{{movie.id}}/review/new';">Añadir reseña</button>
             {{/user}}
-            {{#reviews}}
-            <ul>
-                <li>
+            
+            <ul id="reviewContainer">
+                {{#reviews}}
+                <li class="review-item">
                     <p id="infoText">{{author.username}} : {{title}}</p>
                     <div id="reviewBox">
                         <p>{{text}}</p>
@@ -56,12 +61,23 @@
                     </form>
                     {{/user}}
                 </li>
+                {{/reviews}}
             </ul>
-            {{/reviews}}
+            
             {{^reviews}}
             <p id="infoText">No hay reviews aún.</p>
             {{/reviews}}
+            
+            <div id="reviewSpinner" style="display: none;">
+                <img src="/spinner.gif" alt="Cargando...">
+            </div>
+            <button id="loadMoreReviewsBtn">Más reseñas</button>
+            
+            <script src="/loadReviews.js"></script>
+            
         </div>
     </div>
     {{/movie}}
+
     {{>backToHome_template}}
+</body>

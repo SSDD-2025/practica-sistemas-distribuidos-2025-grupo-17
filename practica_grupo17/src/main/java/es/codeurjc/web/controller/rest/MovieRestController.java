@@ -5,6 +5,8 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,4 +108,11 @@ public class MovieRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/paginated")
+    public ResponseEntity<List<MovieDTO>> getPaginatedMovies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<MovieDTO> paginatedMovies = moviesService.findAllPaginated(page, size);
+        return ResponseEntity.ok(paginatedMovies);
+    }
 }

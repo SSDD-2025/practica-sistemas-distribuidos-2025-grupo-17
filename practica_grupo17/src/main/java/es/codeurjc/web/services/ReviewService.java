@@ -6,6 +6,10 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.entities.Movie;
@@ -84,5 +88,13 @@ public class ReviewService {
 
 	private Collection<ReviewDTO> toDTOs(Collection<Review> review) {
 		return reviewMapper.toDTOs(review);
+	}
+
+	public List<ReviewDTO> findByMovieIdPaginated(long movieId, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return reviewRepository.findByMovieId(movieId, pageable)
+							   .stream()
+							   .map(reviewMapper::toDTO)
+							   .toList();
 	}
 }

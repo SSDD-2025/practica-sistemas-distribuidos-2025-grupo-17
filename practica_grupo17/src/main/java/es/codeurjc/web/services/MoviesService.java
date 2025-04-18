@@ -24,6 +24,9 @@ import es.codeurjc.web.mapper.MovieMapper;
 import es.codeurjc.web.repository.CastRepository;
 import es.codeurjc.web.repository.MoviesRepository;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class MoviesService {
 
@@ -229,5 +232,13 @@ public class MoviesService {
 
 	public CreateMovieDTO createMovieDTO(String name, String argument, int year, List<Long> castIds, String trailer) {
 		return new CreateMovieDTO(name, argument, year, trailer, castIds);
+	}
+
+	public List<MovieDTO> findAllPaginated(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return moviesRepository.findAll(pageable)
+							.stream()
+							.map(movieMapper::toDTO)
+							.toList();
 	}
 }
