@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const res = await fetch(`/api/reviews/movie/${movieId}/paginated?page=${currentReviewPage}&size=${reviewPageSize}`);
             const data = await res.json();
-
-            data.forEach(review => {
+            data.content.forEach(review => {
                 const li = document.createElement("li");
                 li.classList.add("review-item");
                 li.innerHTML = `
@@ -37,10 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             currentReviewPage++;
-
-            if (data.length < reviewPageSize) {
+            if (data.last) {
                 loadMoreBtn.style.display = "none";
             }
+
         } catch (error) {
             console.error("Error cargando reseñas:", error);
         } finally {

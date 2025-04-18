@@ -14,29 +14,17 @@
 		<div class="catalogueTitle slide-in-left">
 			<h2>Películas disponibles:</h2>
 		</div>
-		{{#movies}}
-		<ul class="movie-list">
-			<li>
-				<div class="catalogueSingleCard fade-in-up card-hover">
-					<img src="/movies/{{id}}/image" id="imageSize">
-					<a href="/movies/{{id}}">{{name}}</a>
-				</div>
-			</li>
-		</ul>
-		{{/movies}}
-		{{^movies}}
-		<div id="errorBox" class="fade-in">
-			<p id="errorText">No hay películas disponibles.</p>
-		</div>
-		{{/movies}}
 
 		<div id="spinner" style="display:none;">
 			<img src="/spinner.gif" alt="Cargando...">
 		</div>
-		
-		<button id="loadMoreBtn">Más películas</button>
-		
-		<script src="/loadMovies.js"></script>
-		
-		
-		{{>backToHome_template}}
+	</div>
+
+	<div style="text-align: center; margin-top: 20px;">
+		<button id="loadMoreBtn" style="display: none;">Más películas</button>
+	</div>
+
+	<script src="/loadMovies.js"></script>
+
+	{{>backToHome_template}}
+</body>

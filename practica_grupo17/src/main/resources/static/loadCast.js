@@ -1,5 +1,5 @@
 let currentPage = 0;
-const pageSize = 10;
+const pageSize = 5;
 
 document.addEventListener("DOMContentLoaded", () => {
     const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(`/api/cast/paginated?page=${currentPage}&size=${pageSize}`);
             const data = await response.json();
 
-            data.forEach(actor => {
+            data.content.forEach(actor => {
                 const card = document.createElement("div");
                 card.className = "catalogueSingleCard fade-in-up card-hover";
                 card.innerHTML = `
@@ -29,8 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             currentPage++;
-
-            if (data.length < pageSize) {
+            if (data.last) {
                 loadMoreBtn.style.display = "none";
             }
 

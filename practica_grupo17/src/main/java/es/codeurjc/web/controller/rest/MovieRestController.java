@@ -5,8 +5,6 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+
 
 import es.codeurjc.web.services.*;
 import es.codeurjc.web.dto.movie.CreateMovieDTO;
@@ -118,10 +119,12 @@ public class MovieRestController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<List<MovieDTO>> getPaginatedMovies(
+    public Page<MovieDTO> getPaginatedMovies(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        List<MovieDTO> paginatedMovies = moviesService.findAllPaginated(page, size);
-        return ResponseEntity.ok(paginatedMovies);
+        return moviesService.findAllPaginated(PageRequest.of(page, size));
     }
+
+
+
 }

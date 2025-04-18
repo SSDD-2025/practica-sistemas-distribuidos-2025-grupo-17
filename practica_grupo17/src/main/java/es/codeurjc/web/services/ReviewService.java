@@ -6,9 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import es.codeurjc.web.dto.movie.MovieDTO;
@@ -25,6 +22,7 @@ import es.codeurjc.web.repository.MoviesRepository;
 import es.codeurjc.web.repository.ReviewRepository;
 import es.codeurjc.web.repository.UserRepository;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.data.domain.Page;
 
 @Service
 public class ReviewService {
@@ -108,11 +106,8 @@ public class ReviewService {
 		return reviewMapper.toDTOs(review);
 	}
 
-	public List<ReviewDTO> findByMovieIdPaginated(long movieId, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
+	public Page<ReviewDTO> findByMovieIdPaginated(long movieId, Pageable pageable) {
 		return reviewRepository.findByMovieId(movieId, pageable)
-							   .stream()
-							   .map(reviewMapper::toDTO)
-							   .toList();
+							   .map(reviewMapper::toDTO);
 	}
 }

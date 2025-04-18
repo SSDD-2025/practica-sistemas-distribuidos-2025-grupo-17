@@ -1,4 +1,4 @@
-let currentMoviePage = 1; 
+let currentMoviePage = 0;
 const moviePageSize = 5;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch(`/api/movies/paginated?page=${currentMoviePage}&size=${moviePageSize}`);
-            const data = await response.json();
+            const result = await response.json();
+            const data = result.content;
 
             data.forEach(movie => {
                 const card = document.createElement("div");
@@ -31,8 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             currentMoviePage++;
 
-            if (data.length < moviePageSize) {
+            if (data.length < moviePageSize || result.last) {
                 loadMoreBtn.style.display = "none";
+            } else {
+                loadMoreBtn.style.display = "block";
             }
 
         } catch (error) {
@@ -42,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
             loadMoreBtn.disabled = false;
         }
     }
+
+    loadMoreMovies();
 
     loadMoreBtn.addEventListener("click", loadMoreMovies);
 });

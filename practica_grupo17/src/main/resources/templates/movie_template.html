@@ -46,7 +46,7 @@
             {{#user}}
             <button onclick="window.location.href='/movies/{{movie.id}}/review/new';">Añadir reseña</button>
             {{/user}}
-            
+
             <ul id="reviewContainer">
                 {{#reviews}}
                 <li class="review-item">
@@ -63,18 +63,16 @@
                 </li>
                 {{/reviews}}
             </ul>
-            
+
             {{^reviews}}
             <p id="infoText">No hay reviews aún.</p>
             {{/reviews}}
-            
+
             <div id="reviewSpinner" style="display: none;">
                 <img src="/spinner.gif" alt="Cargando...">
             </div>
             <button id="loadMoreReviewsBtn">Más reseñas</button>
-            
             <script src="/loadReviews.js"></script>
-            
         </div>
     </div>
     {{/movie}}

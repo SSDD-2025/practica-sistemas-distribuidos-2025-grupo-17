@@ -3,8 +3,6 @@ package es.codeurjc.web.controller.rest;
 import java.security.Principal;
 import java.util.Collection;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
@@ -54,11 +55,13 @@ public class ReviewRestController {
     }
 
     @GetMapping("/reviews/movie/{movieId}/paginated")
-    public List<ReviewDTO> getPaginatedReviewsByMovie(
+    public Page<ReviewDTO> getPaginatedReviewsByMovie(
             @PathVariable long movieId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
-        return reviewService.findByMovieIdPaginated(movieId, page, size);
+    
+        PageRequest pageable = PageRequest.of(page, size);
+        return reviewService.findByMovieIdPaginated(movieId, pageable);
     }
 
 }

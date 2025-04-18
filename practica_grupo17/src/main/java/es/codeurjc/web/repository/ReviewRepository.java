@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import es.codeurjc.web.entities.Movie;
 import es.codeurjc.web.entities.Review;
 import es.codeurjc.web.entities.User;
-
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
