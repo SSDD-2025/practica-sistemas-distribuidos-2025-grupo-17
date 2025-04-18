@@ -2,10 +2,12 @@ package es.codeurjc.web.services;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.web.dto.review.CreateReviewDTO;
 import es.codeurjc.web.dto.review.ReviewDTO;
 import es.codeurjc.web.dto.user.UserDTO;
 import es.codeurjc.web.entities.Movie;
@@ -48,10 +50,16 @@ public class ReviewService {
 		return reviewRepository.existsById(id);
 	}
 
-	public ReviewDTO save(ReviewDTO review, UserDTO user) {
+	public ReviewDTO save(CreateReviewDTO review, UserDTO user) {
 		Review newReview = reviewMapper.toDomain(review);
 		newReview.setAuthor(userMapper.toDomain(user));
-		return toDTO(reviewRepository.save(newReview));
+		newReview.setMovie(moviesRepository.findById(review.movieId()).orElseThrow());
+		return reviewMapper.toDTO(reviewRepository.save(newReview));
+	}
+
+	public Collection<ReviewDTO> getReviews(UserDTO user) {
+		List<Review> reviews=reviewRepository.findByAuthor(userMapper.toDomain(user));
+		return reviewMapper.toDTO(reviews);
 	}
 
 	public ReviewDTO deleteById(long id, UserDTO author) throws AccessDeniedException{
