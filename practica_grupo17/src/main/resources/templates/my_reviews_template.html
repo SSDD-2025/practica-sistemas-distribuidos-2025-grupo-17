@@ -5,25 +5,27 @@
     {{>options_reviews_selected_template}}
 
     {{#user}}
-    <div id="catalogue" class="fade-in">
-        <h2>Reseñas de {{username}}:</h1>
-            {{#reviews}}
-            <ul>
-                <li>
-                    <p id="infoText">{{title}}</p>
-                    <div id="reviewBox">
-                        <p>{{text}}</p>
-                    </div>
-                    <form action="/movies/{{movie.id}}/review/{{id}}/delete" method="post">
-                        <input type="hidden" name="_csrf" value="{{token}}" />
-                        <input type='submit' value='Borrar reseña' />
-                    </form>
-                </li>
-            </ul>
-            {{/reviews}}
-            {{^reviews}}
-            <p id="errorText">No hay reseñas suyas todavía</p>
-            {{/reviews}}
-    </div>
-    {{/user}}
-    {{>backToHome_template}}
+    <div id="reviewCatalogue" class="fade-in">
+        <div class="catalogueTitle slide-in-left">
+            <h2>Reseñas de {{username}}:</h2>
+        </div>
+
+        {{#reviews}}
+        <ul>
+            <li>
+                <p id="infoText">{{title}}</p>
+                <div id="reviewBox">
+                    <p>{{text}}</p>
+                </div>
+                <form action="/movies/{{movie.id}}/review/{{id}}/delete" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}" />
+                    <input type='submit' value='Borrar reseña' />
+                </form>
+            </li>
+        </ul>
+        {{/reviews}}
+        {{^reviews}}
+        <p id="errorText">No hay reseñas suyas todavía</p>
+        {{/reviews}}
+        {{/user}}
+        {{>backToHome_template}}
