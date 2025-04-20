@@ -206,25 +206,25 @@ Then, follow this steps:
 ## ZAIRA
 ## DESCRIPTION OF THE TASKS DONE ✍️
 
-Altough I have participated in some templates and other things, my main tasks were the creation of the controllers and services, the database integration and the inclusion of entity, navigation and requirements information in the readme file.  
+I added web and REST security and everything related to users (user profile, functionality to create, modify, delete and view users and login and creation forms), created the postman collection and OpenApi documentation, participated in the creation of REST controllers and corrected some errors in several files.  
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| [Database funcionality finished (N:M relation between movies and cast and 1:M relation between users and reviews (new repositories and changes in controllers, services and entities), my_reviews_template creation)](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/6f857507db107c31459a4a327094833a59965265)|
-|     2| [New header with show cast list, show movie list and show my reviews functions and some upgrades in modify, create and delete functions](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a1f0368fd0f94be11c71f8fd4ccfa1132c51af1d) |
-|     3| [Images in database and some structure changes](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/261e68b7ce2bb6555ac37628290c6b3fb71c777f) |
-|     4| [Some little corrections for modifyMovie, modifyCast and newReview functions (and their html) and new my_reviews_template](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/baa3ea11a123cecb557e5a8a10f43465ffecfb36)|
-|     5| [New entity, controller and service for users and some changes in the controllers structure](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/33faed76bffb53ab9d10c9312632d61c2331fdd9)       |
+|     1| [Added keystore, security configuration without conection to bbdd yet, RepositoryUserDetailsService and some corrections in User, UserRepository and ReviewController for the correct operation](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/fe3a3c44a535687a035a1e9632b4cfc7d52be709)|
+|     2| [Add user and modify user functions](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a4cda5fdf3eeb33ad8858227270899f269bdcca6) |
+|     3| [Add rest security first part](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/e27b77af7c55b0f80319fe729cf587e2e60b57a9#diff-2dd28e7ef430e1ee0350319324e59749efe60b2c63e8ca2037ac99399234ef90) |
+|     4| [Add rest security second part](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/1f1f24b42545c373a6b2c36f92147dbdc90819bc)|
+|     5| [Correct ReviewRestController, ReviewService, ReviewDTO, ReviewBasicDTO, other DTOs and some other things for the correct functioning of the web and rest part of the program](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/1b3577e7130a493a2055306c0f6c9f5e9d69f0bf)       |
 
 ## 5 files in wich I have participated the most 📝
 | Rank | [File link] |
 |-----:|-----------|
-|     1| [CastService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/CastService.java)|
-|     2| [MoviesService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/MoviesService.java) |
-|     3| [Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Cast.java) |
-|     4| [ReviewController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/ReviewController.java)|
-|     5| [MoviesController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/MoviesController.java)       |
+|     1| [LoginController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blame/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/LoginController.java)|
+|     2| [UserController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blame/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/web/UserController.java) |
+|     3| [Postman test.postman_collection.json](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blame/main/Postman%20test.postman_collection.json) |
+|     4| [SecurityConfig.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blame/main/practica_grupo17/src/main/java/es/codeurjc/web/security/SecurityConfig.java)|
+|     5| [LoginRestController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blame/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/rest/LoginRestController.java)       |
 
 
 
