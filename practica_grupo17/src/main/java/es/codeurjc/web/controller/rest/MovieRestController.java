@@ -1,7 +1,7 @@
 package es.codeurjc.web.controller.rest;
 
 import java.io.IOException;
-import java.net.URI;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 
 import es.codeurjc.web.services.*;
@@ -78,27 +77,23 @@ public class MovieRestController {
         }
     }
 
-    @PostMapping("/{id}/image")
-    public ResponseEntity<Object> createMovieImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
-            throws IOException {
-
-        moviesService.createMovieImage(id, imageFile.getInputStream(), imageFile.getSize());
-
-        URI location = fromCurrentRequest().build().toUri();
-
-        return ResponseEntity.created(location).build();
-    }
-
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getMovieImage(@PathVariable long id) throws SQLException, IOException {
+    public ResponseEntity<Object> getMovieImage(@PathVariable long id) {
+        try {
+            InputStream inputStream = moviesService.getMovieImage(id);
+            byte[] imageBytes = inputStream.readAllBytes();
+            ByteArrayResource postImage = new ByteArrayResource(imageBytes);
 
-        Resource postImage = (Resource) moviesService.getMovieImage(id);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(postImage);
 
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                .body(postImage);
-
+        } catch (SQLException | IOException e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al cargar la imagen: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}/image")

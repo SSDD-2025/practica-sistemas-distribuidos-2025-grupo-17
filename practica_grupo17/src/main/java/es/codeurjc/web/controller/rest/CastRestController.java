@@ -2,14 +2,12 @@ package es.codeurjc.web.controller.rest;
 
 import java.util.Collection;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-
 import java.io.IOException;
-import java.net.URI;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,24 +66,23 @@ public class CastRestController {
         }
     }
 
-    @PostMapping("/{id}/image")
-    public ResponseEntity<Object> createCastImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
-            throws IOException {
-        URI location = fromCurrentRequest().build().toUri();
-        castService.createCastImage(id, imageFile.getInputStream(), imageFile.getSize());
-        return ResponseEntity.created(location).build();
-    }
-
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getCastImage(@PathVariable long id) throws SQLException, IOException {
+    public ResponseEntity<Object> getCastImage(@PathVariable long id) {
+        try {
+            InputStream inputStream = castService.getCastImage(id);
+            byte[] imageBytes = inputStream.readAllBytes();
+            ByteArrayResource postImage = new ByteArrayResource(imageBytes);
 
-        Resource postImage = (Resource) castService.getCastImage(id);
+            return ResponseEntity
+                    .ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(postImage);
 
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                .body(postImage);
-
+        } catch (SQLException | IOException e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al cargar la imagen: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}/image")
