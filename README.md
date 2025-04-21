@@ -253,25 +253,25 @@ I added a lot of styles and created some templates, updated the sampleData, made
 
 ## MIGUEL
 ## DESCRIPTION OF THE TASKS DONE ✍️
-I improved the IMDb-style web project by enhancing error handling for missing movies and cast, refining the user interface with functional buttons, and ensuring proper access control for admin and registered users. I also integrated a trailer request feature, designed structured HTML templates for movies and cast, and optimized repository hygiene by updating the `.gitignore` file to exclude unnecessary files.
+I contributed to the IMDb-style web project by implementing dynamic pagination for movies, reviews, and cast, and enhancing the frontend with JavaScript logic to load content. I also worked on DTO and mapper creation for entities such as Cast and User, helping to streamline data transfer and service logic. Additional improvements include the setup of default images for missing resources.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| [Adding page errors for movies and cast when they arent found](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/5e75e3542638097777769de86c7a5a2ae3dbb187)|
-|     2| [Fixing buttons for admin and registered users and adding requesting URL trailer in newMovie html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/4a1510d83603ceeb3ce029c45766e55833934c0b) |
-|     3| [Adding Buttons to html templates](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/875b42d8fa2f93459551759c85aeac06e6f2a27f) |
-|     4| [Adding HTML templates for Movie and Cast](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/48dda01b3c98bad1842787ab7725c58fe7cc7c27) |
-|     5| [Adding .gitignore without any dont deserved file in the repo](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/7366f8f7ae5d4e023521c21fdd3235e83e3b2fc8) |
+|     1| [Adding pagination to Movies, Reviews, and Cast entities](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/1c59d27784dae947a231adbf4939efcb7f1a8a0f) |
+|     2| [Adding User Mapper and refactorazing the User and Cast services](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/d11c233f3c3e448931d3469d3255441f2067bb55) |
+|     3| [Adding cast mapper](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/7f15d3f378a93a5f0efd4e5ce0fde64f2e8212a7) |
+|     4| [Adding default images feature when modifying cast and movies](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/43b2cf56af6f009e51a1d7ca0ce59c5269a45c24) |
+|     5| [Adding entities DTOs](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/f8f30449196bb0be0a56e4f968fdfec66a8eb188) |
 
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| [CustomErrorController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/CustomErrorController.java) |
-|     2| [movieNotFound_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/movieNotFound_template.html) |
-|     3| [CastController.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/controller/CastController.java) |
-|     4| [movie_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/movie_template.html) |
-|     5| [cast_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/cast_template.html) | 
+|     1| [CastMapper.java](practica_grupo17/src/main/java/es/codeurjc/web/mapper/CastMapper.java) |
+|     2| [loadCast.js](practica_grupo17/src/main/resources/static/loadCast.js) |
+|     3| [CreateCastDTO.java](practica_grupo17/src/main/java/es/codeurjc/web/dto/cast/CreateCastDTO.java) |
+|     4| [loadReviews.js](practica_grupo17/src/main/resources/static/loadReviews.js) |
+|     5| [MovieDTO.java](practica_grupo17/src/main/java/es/codeurjc/web/dto/movie/MovieDTO.java) | 
 
 ## CARLOS
 # DESCRIPTION OF THE TASKS DONE ✍️
