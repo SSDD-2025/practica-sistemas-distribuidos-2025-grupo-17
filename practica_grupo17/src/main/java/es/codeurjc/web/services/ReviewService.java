@@ -77,7 +77,7 @@ public class ReviewService {
 	public ReviewDTO deleteById(long id, UserDTO author) throws AccessDeniedException{
 		Review review = reviewRepository.findById(id).orElseThrow();
 		ReviewDTO reviewDTO = toDTO(review);
-		if (reviewDTO.author().equals(author) || author.roles().contains("ADMIN")) {
+		if (reviewDTO.author().id().equals(author.id())) {
 			User user = review.getAuthor();
 			user.removeReview(review);
 			userRepository.save(user);
