@@ -47,18 +47,17 @@ public class SampleDataService {
 
 	// Samples
 	private Cast c[] = new Cast[20];
-	private Movie m[] = new Movie[3];
-	private Review r[] = new Review[7];
+	private Movie m[] = new Movie[20];
+	private Review r[] = new Review[60];
 
 	@PostConstruct
-	public void init() throws IOException{
-
-		User admin=new User(username,password, "ADMIN");
+	public void init() throws IOException {
+		User admin = new User(username, password, "ADMIN");
 		userRepository.save(admin);
-		User user=new User("user",passwordEncoder.encode("passUser"), "USER");
-        userRepository.save(user);
-		User otherUser=new User("otherUser",passwordEncoder.encode("passOtherUser"),"USER");
-        userRepository.save(otherUser);
+		User user = new User("user", passwordEncoder.encode("passUser"), "USER");
+		userRepository.save(user);
+		User otherUser = new User("otherUser", passwordEncoder.encode("passOtherUser"), "USER");
+		userRepository.save(otherUser);
 
 		try {
 			// Cast
@@ -66,28 +65,39 @@ public class SampleDataService {
 			// Movies
 			m = initMovies();
 			// Reviews
-			r = initReviews(admin,user,otherUser);
+			r = initReviews(admin, user, otherUser);
 
-// Movie list
-			ArrayList<Movie> movies1 = new ArrayList<Movie>(),
-					movies2 = new ArrayList<Movie>(),
-					movies3 = new ArrayList<Movie>(),
-					movies4 = new ArrayList<Movie>(),
-					movies5 = new ArrayList<Movie>(),
-					movies6 = new ArrayList<Movie>(),
-					movies7 = new ArrayList<Movie>(),
-					movies8 = new ArrayList<Movie>(),
-					movies9 = new ArrayList<Movie>(),
-					movies10 = new ArrayList<Movie>();
+			// Movie list
+			ArrayList<Movie> movies1 = new ArrayList<>(),
+					movies2 = new ArrayList<>(),
+					movies3 = new ArrayList<>(),
+					movies4 = new ArrayList<>(),
+					movies5 = new ArrayList<>(),
+					movies6 = new ArrayList<>(),
+					movies7 = new ArrayList<>(),
+					movies8 = new ArrayList<>(),
+					movies9 = new ArrayList<>(),
+					movies10 = new ArrayList<>(),
+					movies11 = new ArrayList<>(),
+					movies12 = new ArrayList<>(),
+					movies13 = new ArrayList<>(),
+					movies14 = new ArrayList<>(),
+					movies15 = new ArrayList<>(),
+					movies16 = new ArrayList<>(),
+					movies17 = new ArrayList<>(),
+					movies18 = new ArrayList<>(),
+					movies19 = new ArrayList<>(),
+					movies20 = new ArrayList<>();
 
-// Add movies list to cast entities
+			// Add movies list to cast entities
 			addMoviesToCast(
 					movies1, movies2, movies3, movies4, movies5,
-					movies6, movies7, movies8, movies9, movies10
+					movies6, movies7, movies8, movies9, movies10,
+					movies11, movies12, movies13, movies14, movies15,
+					movies16, movies17, movies18, movies19, movies20
 			);
 
-
-// Cast list
+			// Cast list
 			ArrayList<Cast> cast1 = new ArrayList<>(),
 					cast2 = new ArrayList<>(),
 					cast3 = new ArrayList<>(),
@@ -109,7 +119,7 @@ public class SampleDataService {
 					cast19 = new ArrayList<>(),
 					cast20 = new ArrayList<>();
 
-// Add cast list to movies entities
+			// Add cast list to movies entities
 			addCastToMovies(
 					cast1, cast2, cast3, cast4,
 					cast5, cast6, cast7, cast8,
@@ -118,25 +128,20 @@ public class SampleDataService {
 					cast17, cast18, cast19, cast20
 			);
 
+			// Save cast, movies, and reviews
+			for (Cast cast : c) {
+				castRepository.save(cast);
+			}
+			for (Movie movie : m) {
+				moviesRepository.save(movie);
+			}
+			for (Review review : r) {
+				reviewRepository.save(review);
+			}
 
-			//Save cast and movies
-			castRepository.save(c[0]);
-			castRepository.save(c[1]);
-			castRepository.save(c[2]);
-			castRepository.save(c[3]);
-			moviesRepository.save(m[0]);
-			moviesRepository.save(m[1]);
-			moviesRepository.save(m[2]);
-			reviewRepository.save(r[0]);
-			reviewRepository.save(r[1]);
-			reviewRepository.save(r[2]);
-			reviewRepository.save(r[3]);
-			reviewRepository.save(r[4]);
-			reviewRepository.save(r[5]);
-			reviewRepository.save(r[6]);
-
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			throw new IOException("Error al inicializar datos: " + e.getMessage(), e);
 		}
 	}
 
@@ -469,7 +474,7 @@ public class SampleDataService {
 				reviewText9 = "Salí con una sonrisa en la cara. Qué peliculón.",
 				reviewText10 = "Pensé que sería infumable, pero me sorprendió para bien.";
 
-		Review rInit[] = new Review[58];
+		Review rInit[] = new Review[60];
 		/* Pre changes code
 		rInit[0] = new Review(reviewTitle1, reviewText1, m[0], admin);
 		rInit[1] = new Review(reviewTitle2, reviewText2, m[0], user);
@@ -488,21 +493,18 @@ public class SampleDataService {
 		String[] texts = {reviewText1, reviewText2, reviewText3, reviewText4, reviewText5, reviewText6, reviewText7, reviewText8, reviewText9, reviewText10};
 
 
-		int index=0;
-		for (int i = 0; i <= 19; i++) {
+		int index = 0;
+		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 3; j++) {
 				String title = titles[(i * 3 + j) % titles.length];
 				String text = texts[(i * 3 + j) % texts.length];
-				if(i%3==0){
+				if (i % 3 == 0) {
 					rInit[index++] = new Review(title, text, m[i], admin);
-				}
-				if(i%3==1){
+				} else if (i % 3 == 1) {
 					rInit[index++] = new Review(title, text, m[i], user);
-				}
-				if(i%3==2){
+				} else {
 					rInit[index++] = new Review(title, text, m[i], otherUser);
 				}
-
 			}
 		}
 
@@ -511,9 +513,15 @@ public class SampleDataService {
 		return rInit;
 	}
 
-	private void addMoviesToCast(ArrayList<Movie> movies1, ArrayList<Movie> movies2, ArrayList<Movie> movies3,
-								 ArrayList<Movie> movies4, ArrayList<Movie> movies5, ArrayList<Movie> movies6,
-								 ArrayList<Movie> movies7, ArrayList<Movie> movies8, ArrayList<Movie> movies9, ArrayList<Movie> movies10) {
+	private void addMoviesToCast(
+			ArrayList<Movie> movies1, ArrayList<Movie> movies2, ArrayList<Movie> movies3,
+			ArrayList<Movie> movies4, ArrayList<Movie> movies5, ArrayList<Movie> movies6,
+			ArrayList<Movie> movies7, ArrayList<Movie> movies8, ArrayList<Movie> movies9,
+			ArrayList<Movie> movies10, ArrayList<Movie> movies11, ArrayList<Movie> movies12,
+			ArrayList<Movie> movies13, ArrayList<Movie> movies14, ArrayList<Movie> movies15,
+			ArrayList<Movie> movies16, ArrayList<Movie> movies17, ArrayList<Movie> movies18,
+			ArrayList<Movie> movies19, ArrayList<Movie> movies20
+	) {
 
 		movies1.add(m[0]);
 		movies1.add(m[1]);
@@ -567,6 +575,56 @@ public class SampleDataService {
 		movies10.add(m[17]);
 		movies10.add(m[18]);
 		movies10.add(m[19]);
+		movies11.add(m[0]);
+		movies11.add(m[4]);
+		movies11.add(m[8]);
+		movies11.add(m[12]);
+
+		movies12.add(m[1]);
+		movies12.add(m[5]);
+		movies12.add(m[9]);
+		movies12.add(m[13]);
+
+		movies13.add(m[2]);
+		movies13.add(m[6]);
+		movies13.add(m[10]);
+		movies13.add(m[14]);
+
+		movies14.add(m[3]);
+		movies14.add(m[7]);
+		movies14.add(m[11]);
+		movies14.add(m[15]);
+
+		movies15.add(m[4]);
+		movies15.add(m[8]);
+		movies15.add(m[12]);
+
+		movies15.add(m[16]);
+
+		movies16.add(m[5]);
+		movies16.add(m[9]);
+		movies16.add(m[13]);
+		movies16.add(m[17]);
+
+		movies17.add(m[6]);
+		movies17.add(m[10]);
+		movies17.add(m[14]);
+		movies17.add(m[18]);
+
+		movies18.add(m[7]);
+		movies18.add(m[11]);
+		movies18.add(m[15]);
+		movies18.add(m[19]);
+
+		movies19.add(m[0]);
+		movies19.add(m[8]);
+		movies19.add(m[12]);
+		movies19.add(m[16]);
+
+		movies20.add(m[1]);
+		movies20.add(m[9]);
+		movies20.add(m[13]);
+		movies20.add(m[17]);
 
 		c[0].setMovies(movies1);
 		c[1].setMovies(movies2);
@@ -578,6 +636,16 @@ public class SampleDataService {
 		c[7].setMovies(movies8);
 		c[8].setMovies(movies9);
 		c[9].setMovies(movies10);
+		c[10].setMovies(movies11);
+		c[11].setMovies(movies12);
+		c[12].setMovies(movies13);
+		c[13].setMovies(movies14);
+		c[14].setMovies(movies15);
+		c[15].setMovies(movies16);
+		c[16].setMovies(movies17);
+		c[17].setMovies(movies18);
+		c[18].setMovies(movies19);
+		c[19].setMovies(movies20);
 	}
 
 	private void addCastToMovies(ArrayList<Cast> cast1, ArrayList<Cast> cast2, ArrayList<Cast> cast3,
