@@ -275,25 +275,25 @@ I contributed to the IMDb-style web project by implementing dynamic pagination f
 
 ## CARLOS
 # DESCRIPTION OF THE TASKS DONE ✍️
-I created entities and skeleton documentation and inclusion of sample data.
+Added multiple changes to the sample data and improved styles.
 
 ## 5 most relevant commits ⬆️
 | Rank | Commit |
 |-----:|-----------|
-|     1| [I have corrected the errors in the implementation of the classes Cast and Movie. Also completed the missing constructors and getters/setters. I have also added the completed entities Review and User.](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/10a57135db7fa801ebfaa1b0d124b87f5437eb8e)|
-|     2| [Update README.md](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/5eba7404e506094625e30d04ba3ab729af08fb75)|
-|     3| [Create Movie.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/407b2cd85c3a14d1d0d452dc312e23840d1ef780)|
-|     4| [Create Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/f6ec7ec8929ac9b2a35b95a76bde6f9e56590326)|
-|     5| [Added "Oppenheimer" movie to the SampleData](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a0725ed632b3c8f64728373dc69931152a63abb9)|
+|     1| [Added new movies, cast and reviews to the sample data.](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/40d73965fe4d70dd6943addf1671a8a621ff5476)|
+|     2| [Changed the css styles completing changes in buttons, titles and plain text. Also adding margins to the main page in order to have a more professional overall look.](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/a7fe3699f09e001020545f7ef7c43be56247eef7)|
+|     3| [Added styles to the profile template](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/923ff88813a83ba9c550818c38c67138632b2a01)|
+|     4| [Added animations to main page](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/6b6f0e3cf04a99a540899826cc5c2a789f032a6b)|
+|     5| [Added margins to the rest of the page](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/commit/548e9bbd8285da10116260a53eb62cd1bf4bc560)|
 
 ## 5 files in wich I have participated the most 📝
 | Rank | File link |
 |-----:|-----------|
-|     1| [README.md](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/README.md)|
-|     2| [Cast.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Cast.java) |
-|     3| [Movie.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/Movie.java) |
-|     4| [User.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/entities/User.java)|
-|     5| [SampleDataService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/SampleDataService.java)       |
+|     1| [SampleDataService.java](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/java/es/codeurjc/web/services/SampleDataService.java)|
+|     2| [styles.css](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/static/styles.css) |
+|     3| [my_profile_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/my_profile_template.html) |
+|     4| [home_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/home_template.html)|
+|     5| [banner_home_template.html](https://github.com/SSDD-2025/practica-sistemas-distribuidos-2025-grupo-17/blob/main/practica_grupo17/src/main/resources/templates/banner_home_template.html)|
 
 
 
