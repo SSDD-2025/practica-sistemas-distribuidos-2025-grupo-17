@@ -10,6 +10,7 @@
 ## 📌 Table of Contents
 - [Authors](#authors)
 - [Description](#description)
+- [Docker & Deploy Documentation](#docker-and-deploy-documentation)
 - [Entities Used](#entities-we-used)
 - [Requested Features](#requested-features)
 - [Navigation 🧭](#navigation-)
