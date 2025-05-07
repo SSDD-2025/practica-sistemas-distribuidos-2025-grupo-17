@@ -1,5 +1,6 @@
 # MOVIE REVIEW WEB APPLICATION 🎥 
 
+
 <picture>
  <source media="(prefers-color-scheme: dark)" srcset="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
  <source media="(prefers-color-scheme: light)" srcset="https://yt3.googleusercontent.com/fIUvbz0dArTYtcHqe-kn2fFTGJhIFcxo6q1MaqpDOQVd8dPXQjmrb96D1mqwzGdjW--PbaPkDmk=s900-c-k-c0x00ffffff-no-rj">
@@ -38,6 +39,24 @@
 ## Description:
 ### This is a web application that we developed for "Distribuited systems" in our collegue degree. We had to develop a web application using _Spring_, _MySQL_ and _GitHub_.
 ### We decided a movie rating application because movies was a common interest between ourselves.
+
+## Docker & Deploy Documentation:
+
+   **.Instructions to execute the dockerized app**
+
+   **.Docker image build documentation**
+      1.Install Docker and log in
+      2.Open the repository in Visual Studio Code 
+
+      3.To build the image, execute in powershell terminal: .\docker/create_image.ps1 
+      4.Once finished, to publish to DockerHub execute: .\docker/publishImage.ps1
+      5.If you desire to build the app with BuilderPacks execute instead of step 3: mvn spring-boot:build-image
+       -Dspring-boot.build-image.imageName=tempusfugit04/practica_grupo17:1.0.0
+
+
+   **.Deploy in virtual machines documentation**
+
+   **.URL of the deployed app**
 
 
 ## Entities we used
