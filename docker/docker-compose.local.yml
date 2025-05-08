@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: moviesapp
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  web:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8443:8443"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/moviesapp
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - db
+    volumes:
+      - ../practica_grupo17:/app
+
+volumes:
+  db_data:
