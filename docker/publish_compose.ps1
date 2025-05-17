@@ -1,13 +1,9 @@
-$dockerHubUser = "fomo123"
+$dockerHubUser = "tempusfugit04"
 $appName = "practica_grupo17-compose"
 $version = "1.0.0"
 $tag = "${dockerHubUser}/${appName}:${version}"
+$composeFile = "docker-compose.prod.yml"
 
-# Empaquetar el archivo
-tar -cf docker-compose.prod.yml.tar docker-compose.prod.yml
+docker login 
 
-# Importar como imagen OCI
-docker import docker-compose.prod.yml.tar $tag
-
-# Publicar
-docker push $tag
+docker compose -f $composeFile publish $tag --with-env

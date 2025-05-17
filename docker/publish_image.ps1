@@ -1,5 +1,5 @@
 # Variables
-$dockerHubUser = "fomo123"
+$dockerHubUser = "tempusfugit04"
 $appName = "practica_grupo17"
 $version = "1.0.0"
 $imageName = "${dockerHubUser}/${appName}:${version}"

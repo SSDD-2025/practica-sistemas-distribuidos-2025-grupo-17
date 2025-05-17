@@ -7,6 +7,4 @@ $imageName = "${dockerHubUser}/${appName}:${version}"
 
 # Creating image using Dockerfile
 Write-Host "Construyendo imagen Docker: $imageName ..."
-docker build -f ./docker/Dockerfile -t $imageName .
-
-Write-Host "Imagen construida correctamente: $imageName"
+docker build -f $dockerfile -t $imageName .
