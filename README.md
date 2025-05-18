@@ -81,7 +81,7 @@
 
       5. To build the app image yourself using the Dockerfile execute `docker compose -f docker-compose.local.yml up --build` and enter to [https://localhost:8443](https://localhost:8443)
 
-      6. To publish the file `docker-compose.prod.yml` as an OCI Artifact execute `.\publish_compose.ps1`
+      6. To publish the file `docker-compose.prod.yml` as an OCI Artifact execute `powershell -ExecutionPolicy Bypass -File .\publish_compose.ps1`
 
    **Deploy in virtual machines documentation**
 
