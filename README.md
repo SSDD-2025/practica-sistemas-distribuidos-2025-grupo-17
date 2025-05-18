@@ -43,22 +43,104 @@
 
 ## Docker & Deploy Documentation:
 
-   **.Instructions to execute the dockerized app**
+   **Docker image build documentation**
 
-   **.Docker image build documentation**
-      1.Install Docker and log in
-      2.Open the repository in Visual Studio Code 
+      1. If Windows -> Install Docker Desktop and log in with username: `tempusfugit04` and password: `docker_Cuenta_04`
 
-      3.To build the image, execute in powershell terminal: .\docker/create_image.ps1 
-      4.Once finished, to publish to DockerHub execute: .\docker/publishImage.ps1
-      5.If you desire to build the app with BuilderPacks execute instead of step 3: mvn spring-boot:build-image
-       -Dspring-boot.build-image.imageName=tempusfugit04/practica_grupo17:1.0.0
+         If Linux -> In bash execute : `sudo apt update 
+         sudo apt install -y docker.io 
+         sudo systemctl start docker 
+         sudo systemctl enable docker`
 
+         Then execute: `docker login` with username: `tempusfugit04` and password: `docker_Cuenta_04`  
 
-   **.Deploy in virtual machines documentation**
+      2. Open this repository in Visual Studio Code and create new powershell terminal
 
-   **.URL of the deployed app**
+      3. To build the image, execute in powershell terminal: `powershell -ExecutionPolicy Bypass -File .\docker/create_image.ps1` 
 
+      4. Once finished, to publish to DockerHub execute: `powershell -ExecutionPolicy Bypass -File .\docker/publishImage.ps1`
+
+      5. If you desire to build the app with BuilderPacks enter in `/practica_grupo17` directory and execute this command: `mvn spring-boot:build-image`
+   
+   **Running instructions of the dockerized app**
+
+      1. If Windows -> Install Docker Desktop and log in with username: `tempusfugit04` and password: `docker_Cuenta_04`
+
+         If Linux -> In bash execute : `sudo apt update 
+         sudo apt install -y docker.io 
+         sudo systemctl start docker 
+         sudo systemctl enable docker` 
+         
+         Then execute: `docker login` with username: `tempusfugit04` and password: `docker_Cuenta_04`
+
+      2. Open this repository in Visual Studio code and create new powershell terminal
+
+      3. Enter in `/docker` directory
+
+      4. To use the published image in DockerHub execute `docker compose -f docker-compose.prod.yml up` and enter to [https://localhost:8443](https://localhost:8443)
+
+      5. To build the app image yourself using the Dockerfile execute `docker compose -f docker-compose.local.yml up --build` and enter to [https://localhost:8443](https://localhost:8443)
+
+      6. To publish the file `docker-compose.prod.yml` as an OCI Artifact execute `.\publish_compose.ps1`
+
+   **Deploy in virtual machines documentation**
+
+      1. If Windows -> Install Docker Desktop and log in with username: `tempusfugit04` and password: `docker_Cuenta_04`
+
+         If Linux -> In bash execute : 
+         
+         `sudo apt update 
+         sudo apt install -y docker.io 
+         sudo systemctl start docker 
+         sudo systemctl enable docker`
+
+         Then execute: `docker login` with username: `tempusfugit04` and password: `docker_Cuenta_04`     
+
+      2. Open this repository in Visual Studio Code and create new powershell terminal
+
+      3. Create the app image executing: `powershell -ExecutionPolicy Bypass -File .\docker/create_image.ps1`
+
+      4. Publish the app image to DockerHub executing: `powershell -ExecutionPolicy Bypass -File .\docker/publish_image.ps1`
+
+      5. To access to the second VM execute first: 
+      
+      `ssh -i ssh-keys/sidi17.key vmuser@193.147.60.57`
+
+      Then execute:
+
+      `ssh -t -i ssh-keys/sidi17.key vmuser@193.147.60.57 ssh sidi17-2`
+
+      6. In this VM execute to download and run the mysql image:
+
+      `sudo docker run -d \
+      --name mysql-db \
+      -e MYSQL_ROOT_PASSWORD=root \
+      -e MYSQL_DATABASE=moviesapp \
+      -p 3306:3306 \
+      -v mysql-data:/var/lib/mysql \
+      mysql:9.2`
+
+      7. Execute: `mysql -h 192.168.110.167 -u root -p` (password: `root`)
+
+      8. Execute: 
+                  
+                  `CREATE USER 'root'@'192.168.110.105' IDENTIFIED BY 'root';
+                  GRANT ALL PRIVILEGES ON moviesapp.* TO 'root'@'192.168.110.105';
+                  FLUSH PRIVILEGES;`
+
+      9. Execute `exit` two times to return into the first VM and execute: `nc -zv 192.168.110.167 3306`
+
+      10. Download the DockerHub image (published in step 4) and run it executing:
+
+      `sudo docker run -p 8443:8443 \
+      -e SPRING_DATASOURCE_URL=jdbc:mysql://192.168.110.167:3306/moviesapp \
+      -e SPRING_DATASOURCE_USERNAME=root \
+      -e SPRING_DATASOURCE_PASSWORD=root \
+      tempusfugit04/practica_grupo17:1.0.0` 
+
+   **URL of the virtualized deployed app**
+
+      [https://193.147.60.57:8443](https://193.147.60.57:8443)
 
 ## Entities we used
 
