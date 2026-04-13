@@ -2,7 +2,7 @@
 $dockerfile = "./docker/Dockerfile"
 $dockerHubUser = "tempusfugit04"
 $appName = "practica_grupo17"
-$version = "1.0.0"
+$version = "1.1.0"
 $imageName = "${dockerHubUser}/${appName}:${version}"
 
 # Creating image using Dockerfile

@@ -58,11 +58,11 @@
 
       3. To build the image, execute in powershell terminal: `powershell -ExecutionPolicy Bypass -File .\docker/create_image.ps1` 
 
-      4. Once finished, to publish to DockerHub execute: `powershell -ExecutionPolicy Bypass -File .\docker/publishImage.ps1`
+      4. Once finished, to publish to DockerHub execute: `powershell -ExecutionPolicy Bypass -File .\docker/publish_image.ps1`
 
       5. If you desire to build the app with BuilderPacks enter in `/practica_grupo17` directory and execute this command: `mvn spring-boot:build-image`
    
-   **Running instructions of the dockerized app**
+   **Running instructions of the dockerized app** **local docker compose**
 
       1. If Windows -> Install Docker Desktop and log in with username: `tempusfugit04` and password: `docker_Cuenta_04`
 
@@ -81,7 +81,7 @@
 
       5. To build the app image yourself using the Dockerfile execute `docker compose -f docker-compose.local.yml up --build` and enter to [https://localhost:8443](https://localhost:8443)
 
-      6. To publish the file `docker-compose.prod.yml` as an OCI Artifact execute `powershell -ExecutionPolicy Bypass -File .\publish_compose.ps1`
+      6. To publish the file `docker-compose.prod.yml` as an OCI Artifact execute `powershell -ExecutionPolicy Bypass -File .\publish_compose.ps1` 
 
    **Deploy in virtual machines documentation**
 
